@@ -1,0 +1,45 @@
+{-# LANGUAGE OverloadedStrings, OverloadedLabels, ScopedTypeVariables, LambdaCase #-}
+
+module UI where
+
+import Data.Monoid ((<>))
+import qualified Data.Text.IO as T
+import Data.Text (Text)
+
+import qualified GI.Gtk as Gtk
+import Data.GI.Base
+
+printQuit :: Text -> IO ()
+printQuit t = do
+  T.putStrLn $ "Quitting by " <> t <> "."
+  Gtk.mainQuit
+  return ()
+
+getBuilderObj :: forall o'
+               . GObject o' 
+               => Gtk.Builder 
+               -> Text 
+               -> (ManagedPtr o' -> o') 
+               -> IO (Maybe o')
+getBuilderObj builder name gtkConstr = #getObject builder name >>= \case 
+  Just obj -> castTo gtkConstr obj
+  Nothing -> do
+    T.putStrLn $ "Object named '" <> name <> "' could not be found."
+    return Nothing
+
+connectBtnClick :: Gtk.Builder -> Text -> IO () -> IO ()
+connectBtnClick builder name handler = getBuilderObj builder name Gtk.Button >>= \case
+  Just button -> do 
+    on button #clicked $ do handler
+    return ()
+  Nothing -> return ()
+
+createUI :: Maybe [Text] -> IO ()
+createUI args = do
+  Gtk.init args
+  builder <- new Gtk.Builder []
+  #addFromFile builder "ui.glade"
+
+  Just window <- getBuilderObj builder "window" Gtk.Window
+
+  Gtk.main
