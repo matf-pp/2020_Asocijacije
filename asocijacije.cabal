@@ -1,7 +1,7 @@
 name:                asocijacije
 version:             0.2
 synopsis:            Simple game from serbian quiz show Slagalica
-description:         See files README-en.md or README.md 
+description:         See files README.md or README-sr.md 
 homepage:            https://github.com/ffilipovicc98/asocijacije
 license:             MIT
 license-file:        LICENSE
@@ -11,7 +11,8 @@ copyright:           2020 Filip Filipović, Nikola Ubavić
 category:            Game
 build-type:          Simple
 cabal-version:       >=1.10
-extra-source-files:  README.md
+extra-source-files:  LICENSE
+extra-doc-files:     README.md, README-sr.md
 
 executable asocijacije
   hs-source-dirs:      src
@@ -27,3 +28,4 @@ executable asocijacije
     , gi-gtk
     , haskell-gi-base
     , text
+  c-sources: src/gresource.c

@@ -37,8 +37,7 @@ connectBtnClick builder name handler = getBuilderObj builder name Gtk.Button >>=
 createUI :: Maybe [Text] -> IO ()
 createUI args = do
   Gtk.init args
-  builder <- new Gtk.Builder []
-  #addFromFile builder "ui.glade"
+  builder <- Gtk.builderNewFromResource "/asocijacije/resources/ui.glade"
 
   Just window <- getBuilderObj builder "window" Gtk.Window
 
