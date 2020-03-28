@@ -9,4 +9,4 @@ main :: IO ()
 main = do
   args <- getArgs
   createUI $ Just $ map pack args
-  print "Hello"
+--   print "Hello"

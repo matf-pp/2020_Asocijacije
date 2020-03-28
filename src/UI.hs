@@ -33,12 +33,22 @@ connectBtnClick builder name handler = getBuilderObj builder name Gtk.Button >>=
     on button #clicked $ do handler
     return ()
   Nothing -> return ()
-
+  
+stampaj :: [Char] -> IO()
+stampaj ime = putStrLn $ ime
+  
 createUI :: Maybe [Text] -> IO ()
 createUI args = do
   Gtk.init args
   builder <- Gtk.builderNewFromResource "/asocijacije/resources/ui.glade"
 
   Just window <- getBuilderObj builder "window" Gtk.Window
+  on window #destroy $ printQuit "windows close button"
+  
+  connectBtnClick builder "uiButtonPlayTwoPlayers" $ do 
+      stampaj "Igraj"
+      
+  connectBtnClick builder "uiButtonSettings" $ do 
+      stampaj "Podesavanja"
 
   Gtk.main
