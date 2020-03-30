@@ -1,10 +1,1 @@
-{
-  "igrac1_ime": "Filip",  
-  "igrac1_boja": "Plava",
-  "igrac1_slika": "nekiUrl",
-  "igrac2_ime": "Nikola",  
-  "igrac2_boja": "Crvena",
-  "igrac2_slika": "nekiUrl",
-  "duzina_igre_u_sekundama": "120",
-  "duzina_jednog_poteza_u_sekundama": "6"
-}
+{"igrac1_ime":"Petar","igrac1_boja":"Plava","igrac1_slika":"nekiUrl","igrac2_ime":"Nikola","igrac2_boja":"Crvena","igrac2_slika":"nekiUrl","duzina_igre_u_sekundama":"120","duzina_jednog_poteza_u_sekundama":"6"}

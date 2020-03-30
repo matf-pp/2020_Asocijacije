@@ -1,5 +1,10 @@
 {-# LANGUAGE DeriveDataTypeable #-}
-module LoadSettings (Settings, readSettingsFile, getItem) where
+module LoadSettings (
+Settings (..), -- (..) eksportuje sve Data konstruktore za tip Settings
+readSettingsFile, 
+writeToSettingsFile,
+getItem
+) where
 
 import Text.JSON.Generic
 import System.Exit
@@ -43,3 +48,10 @@ readSettingsFile = do
     settingsJson <- myOpenFile fileName
     settingsObject <- return (decodeJSON settingsJson :: Settings)
     return settingsObject    
+    
+writeToSettingsFile :: Settings -> IO ()
+writeToSettingsFile settingsObject = do
+    let fileName = makeFileName
+    let sadrzaj = (encodeJSON settingsObject)
+    writeFile fileName sadrzaj
+    
