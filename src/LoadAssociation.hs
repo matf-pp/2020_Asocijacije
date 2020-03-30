@@ -1,5 +1,5 @@
 {-# LANGUAGE DeriveDataTypeable #-}
-module Load (WordAssociationTableContent, makeNewWordAssociation, getItem) where
+module LoadAssociation (WordAssociationTableContent, makeNewWordAssociation, getItem) where
 
 import Text.JSON.Generic
 import System.Exit

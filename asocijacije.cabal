@@ -28,4 +28,6 @@ executable asocijacije
     , gi-gtk
     , haskell-gi-base
     , text
+    , json
+    , directory
   c-sources: src/gresource.c
