@@ -64,10 +64,7 @@ myOpenFile fileName = do
     pom1 <- fileName
     pom2 <- readFile pom1
     return pom2
-  
-handlerForTryToOpenFile :: IOError -> IO ()  
-handlerForTryToOpenFile e = die "\nBad function call. Function name: handlerForTryToOpenFile, from source file load.hs. Error is probably in function makeFileName, because fileName was generated here." -- ++ e
-    
+   
 makeFileName :: IO FilePath
 makeFileName = do
     randomBrojFajla <- randomFajl $ directorySize $ directoryWithAssociationsPath
@@ -88,15 +85,7 @@ directorySize dir = fmap length . listDirectory $ "./folderSaAsocijacijama/"
 makeNewWordAssociation :: IO (WordAssociationTableContent)
 makeNewWordAssociation = do
     let fileName = makeFileName
---     PRVA VERZIJA BEZ PROVERA I IZUZETAKA
     wordAssociationTableContentJson <- myOpenFile fileName
     wordAssociationTableContentObject <- return (decodeJSON wordAssociationTableContentJson :: WordAssociationTableContent)
     return wordAssociationTableContentObject    
---     DRUGA VERZIJA SA PROVEROM I IZUZECIMA
---     wordAssociationTableContentJson <- try (myOpenFile fileName) :: IO (Either IOException String)
---     case wordAssociationTableContentJson of 
---          Left e -> do
---              handlerForTryToOpenFile e
---          Right wordAssociationTableContentJson -> do
---             wordAssociationTableContentObject <- return (decodeJSON wordAssociationTableContentJson :: WordAssociationTableContent)
---             return $ wordAssociationTableContentObject
+

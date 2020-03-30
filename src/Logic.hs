@@ -15,13 +15,8 @@ import Data.Monoid ((<>))
 import qualified Data.Text.IO as T_IO
 import qualified Data.Text as T
 import Data.Text (Text)
-
-
 import qualified GI.Gtk as Gtk
 import Data.GI.Base
-
-
-import System.Directory -- OBRISI
 
 printQuit :: Text -> IO ()
 printQuit t = do
@@ -48,12 +43,13 @@ connectBtnClick builder name handler = getBuilderObj builder name Gtk.Button >>=
         return ()
     Nothing -> return ()
 
-
+uiButtonPlayTwoPlayersClickHandler :: Gtk.Builder -> IO ()
 uiButtonPlayTwoPlayersClickHandler builder = do
     Just uiStack <- getBuilderObj builder "uiStack" Gtk.Stack
     Just uiTwoPlayersGame <- getBuilderObj builder "uiTwoPlayersGame" Gtk.Grid
     Gtk.stackSetVisibleChild uiStack uiTwoPlayersGame 
-    
+ 
+uiButtonSettingsClickHandler :: Gtk.Builder -> IO ()
 uiButtonSettingsClickHandler builder = do
     Just uiStack <- getBuilderObj builder "uiStack" Gtk.Stack
     Just uiSettings <- getBuilderObj builder "uiSettings" Gtk.Box
@@ -78,7 +74,7 @@ uiButtonSettingsClickHandler builder = do
     Gtk.entrySetText uiEntry_duzina_igre_u_sekundama $ T.pack $ LoadSettings.getItem "duzina_igre_u_sekundama" settingsObject
     Gtk.entrySetText uiEntry_duzina_jednog_poteza_u_sekundama $ T.pack $ LoadSettings.getItem "duzina_jednog_poteza_u_sekundama" settingsObject
 
-
+uiButtonBackFromSettingsClickHandler :: Gtk.Builder -> IO ()
 uiButtonBackFromSettingsClickHandler builder = do
     Just uiStack <- getBuilderObj builder "uiStack" Gtk.Stack
     Just uiMainMenu <- getBuilderObj builder "uiMainMenu" Gtk.Box

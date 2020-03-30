@@ -6,7 +6,6 @@ import System.Exit
 import System.Environment  
 import System.IO  
 
-
 data Settings = Settings
                      { igrac1_ime :: String 
                      , igrac1_boja :: String
@@ -32,13 +31,11 @@ getItem item settingsObject
                    
 myOpenFile :: FilePath -> IO (String)
 myOpenFile fileName = do
---     pom1 <- fileName
     pom2 <- readFile fileName
     return pom2
     
 makeFileName :: FilePath
 makeFileName = "src/resources/settings.json"
-
     
 readSettingsFile :: IO (Settings)
 readSettingsFile = do
@@ -46,4 +43,3 @@ readSettingsFile = do
     settingsJson <- myOpenFile fileName
     settingsObject <- return (decodeJSON settingsJson :: Settings)
     return settingsObject    
-
