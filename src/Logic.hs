@@ -1,9 +1,9 @@
 {-# LANGUAGE OverloadedStrings, OverloadedLabels, ScopedTypeVariables, LambdaCase, DeriveDataTypeable #-}
 module Logic 
 (
-printQuit,
 getBuilderObj,
 connectBtnClick,
+uiButtonPlayOnePlayerClickHandler,
 uiButtonPlayTwoPlayersClickHandler,
 uiButtonSettingsClickHandler,
 uiButtonBackFromSettingsClickHandler
@@ -17,12 +17,6 @@ import qualified Data.Text as T
 import Data.Text (Text)
 import qualified GI.Gtk as Gtk
 import Data.GI.Base
-
-printQuit :: Text -> IO ()
-printQuit t = do
-    T_IO.putStrLn $ "Quitting by " <> t <> "."
-    Gtk.mainQuit
-    return ()
 
 getBuilderObj :: forall o'
                . GObject o' 
@@ -42,6 +36,12 @@ connectBtnClick builder name handler = getBuilderObj builder name Gtk.Button >>=
         on button #clicked $ do handler
         return ()
     Nothing -> return ()
+
+uiButtonPlayOnePlayerClickHandler :: Gtk.Builder -> IO ()
+uiButtonPlayOnePlayerClickHandler builder = do
+    Just uiStack <- getBuilderObj builder "uiStack" Gtk.Stack
+    Just uiOnePlayerGame <- getBuilderObj builder "uiOnePlayerGame" Gtk.Grid
+    Gtk.stackSetVisibleChild uiStack uiOnePlayerGame 
 
 uiButtonPlayTwoPlayersClickHandler :: Gtk.Builder -> IO ()
 uiButtonPlayTwoPlayersClickHandler builder = do
@@ -115,3 +115,4 @@ uiButtonBackFromSettingsClickHandler builder = do
     Just uiStack <- getBuilderObj builder "uiStack" Gtk.Stack
     Just uiMainMenu <- getBuilderObj builder "uiMainMenu" Gtk.Box
     Gtk.stackSetVisibleChild uiStack uiMainMenu
+

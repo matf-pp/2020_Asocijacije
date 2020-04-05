@@ -17,7 +17,11 @@ createUI args = do
     builder <- Gtk.builderNewFromResource "/asocijacije/resources/ui.glade"
 
     Just window <- Logic.getBuilderObj builder "window" Gtk.Window
-    on window #destroy $ Logic.printQuit "windows close button"
+    on window #destroy $ Gtk.mainQuit
+
+
+    Logic.connectBtnClick builder "uiButtonPlayOnePlayer" $ do 
+        Logic.uiButtonPlayOnePlayerClickHandler builder
 
     Logic.connectBtnClick builder "uiButtonPlayTwoPlayers" $ do 
         Logic.uiButtonPlayTwoPlayersClickHandler builder
@@ -27,5 +31,8 @@ createUI args = do
         
     Logic.connectBtnClick builder "uiButtonBackFromSettings" $ do 
         Logic.uiButtonBackFromSettingsClickHandler builder
+        
+    Logic.connectBtnClick builder "uiButtonQuit" $ do 
+        Gtk.mainQuit
       
     Gtk.main
