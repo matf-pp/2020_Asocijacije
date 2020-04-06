@@ -2,7 +2,9 @@
 <!-- Generated with glade 3.22.1 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
-  <object class="GtkWindow" id="window">
+  <!-- interface-css-provider-path style.css -->
+  <object class="GtkWindow" id="uiWindow">
+    <property name="name">uiWindow</property>
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Asocijacije</property>
@@ -16,24 +18,31 @@
     </child>
     <child>
       <object class="GtkStack" id="uiStack">
+        <property name="name">uiStack</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="transition_type">slide-up-down</property>
         <child>
           <object class="GtkBox" id="uiMainMenu">
+            <property name="name">uiMainMenu</property>
+            <property name="width_request">350</property>
+            <property name="height_request">350</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="halign">center</property>
             <property name="valign">center</property>
             <property name="orientation">vertical</property>
             <child>
-              <object class="GtkImage">
+              <object class="GtkLabel" id="uiLabelAsocijacije">
+                <property name="name">uiLabelAsocijacije</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="valign">center</property>
-                <property name="margin_left">3</property>
-                <property name="margin_right">3</property>
-                <property name="pixbuf">logo.png</property>
+                <property name="margin_left">20</property>
+                <property name="margin_right">20</property>
+                <property name="margin_top">20</property>
+                <property name="margin_bottom">27</property>
+                <property name="label" translatable="yes">::asocijacije</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -42,21 +51,26 @@
               </packing>
             </child>
             <child>
-              <object class="GtkBox">
-                <property name="height_request">232</property>
+              <object class="GtkBox" id="uiBoxButtons">
+                <property name="name">uiBoxButtons</property>
+                <property name="height_request">198</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="valign">center</property>
-                <property name="margin_top">20</property>
+                <property name="margin_left">20</property>
+                <property name="margin_right">20</property>
                 <property name="orientation">vertical</property>
+                <property name="spacing">10</property>
                 <property name="homogeneous">True</property>
-                <property name="baseline_position">top</property>
                 <child>
                   <object class="GtkButton" id="uiButtonPlayOnePlayer">
                     <property name="label" translatable="yes">Igraj (1 igrač)</property>
+                    <property name="name">uiButtonPlayOnePlayer</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <style>
+                      <class name="btn-class"/>
+                    </style>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -67,9 +81,13 @@
                 <child>
                   <object class="GtkButton" id="uiButtonPlayTwoPlayers">
                     <property name="label" translatable="yes">Igraj (2 igrača)</property>
+                    <property name="name">uiButtonPlayTwoPlayers</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <style>
+                      <class name="btn-class"/>
+                    </style>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -80,9 +98,13 @@
                 <child>
                   <object class="GtkButton" id="uiButtonSettings">
                     <property name="label" translatable="yes">Podešavanja</property>
+                    <property name="name">uiButtonSettings</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <style>
+                      <class name="btn-class"/>
+                    </style>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -93,9 +115,13 @@
                 <child>
                   <object class="GtkButton" id="uiButtonQuit">
                     <property name="label" translatable="yes">Izlaz</property>
+                    <property name="name">uiButtonQuit</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <style>
+                      <class name="btn-class"/>
+                    </style>
                   </object>
                   <packing>
                     <property name="expand">False</property>

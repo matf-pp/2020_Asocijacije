@@ -3,5 +3,6 @@
   <gresource prefix="/asocijacije">
     <file>resources/logo.png</file>
     <file compressed="true">resources/ui.glade</file>
+	<file compressed="true">resources/style.css</file>
   </gresource>
 </gresources>
