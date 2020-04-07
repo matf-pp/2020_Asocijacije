@@ -143,6 +143,777 @@
           </packing>
         </child>
         <child>
+          <object class="GtkEventBox" id="uiTwoPlayersGameEventBox">
+            <property name="name">uiTwoPlayersGameEventBox</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <object class="GtkFixed" id="uiTwoPlayersGame">
+                <property name="name">uiTwoPlayersGame</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel" id="senka1">
+                    <property name="name">senka1</property>
+                    <property name="width_request">150</property>
+                    <property name="height_request">186</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <style>
+                      <class name="senka"/>
+                    </style>
+                  </object>
+                  <packing>
+                    <property name="x">20</property>
+                    <property name="y">200</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="senka2">
+                    <property name="name">senka2</property>
+                    <property name="width_request">150</property>
+                    <property name="height_request">186</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <style>
+                      <class name="senka"/>
+                    </style>
+                  </object>
+                  <packing>
+                    <property name="x">669</property>
+                    <property name="y">200</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEventBox" id="uiPlayer1BoxEventBox">
+                    <property name="name">uiPlayer1BoxEventBox</property>
+                    <property name="width_request">150</property>
+                    <property name="height_request">180</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkFixed" id="uiPlayer1BoxFixed">
+                        <property name="name">uiPlayer1BoxFixed</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <child>
+                          <object class="GtkEventBox" id="uiPlayer1NameEventBox">
+                            <property name="name">uiPlayer1NameEventBox</property>
+                            <property name="width_request">150</property>
+                            <property name="height_request">36</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <child>
+                              <object class="GtkLabel" id="uiPlayer1NameLabel">
+                                <property name="name">uiPlayer1NameLabel</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">Player 1</property>
+                                <style>
+                                  <class name="uiPlayerNameLabel"/>
+                                </style>
+                              </object>
+                            </child>
+                            <style>
+                              <class name="uiPlayerNameEventBox"/>
+                            </style>
+                          </object>
+                          <packing>
+                            <property name="y">150</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkEventBox" id="uiPlayer1ImageBoxEventBox">
+                            <property name="name">uiPlayer1ImageBoxEventBox</property>
+                            <property name="width_request">90</property>
+                            <property name="height_request">90</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="halign">start</property>
+                            <property name="valign">start</property>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="width_request">90</property>
+                                <property name="height_request">90</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="halign">start</property>
+                                <property name="valign">start</property>
+                                <property name="orientation">vertical</property>
+                                <child>
+                                  <object class="GtkImage">
+                                    <property name="width_request">90</property>
+                                    <property name="height_request">90</property>
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="halign">start</property>
+                                    <property name="valign">start</property>
+                                    <property name="stock">gtk-missing-image</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">False</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                              </object>
+                            </child>
+                            <style>
+                              <class name="uiPlayerImageBoxEventBox"/>
+                            </style>
+                          </object>
+                          <packing>
+                            <property name="x">30</property>
+                            <property name="y">30</property>
+                          </packing>
+                        </child>
+                        <style>
+                          <class name="uiPlayerBoxFixed"/>
+                        </style>
+                      </object>
+                    </child>
+                    <style>
+                      <class name="uiPlayerBoxEventBox"/>
+                    </style>
+                  </object>
+                  <packing>
+                    <property name="x">20</property>
+                    <property name="y">200</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEventBox" id="uiPlayer2BoxEventBox">
+                    <property name="name">uiPlayer2BoxEventBox</property>
+                    <property name="width_request">150</property>
+                    <property name="height_request">180</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkFixed" id="uiPlayer2BoxFixed">
+                        <property name="name">uiPlayer2BoxFixed</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <child>
+                          <object class="GtkEventBox" id="uiPlayer2NameEventBox">
+                            <property name="name">uiPlayer2NameEventBox</property>
+                            <property name="width_request">150</property>
+                            <property name="height_request">36</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <child>
+                              <object class="GtkLabel" id="uiPlayer2NameLabel">
+                                <property name="name">uiPlayer2NameLabel</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label" translatable="yes">Player 2</property>
+                                <style>
+                                  <class name="uiPlayerNameLabel"/>
+                                </style>
+                              </object>
+                            </child>
+                            <style>
+                              <class name="uiPlayerNameEventBox"/>
+                            </style>
+                          </object>
+                          <packing>
+                            <property name="y">150</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkEventBox" id="uiPlayer2ImageBoxEventBox">
+                            <property name="name">uiPlayer2ImageBoxEventBox</property>
+                            <property name="width_request">90</property>
+                            <property name="height_request">90</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="halign">start</property>
+                            <property name="valign">start</property>
+                            <child>
+                              <object class="GtkBox">
+                                <property name="width_request">90</property>
+                                <property name="height_request">90</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="halign">start</property>
+                                <property name="valign">start</property>
+                                <property name="orientation">vertical</property>
+                                <child>
+                                  <object class="GtkImage">
+                                    <property name="width_request">90</property>
+                                    <property name="height_request">90</property>
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="halign">start</property>
+                                    <property name="valign">start</property>
+                                    <property name="stock">gtk-missing-image</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">False</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                              </object>
+                            </child>
+                            <style>
+                              <class name="uiPlayerImageBoxEventBox"/>
+                            </style>
+                          </object>
+                          <packing>
+                            <property name="x">30</property>
+                            <property name="y">30</property>
+                          </packing>
+                        </child>
+                        <style>
+                          <class name="uiPlayerBoxFixed"/>
+                        </style>
+                      </object>
+                    </child>
+                    <style>
+                      <class name="uiPlayerBoxEventBox"/>
+                    </style>
+                  </object>
+                  <packing>
+                    <property name="x">669</property>
+                    <property name="y">200</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEventBox" id="uiFinalAnswerEventBox">
+                    <property name="name">uiFinalAnswerEventBox</property>
+                    <property name="width_request">313</property>
+                    <property name="height_request">45</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkEntry" id="uiLabelFinalAnswer">
+                        <property name="name">uiLabelFinalAnswer</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="xalign">0.5</property>
+                        <property name="placeholder_text" translatable="yes">Konačno</property>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="x">262</property>
+                    <property name="y">287</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEventBox" id="uiColumn_A_EventBox">
+                    <property name="name">uiColumn_A_EventBox</property>
+                    <property name="width_request">190</property>
+                    <property name="height_request">40</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkEntry" id="uiColumn_A_Label">
+                        <property name="name">uiColumn_A_Label</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="xalign">0.5</property>
+                        <property name="placeholder_text" translatable="yes">Kolona A</property>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="x">222</property>
+                    <property name="y">235</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEventBox" id="uiColumn_B_EventBox">
+                    <property name="name">uiColumn_B_EventBox</property>
+                    <property name="width_request">190</property>
+                    <property name="height_request">40</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkEntry" id="uiColumn_B_Label">
+                        <property name="name">uiColumn_B_Label</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="xalign">0.5</property>
+                        <property name="placeholder_text" translatable="yes">Kolona B</property>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="x">427</property>
+                    <property name="y">235</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEventBox" id="uiColumn_C_EventBox">
+                    <property name="name">uiColumn_C_EventBox</property>
+                    <property name="width_request">190</property>
+                    <property name="height_request">40</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkEntry" id="uiColumn_C_Label">
+                        <property name="name">uiColumn_C_Label</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="xalign">0.5</property>
+                        <property name="placeholder_text" translatable="yes">Kolona C</property>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="x">221</property>
+                    <property name="y">345</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEventBox" id="uiColumn_D_EventBox">
+                    <property name="name">uiColumn_D_EventBox</property>
+                    <property name="width_request">190</property>
+                    <property name="height_request">40</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkEntry" id="uiColumn_D_Label">
+                        <property name="name">uiColumn_D_Label</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="xalign">0.5</property>
+                        <property name="placeholder_text" translatable="yes">Kolona D</property>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="x">427</property>
+                    <property name="y">345</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEventBox" id="ui_A4_EventBox">
+                    <property name="name">ui_A4_EventBox</property>
+                    <property name="width_request">190</property>
+                    <property name="height_request">40</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkButton" id="ui_A4_Button">
+                        <property name="label" translatable="yes">A4</property>
+                        <property name="name">ui_A4_Button</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="x">187</property>
+                    <property name="y">185</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEventBox" id="ui_A3_EventBox">
+                    <property name="name">ui_A3_EventBox</property>
+                    <property name="width_request">190</property>
+                    <property name="height_request">40</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkButton" id="ui_A3_Button">
+                        <property name="label" translatable="yes">A3</property>
+                        <property name="name">ui_A3_Button</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="x">152</property>
+                    <property name="y">135</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEventBox" id="ui_A2_EventBox">
+                    <property name="name">ui_A2_EventBox</property>
+                    <property name="width_request">190</property>
+                    <property name="height_request">40</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkButton" id="ui_A2_Button">
+                        <property name="label" translatable="yes">A2</property>
+                        <property name="name">ui_A2_Button</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="x">117</property>
+                    <property name="y">85</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEventBox" id="ui_A1_EventBox">
+                    <property name="name">ui_A1_EventBox</property>
+                    <property name="width_request">190</property>
+                    <property name="height_request">40</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkButton" id="ui_A1_Button">
+                        <property name="label" translatable="yes">A1</property>
+                        <property name="name">ui_A1_Button</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="x">82</property>
+                    <property name="y">35</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEventBox" id="ui_C4_EventBox">
+                    <property name="name">ui_C4_EventBox</property>
+                    <property name="width_request">190</property>
+                    <property name="height_request">40</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkButton" id="ui_C4_Button">
+                        <property name="label" translatable="yes">C4</property>
+                        <property name="name">ui_C4_Button</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="x">187</property>
+                    <property name="y">395</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEventBox" id="ui_C3_EventBox">
+                    <property name="name">ui_C3_EventBox</property>
+                    <property name="width_request">190</property>
+                    <property name="height_request">40</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkButton" id="ui_C3_Button1">
+                        <property name="label" translatable="yes">C3</property>
+                        <property name="name">ui_C3_Button</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="x">152</property>
+                    <property name="y">445</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEventBox" id="ui_C2_EventBox">
+                    <property name="name">ui_C2_EventBox</property>
+                    <property name="width_request">190</property>
+                    <property name="height_request">40</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkButton" id="ui_C2_Button">
+                        <property name="label" translatable="yes">C2</property>
+                        <property name="name">ui_C2_Button</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="x">117</property>
+                    <property name="y">495</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEventBox" id="ui_C1_EventBox">
+                    <property name="name">ui_C1_EventBox</property>
+                    <property name="width_request">190</property>
+                    <property name="height_request">40</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkButton" id="ui_C1_Button">
+                        <property name="label" translatable="yes">C1</property>
+                        <property name="name">ui_C1_Button</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="x">82</property>
+                    <property name="y">545</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEventBox" id="ui_D4_EventBox">
+                    <property name="name">ui_D4_EventBox</property>
+                    <property name="width_request">190</property>
+                    <property name="height_request">40</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkButton" id="ui_D4_Button">
+                        <property name="label" translatable="yes">D4</property>
+                        <property name="name">ui_D4_Button</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="x">462</property>
+                    <property name="y">395</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEventBox" id="ui_D3_EventBox">
+                    <property name="name">ui_D3_EventBox</property>
+                    <property name="width_request">190</property>
+                    <property name="height_request">40</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkButton" id="ui_D3_Button">
+                        <property name="label" translatable="yes">D3</property>
+                        <property name="name">ui_D3_Button</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="x">497</property>
+                    <property name="y">445</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEventBox" id="ui_D2_EventBox">
+                    <property name="name">ui_D2_EventBox</property>
+                    <property name="width_request">190</property>
+                    <property name="height_request">40</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkButton" id="ui_D2_Button">
+                        <property name="label" translatable="yes">D2</property>
+                        <property name="name">ui_D2_Button</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="x">532</property>
+                    <property name="y">495</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEventBox" id="ui_D1_EventBox">
+                    <property name="name">ui_D1_EventBox</property>
+                    <property name="width_request">190</property>
+                    <property name="height_request">40</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkButton" id="ui_D1_Button">
+                        <property name="label" translatable="yes">D1</property>
+                        <property name="name">ui_D1_Button</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="x">567</property>
+                    <property name="y">545</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEventBox" id="ui_B4_EventBox">
+                    <property name="name">ui_B4_EventBox</property>
+                    <property name="width_request">190</property>
+                    <property name="height_request">40</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkButton" id="ui_B4_Button">
+                        <property name="label" translatable="yes">B4</property>
+                        <property name="name">ui_B4_Button</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="x">462</property>
+                    <property name="y">185</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEventBox" id="ui_B3_EventBox">
+                    <property name="name">ui_B3_EventBox</property>
+                    <property name="width_request">190</property>
+                    <property name="height_request">40</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkButton" id="ui_B3_Button">
+                        <property name="label" translatable="yes">B3</property>
+                        <property name="name">ui_B3_Button</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="x">497</property>
+                    <property name="y">135</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEventBox" id="ui_B2_EventBox">
+                    <property name="name">ui_B2_EventBox</property>
+                    <property name="width_request">190</property>
+                    <property name="height_request">40</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkButton" id="ui_B2_Button">
+                        <property name="label" translatable="yes">B2</property>
+                        <property name="name">ui_B2_Button</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="x">532</property>
+                    <property name="y">85</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEventBox" id="ui_B1_EventBox">
+                    <property name="name">ui_B1_EventBox</property>
+                    <property name="width_request">190</property>
+                    <property name="height_request">40</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkButton" id="ui_B1_Button">
+                        <property name="label" translatable="yes">B1</property>
+                        <property name="name">ui_B1_Button</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="x">567</property>
+                    <property name="y">35</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEventBox" id="uiReamingTimeEventBox">
+                    <property name="name">uiReamingTimeEventBox</property>
+                    <property name="width_request">15</property>
+                    <property name="height_request">120</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkLevelBar" id="uiReamingTimeLevelBar">
+                        <property name="name">uiReamingTimeLevelBar</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="orientation">vertical</property>
+                        <property name="value">0.5</property>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="x">412</property>
+                    <property name="y">32</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEventBox" id="uiPlayer1ScoreEventBox">
+                    <property name="name">uiPlayer1ScoreEventBox</property>
+                    <property name="width_request">60</property>
+                    <property name="height_request">40</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkLabel" id="uiPlayer1ScoreLabel">
+                        <property name="name">uiPlayer1ScoreLabel</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">100</property>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="x">342</property>
+                    <property name="y">32</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEventBox" id="uiPlayer2ScoreEventBox">
+                    <property name="name">uiPlayer2ScoreEventBox</property>
+                    <property name="width_request">60</property>
+                    <property name="height_request">40</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkLabel" id="uiPlayer2ScoreLabel">
+                        <property name="name">uiPlayer2ScoreLabel</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">84</property>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="x">434</property>
+                    <property name="y">32</property>
+                  </packing>
+                </child>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="name">page2</property>
+            <property name="title" translatable="yes">page2</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
           <object class="GtkGrid" id="uiOnePlayerGame">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
@@ -544,411 +1315,6 @@
           <packing>
             <property name="name">page3</property>
             <property name="title" translatable="yes">page3</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkGrid" id="uiTwoPlayersGame">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="halign">center</property>
-            <property name="valign">center</property>
-            <property name="row_spacing">15</property>
-            <property name="column_spacing">10</property>
-            <child>
-              <object class="GtkButton">
-                <property name="label" translatable="yes">A1</property>
-                <property name="width_request">150</property>
-                <property name="height_request">40</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton">
-                <property name="label" translatable="yes">A2</property>
-                <property name="width_request">150</property>
-                <property name="height_request">40</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton">
-                <property name="label" translatable="yes">A3</property>
-                <property name="width_request">150</property>
-                <property name="height_request">40</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">2</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton">
-                <property name="label" translatable="yes">A4</property>
-                <property name="width_request">150</property>
-                <property name="height_request">40</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">3</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkEntry">
-                <property name="height_request">40</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="xalign">0.5</property>
-                <property name="shadow_type">none</property>
-                <property name="caps_lock_warning">False</property>
-                <property name="placeholder_text" translatable="yes">Kolona A</property>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">4</property>
-                <property name="width">2</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkEntry">
-                <property name="width_request">300</property>
-                <property name="height_request">40</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="xalign">0.5</property>
-                <property name="placeholder_text" translatable="yes">KONAČNO</property>
-              </object>
-              <packing>
-                <property name="left_attach">1</property>
-                <property name="top_attach">5</property>
-                <property name="width">3</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkEntry">
-                <property name="height_request">40</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="xalign">0.5</property>
-                <property name="shadow_type">none</property>
-                <property name="caps_lock_warning">False</property>
-                <property name="placeholder_text" translatable="yes">Kolona B</property>
-              </object>
-              <packing>
-                <property name="left_attach">3</property>
-                <property name="top_attach">4</property>
-                <property name="width">2</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton">
-                <property name="label" translatable="yes">B1</property>
-                <property name="width_request">150</property>
-                <property name="height_request">40</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-              </object>
-              <packing>
-                <property name="left_attach">4</property>
-                <property name="top_attach">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton">
-                <property name="label" translatable="yes">B2</property>
-                <property name="width_request">150</property>
-                <property name="height_request">40</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-              </object>
-              <packing>
-                <property name="left_attach">4</property>
-                <property name="top_attach">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton">
-                <property name="label" translatable="yes">B3</property>
-                <property name="width_request">150</property>
-                <property name="height_request">40</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-              </object>
-              <packing>
-                <property name="left_attach">4</property>
-                <property name="top_attach">2</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton">
-                <property name="label" translatable="yes">B4</property>
-                <property name="width_request">150</property>
-                <property name="height_request">40</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-              </object>
-              <packing>
-                <property name="left_attach">4</property>
-                <property name="top_attach">3</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkEntry">
-                <property name="height_request">40</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="xalign">0.5</property>
-                <property name="shadow_type">none</property>
-                <property name="caps_lock_warning">False</property>
-                <property name="placeholder_text" translatable="yes">Kolona C</property>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">6</property>
-                <property name="width">2</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkEntry">
-                <property name="height_request">40</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="xalign">0.5</property>
-                <property name="shadow_type">none</property>
-                <property name="caps_lock_warning">False</property>
-                <property name="placeholder_text" translatable="yes">Kolona D</property>
-              </object>
-              <packing>
-                <property name="left_attach">3</property>
-                <property name="top_attach">6</property>
-                <property name="width">2</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton">
-                <property name="label" translatable="yes">C1</property>
-                <property name="width_request">150</property>
-                <property name="height_request">40</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">7</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton">
-                <property name="label" translatable="yes">C2</property>
-                <property name="width_request">150</property>
-                <property name="height_request">40</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">8</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton">
-                <property name="label" translatable="yes">C3</property>
-                <property name="width_request">150</property>
-                <property name="height_request">40</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">9</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton">
-                <property name="label" translatable="yes">D1</property>
-                <property name="width_request">150</property>
-                <property name="height_request">40</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-              </object>
-              <packing>
-                <property name="left_attach">4</property>
-                <property name="top_attach">7</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton">
-                <property name="label" translatable="yes">D2</property>
-                <property name="width_request">150</property>
-                <property name="height_request">40</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-              </object>
-              <packing>
-                <property name="left_attach">4</property>
-                <property name="top_attach">8</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton">
-                <property name="label" translatable="yes">D3</property>
-                <property name="width_request">150</property>
-                <property name="height_request">40</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-              </object>
-              <packing>
-                <property name="left_attach">4</property>
-                <property name="top_attach">9</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton">
-                <property name="label" translatable="yes">C4</property>
-                <property name="width_request">150</property>
-                <property name="height_request">40</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">10</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton">
-                <property name="label" translatable="yes">D4</property>
-                <property name="width_request">150</property>
-                <property name="height_request">40</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-              </object>
-              <packing>
-                <property name="left_attach">4</property>
-                <property name="top_attach">10</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkProgressBar">
-                <property name="height_request">100</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="halign">center</property>
-                <property name="valign">center</property>
-                <property name="orientation">vertical</property>
-              </object>
-              <packing>
-                <property name="left_attach">2</property>
-                <property name="top_attach">0</property>
-                <property name="height">4</property>
-              </packing>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-          </object>
-          <packing>
-            <property name="name">page2</property>
-            <property name="title" translatable="yes">page2</property>
             <property name="position">2</property>
           </packing>
         </child>
@@ -1114,7 +1480,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkEntry" id="uiEntry_igrac1_ime">
+                                  <object class="GtkEntry" id="uiEntry_player1_name">
                                     <property name="width_request">220</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
@@ -1151,7 +1517,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkEntry" id="uiEntry_igrac1_boja">
+                                  <object class="GtkEntry" id="uiEntry_player1_color">
                                     <property name="width_request">220</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
@@ -1188,7 +1554,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkEntry" id="uiEntry_igrac1_slika">
+                                  <object class="GtkEntry" id="uiEntry_player1_image">
                                     <property name="width_request">220</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
@@ -1225,7 +1591,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkEntry" id="uiEntry_igrac2_ime">
+                                  <object class="GtkEntry" id="uiEntry_player2_name">
                                     <property name="width_request">220</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
@@ -1262,7 +1628,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkEntry" id="uiEntry_igrac2_boja">
+                                  <object class="GtkEntry" id="uiEntry_player2_color">
                                     <property name="width_request">220</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
@@ -1299,7 +1665,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkEntry" id="uiEntry_igrac2_slika">
+                                  <object class="GtkEntry" id="uiEntry_player2_image">
                                     <property name="width_request">220</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
@@ -1336,7 +1702,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkEntry" id="uiEntry_duzina_igre_u_sekundama">
+                                  <object class="GtkEntry" id="uiEntry_game_duration_in_seconds">
                                     <property name="width_request">220</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
@@ -1373,7 +1739,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkEntry" id="uiEntry_duzina_jednog_poteza_u_sekundama">
+                                  <object class="GtkEntry" id="uiEntry_waiting_time_for_one_play_in_seconds">
                                     <property name="width_request">220</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>

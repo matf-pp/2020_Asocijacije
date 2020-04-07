@@ -46,8 +46,12 @@ uiButtonPlayOnePlayerClickHandler builder = do
 uiButtonPlayTwoPlayersClickHandler :: Gtk.Builder -> IO ()
 uiButtonPlayTwoPlayersClickHandler builder = do
     Just uiStack <- getBuilderObj builder "uiStack" Gtk.Stack
-    Just uiTwoPlayersGame <- getBuilderObj builder "uiTwoPlayersGame" Gtk.Grid
+    Just uiTwoPlayersGame <- getBuilderObj builder "uiTwoPlayersGameEventBox" Gtk.EventBox
     Gtk.stackSetVisibleChild uiStack uiTwoPlayersGame 
+
+    -- Just uiPlayer1NameLabel <- getBuilderObj builder "uiPlayer1NameLabel" Gtk.Label
+    -- Gtk.labelSetText uiPlayer1NameLabel ()
+
  
 uiButtonSettingsClickHandler :: Gtk.Builder -> IO ()
 uiButtonSettingsClickHandler builder = do
@@ -57,62 +61,66 @@ uiButtonSettingsClickHandler builder = do
     settingsObject <- LoadSettings.readSettingsFile
     
     -- previse imperativno, uradi na funkcionalni nacin
-    Just uiEntry_igrac1_ime <- getBuilderObj builder "uiEntry_igrac1_ime" Gtk.Entry
-    Just uiEntry_igrac1_boja <- getBuilderObj builder "uiEntry_igrac1_boja" Gtk.Entry
-    Just uiEntry_igrac1_slika <- getBuilderObj builder "uiEntry_igrac1_slika" Gtk.Entry
-    Just uiEntry_igrac2_ime <- getBuilderObj builder "uiEntry_igrac2_ime" Gtk.Entry
-    Just uiEntry_igrac2_boja <- getBuilderObj builder "uiEntry_igrac2_boja" Gtk.Entry
-    Just uiEntry_igrac2_slika <- getBuilderObj builder "uiEntry_igrac2_slika" Gtk.Entry
-    Just uiEntry_duzina_igre_u_sekundama <- getBuilderObj builder "uiEntry_duzina_igre_u_sekundama" Gtk.Entry
-    Just uiEntry_duzina_jednog_poteza_u_sekundama <- getBuilderObj builder "uiEntry_duzina_jednog_poteza_u_sekundama" Gtk.Entry
-    Gtk.entrySetText uiEntry_igrac1_ime $ T.pack $ LoadSettings.getItem "igrac1_ime" settingsObject
-    Gtk.entrySetText uiEntry_igrac1_boja $ T.pack $ LoadSettings.getItem "igrac1_boja" settingsObject
-    Gtk.entrySetText uiEntry_igrac1_slika $ T.pack $ LoadSettings.getItem "igrac1_slika" settingsObject
-    Gtk.entrySetText uiEntry_igrac2_ime $ T.pack $ LoadSettings.getItem "igrac2_ime" settingsObject
-    Gtk.entrySetText uiEntry_igrac2_boja $ T.pack $ LoadSettings.getItem "igrac2_boja" settingsObject
-    Gtk.entrySetText uiEntry_igrac2_slika $ T.pack $ LoadSettings.getItem "igrac2_slika" settingsObject
-    Gtk.entrySetText uiEntry_duzina_igre_u_sekundama $ T.pack $ LoadSettings.getItem "duzina_igre_u_sekundama" settingsObject
-    Gtk.entrySetText uiEntry_duzina_jednog_poteza_u_sekundama $ T.pack $ LoadSettings.getItem "duzina_jednog_poteza_u_sekundama" settingsObject
+    Just uiEntry_player1_name <- getBuilderObj builder "uiEntry_player1_name" Gtk.Entry
+    Just uiEntry_player1_color <- getBuilderObj builder "uiEntry_player1_color" Gtk.Entry
+    Just uiEntry_player1_image <- getBuilderObj builder "uiEntry_player1_image" Gtk.Entry
+    Just uiEntry_player2_name <- getBuilderObj builder "uiEntry_player2_name" Gtk.Entry
+    Just uiEntry_player2_color <- getBuilderObj builder "uiEntry_player2_color" Gtk.Entry
+    Just uiEntry_player2_image <- getBuilderObj builder "uiEntry_player2_image" Gtk.Entry
+    Just uiEntry_game_duration_in_seconds <- getBuilderObj builder "uiEntry_game_duration_in_seconds" Gtk.Entry
+    Just uiEntry_waiting_time_for_one_play_in_seconds <- getBuilderObj builder "uiEntry_waiting_time_for_one_play_in_seconds" Gtk.Entry
+    Gtk.entrySetText uiEntry_player1_name $ T.pack $ LoadSettings.getItem "player1_name" settingsObject
+    Gtk.entrySetText uiEntry_player1_color $ T.pack $ LoadSettings.getItem "player1_color" settingsObject
+    Gtk.entrySetText uiEntry_player1_image $ T.pack $ LoadSettings.getItem "player1_image" settingsObject
+    Gtk.entrySetText uiEntry_player2_name $ T.pack $ LoadSettings.getItem "player2_name" settingsObject
+    Gtk.entrySetText uiEntry_player2_color $ T.pack $ LoadSettings.getItem "player2_color" settingsObject
+    Gtk.entrySetText uiEntry_player2_image $ T.pack $ LoadSettings.getItem "player2_image" settingsObject
+    Gtk.entrySetText uiEntry_game_duration_in_seconds $ T.pack $ LoadSettings.getItem "game_duration_in_seconds" settingsObject
+    Gtk.entrySetText uiEntry_waiting_time_for_one_play_in_seconds $ T.pack $ LoadSettings.getItem "waiting_time_for_one_play_in_seconds" settingsObject
 
 uiButtonBackFromSettingsClickHandler :: Gtk.Builder -> IO ()
 uiButtonBackFromSettingsClickHandler builder = do
     
-    Just uiEntry_igrac1_ime <- getBuilderObj builder "uiEntry_igrac1_ime" Gtk.Entry
-    uiEntry_igrac1_ime_text <- Gtk.getEntryText uiEntry_igrac1_ime
-    let uiEntry_igrac1_ime_str = T.unpack uiEntry_igrac1_ime_text
+    Just uiEntry_player1_name <- getBuilderObj builder "uiEntry_player1_name" Gtk.Entry
+    uiEntry_player1_name_text <- Gtk.getEntryText uiEntry_player1_name
+    let uiEntry_player1_name_str = T.unpack uiEntry_player1_name_text
     
-    Just uiEntry_igrac1_boja <- getBuilderObj builder "uiEntry_igrac1_boja" Gtk.Entry
-    uiEntry_igrac1_boja_text <- Gtk.getEntryText uiEntry_igrac1_boja
-    let uiEntry_igrac1_boja_str = T.unpack uiEntry_igrac1_boja_text
+    Just uiEntry_player1_color <- getBuilderObj builder "uiEntry_player1_color" Gtk.Entry
+    uiEntry_player1_color_text <- Gtk.getEntryText uiEntry_player1_color
+    let uiEntry_player1_color_str = T.unpack uiEntry_player1_color_text
     
-    Just uiEntry_igrac1_slika <- getBuilderObj builder "uiEntry_igrac1_slika" Gtk.Entry
-    uiEntry_igrac1_slika_text <- Gtk.getEntryText uiEntry_igrac1_slika
-    let uiEntry_igrac1_slika_str = T.unpack uiEntry_igrac1_slika_text
+    Just uiEntry_player1_image <- getBuilderObj builder "uiEntry_player1_image" Gtk.Entry
+    uiEntry_player1_image_text <- Gtk.getEntryText uiEntry_player1_image
+    let uiEntry_player1_image_str = T.unpack uiEntry_player1_image_text
     
-    Just uiEntry_igrac2_ime <- getBuilderObj builder "uiEntry_igrac2_ime" Gtk.Entry
-    uiEntry_igrac2_ime_text <- Gtk.getEntryText uiEntry_igrac2_ime
-    let uiEntry_igrac2_ime_str = T.unpack uiEntry_igrac2_ime_text
+    Just uiEntry_player2_name <- getBuilderObj builder "uiEntry_player2_name" Gtk.Entry
+    uiEntry_player2_name_text <- Gtk.getEntryText uiEntry_player2_name
+    let uiEntry_player2_name_str = T.unpack uiEntry_player2_name_text
     
-    Just uiEntry_igrac2_boja <- getBuilderObj builder "uiEntry_igrac2_boja" Gtk.Entry
-    uiEntry_igrac2_boja_text <- Gtk.getEntryText uiEntry_igrac2_boja
-    let uiEntry_igrac2_boja_str = T.unpack uiEntry_igrac2_boja_text
+    Just uiEntry_player2_color <- getBuilderObj builder "uiEntry_player2_color" Gtk.Entry
+    uiEntry_player2_color_text <- Gtk.getEntryText uiEntry_player2_color
+    let uiEntry_player2_color_str = T.unpack uiEntry_player2_color_text
     
-    Just uiEntry_igrac2_slika <- getBuilderObj builder "uiEntry_igrac2_slika" Gtk.Entry
-    uiEntry_igrac2_slika_text <- Gtk.getEntryText uiEntry_igrac2_slika
-    let uiEntry_igrac2_slika_str = T.unpack uiEntry_igrac2_slika_text
+    Just uiEntry_player2_image <- getBuilderObj builder "uiEntry_player2_image" Gtk.Entry
+    uiEntry_player2_image_text <- Gtk.getEntryText uiEntry_player2_image
+    let uiEntry_player2_image_str = T.unpack uiEntry_player2_image_text
     
-    Just uiEntry_duzina_igre_u_sekundama <- getBuilderObj builder "uiEntry_duzina_igre_u_sekundama" Gtk.Entry
-    uiEntry_duzina_igre_u_sekundama_text <- Gtk.getEntryText uiEntry_duzina_igre_u_sekundama
-    let uiEntry_duzina_igre_u_sekundama_str = T.unpack uiEntry_duzina_igre_u_sekundama_text
+    Just uiEntry_game_duration_in_seconds <- getBuilderObj builder "uiEntry_game_duration_in_seconds" Gtk.Entry
+    uiEntry_game_duration_in_seconds_text <- Gtk.getEntryText uiEntry_game_duration_in_seconds
+    let uiEntry_game_duration_in_seconds_str = T.unpack uiEntry_game_duration_in_seconds_text
     
-    Just uiEntry_duzina_jednog_poteza_u_sekundama <- getBuilderObj builder "uiEntry_duzina_jednog_poteza_u_sekundama" Gtk.Entry
-    uiEntry_duzina_jednog_poteza_u_sekundama_text <- Gtk.getEntryText uiEntry_duzina_jednog_poteza_u_sekundama
-    let uiEntry_duzina_jednog_poteza_u_sekundama_str = T.unpack uiEntry_duzina_jednog_poteza_u_sekundama_text
-    
-    
-    let settingsObject = LoadSettings.Settings uiEntry_igrac1_ime_str uiEntry_igrac1_boja_str uiEntry_igrac1_slika_str uiEntry_igrac2_ime_str uiEntry_igrac2_boja_str uiEntry_igrac2_slika_str uiEntry_duzina_igre_u_sekundama_str uiEntry_duzina_jednog_poteza_u_sekundama_str
+    Just uiEntry_waiting_time_for_one_play_in_seconds <- getBuilderObj builder "uiEntry_waiting_time_for_one_play_in_seconds" Gtk.Entry
+    uiEntry_waiting_time_for_one_play_in_seconds_text <- Gtk.getEntryText uiEntry_waiting_time_for_one_play_in_seconds
+    let uiEntry_waiting_time_for_one_play_in_seconds_str = T.unpack uiEntry_waiting_time_for_one_play_in_seconds_text
+      
+    let settingsObject = LoadSettings.Settings uiEntry_player1_name_str uiEntry_player1_color_str uiEntry_player1_image_str uiEntry_player2_name_str uiEntry_player2_color_str uiEntry_player2_image_str uiEntry_game_duration_in_seconds_str uiEntry_waiting_time_for_one_play_in_seconds_str
     LoadSettings.writeToSettingsFile settingsObject
     Just uiStack <- getBuilderObj builder "uiStack" Gtk.Stack
     Just uiMainMenu <- getBuilderObj builder "uiMainMenu" Gtk.Box
     Gtk.stackSetVisibleChild uiStack uiMainMenu
 
+
+-- data GameState =    { settings                :: LoadSettings.Settings
+--                     , association             :: LoadAssociation.WordAssociationTableContent  
+--                     , reaming_time_in_seconds :: Int  
+--                     }
