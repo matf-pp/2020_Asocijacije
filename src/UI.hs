@@ -51,7 +51,55 @@ createUI args = do
 
     Logic.connectBtnClick builder "uiButtonPlayTwoPlayers" $ do 
         Logic.uiButtonPlayTwoPlayersClickHandler builder
-        
+
+    Logic.connectBtnClick builder "ui_A1_Button" $ do
+        Logic.ui_abcd1234_ButtonHandler "ui_A1_Button" builder
+
+    Logic.connectBtnClick builder "ui_A2_Button" $ do
+        Logic.ui_abcd1234_ButtonHandler "ui_A2_Button" builder
+
+    Logic.connectBtnClick builder "ui_A3_Button" $ do
+        Logic.ui_abcd1234_ButtonHandler "ui_A3_Button" builder
+
+    Logic.connectBtnClick builder "ui_A4_Button" $ do
+        Logic.ui_abcd1234_ButtonHandler "ui_A4_Button" builder
+
+    Logic.connectBtnClick builder "ui_B1_Button" $ do
+        Logic.ui_abcd1234_ButtonHandler "ui_B1_Button" builder
+
+    Logic.connectBtnClick builder "ui_B2_Button" $ do
+        Logic.ui_abcd1234_ButtonHandler "ui_B2_Button" builder
+
+    Logic.connectBtnClick builder "ui_B3_Button" $ do
+        Logic.ui_abcd1234_ButtonHandler "ui_B3_Button" builder
+
+    Logic.connectBtnClick builder "ui_B4_Button" $ do
+        Logic.ui_abcd1234_ButtonHandler "ui_B4_Button" builder
+
+    Logic.connectBtnClick builder "ui_C1_Button" $ do
+        Logic.ui_abcd1234_ButtonHandler "ui_C1_Button" builder
+
+    Logic.connectBtnClick builder "ui_C2_Button" $ do
+        Logic.ui_abcd1234_ButtonHandler "ui_C2_Button" builder
+
+    Logic.connectBtnClick builder "ui_C3_Button" $ do
+        Logic.ui_abcd1234_ButtonHandler "ui_C3_Button" builder
+
+    Logic.connectBtnClick builder "ui_C4_Button" $ do
+        Logic.ui_abcd1234_ButtonHandler "ui_C4_Button" builder
+
+    Logic.connectBtnClick builder "ui_D1_Button" $ do
+        Logic.ui_abcd1234_ButtonHandler "ui_D1_Button" builder
+
+    Logic.connectBtnClick builder "ui_D2_Button" $ do
+        Logic.ui_abcd1234_ButtonHandler "ui_D2_Button" builder
+
+    Logic.connectBtnClick builder "ui_D3_Button" $ do
+        Logic.ui_abcd1234_ButtonHandler "ui_D3_Button" builder
+
+    Logic.connectBtnClick builder "ui_D4_Button" $ do
+        Logic.ui_abcd1234_ButtonHandler "ui_D4_Button" builder
+  
     Logic.connectBtnClick builder "uiButtonSettings" $ do 
         Logic.uiButtonSettingsClickHandler builder
         

@@ -20,7 +20,19 @@ data Settings = Settings
                      , player2_image :: String
                      , game_duration_in_seconds :: String
                      , waiting_time_for_one_play_in_seconds :: String
-                     } deriving (Show, Data, Typeable)
+                     } deriving (Data, Typeable)
+
+instance Show Settings where
+    show settingsObject =  "Settings{"
+                        ++ "\n\tplayer1_name: " ++ getItem "player1_name" settingsObject ++ ","
+                        ++ "\n\tplayer1_color: " ++ getItem "player1_color" settingsObject ++ ","
+                        ++ "\n\tplayer1_image: " ++ getItem "player1_image" settingsObject ++ ","
+                        ++ "\n\tplayer2_name: " ++ getItem "player2_name" settingsObject ++ ","
+                        ++ "\n\tplayer2_color: " ++ getItem "player2_color" settingsObject ++ ","
+                        ++ "\n\tplayer2_image: " ++ getItem "player2_image" settingsObject ++ ","
+                        ++ "\n\tgame_duration_in_seconds: " ++ getItem "game_duration_in_seconds" settingsObject ++ ","
+                        ++ "\n\twaiting_time_for_one_play_in_seconds: " ++ getItem "waiting_time_for_one_play_in_seconds" settingsObject
+                        ++ "\n}"
 
 getItem :: String -> Settings -> String
 getItem item settingsObject 

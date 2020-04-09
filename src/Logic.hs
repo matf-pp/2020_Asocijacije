@@ -6,10 +6,13 @@ connectBtnClick,
 uiButtonPlayOnePlayerClickHandler,
 uiButtonPlayTwoPlayersClickHandler,
 uiButtonSettingsClickHandler,
-uiButtonBackFromSettingsClickHandler
+uiButtonBackFromSettingsClickHandler,
+ui_abcd1234_ButtonHandler
 ) where
     
 import qualified LoadSettings
+import qualified LoadAssociation
+import qualified GameState
 
 import Data.Monoid ((<>))
 import qualified Data.Text.IO as T_IO
@@ -48,9 +51,13 @@ uiButtonPlayTwoPlayersClickHandler builder = do
     Just uiStack <- getBuilderObj builder "uiStack" Gtk.Stack
     Just uiTwoPlayersGame <- getBuilderObj builder "uiTwoPlayersGameEventBox" Gtk.EventBox
     Gtk.stackSetVisibleChild uiStack uiTwoPlayersGame 
-
-    -- Just uiPlayer1NameLabel <- getBuilderObj builder "uiPlayer1NameLabel" Gtk.Label
-    -- Gtk.labelSetText uiPlayer1NameLabel ()
+    GameState.makeGameState
+    gameStateObject <- GameState.loadGameState
+    --putStrLn $ show $ GameState.getSettings gameStateObject
+    Just uiPlayer1NameLabel <- getBuilderObj builder "uiPlayer1NameLabel" Gtk.Label
+    Gtk.labelSetText uiPlayer1NameLabel $ T.pack $ LoadSettings.getItem "player1_name" $ GameState.getSettings gameStateObject
+    Just uiPlayer2NameLabel <- getBuilderObj builder "uiPlayer2NameLabel" Gtk.Label
+    Gtk.labelSetText uiPlayer2NameLabel $ T.pack $ LoadSettings.getItem "player2_name" $ GameState.getSettings gameStateObject
 
  
 uiButtonSettingsClickHandler :: Gtk.Builder -> IO ()
@@ -59,7 +66,7 @@ uiButtonSettingsClickHandler builder = do
     Just uiSettings <- getBuilderObj builder "uiSettings" Gtk.Box
     Gtk.stackSetVisibleChild uiStack uiSettings
     settingsObject <- LoadSettings.readSettingsFile
-    
+    putStrLn $ show $ settingsObject
     -- previse imperativno, uradi na funkcionalni nacin
     Just uiEntry_player1_name <- getBuilderObj builder "uiEntry_player1_name" Gtk.Entry
     Just uiEntry_player1_color <- getBuilderObj builder "uiEntry_player1_color" Gtk.Entry
@@ -119,8 +126,37 @@ uiButtonBackFromSettingsClickHandler builder = do
     Just uiMainMenu <- getBuilderObj builder "uiMainMenu" Gtk.Box
     Gtk.stackSetVisibleChild uiStack uiMainMenu
 
+ui_abcd1234_ButtonHandler :: String -> Gtk.Builder -> IO ()
+ui_abcd1234_ButtonHandler button_id builder = do
+    --putStrLn $ kojeJeDugme button_id
+    gameStateObject <- GameState.loadGameState
+    Just uiButton <- getBuilderObj builder (T.pack button_id) Gtk.Button
+    if (LoadAssociation.getIsOpened $ LoadAssociation.getItem (kojeJeDugme button_id) $ GameState.getAssociation gameStateObject) == False then do
+        let word = LoadAssociation.getWord $ LoadAssociation.getItem (kojeJeDugme button_id) $ GameState.getAssociation gameStateObject
+        Gtk.buttonSetLabel uiButton $ T.pack word
+        putStrLn $ show $ gameStateObject{GameState.association = LoadAssociation.setItem (kojeJeDugme button_id) word True $ GameState.getAssociation gameStateObject}
+        GameState.saveGameState $ gameStateObject{GameState.association = LoadAssociation.setItem (kojeJeDugme button_id) word True $ GameState.getAssociation gameStateObject}
+    else 
+        return ()
+          
 
--- data GameState =    { settings                :: LoadSettings.Settings
---                     , association             :: LoadAssociation.WordAssociationTableContent  
---                     , reaming_time_in_seconds :: Int  
---                     }
+kojeJeDugme :: String -> String
+kojeJeDugme id
+    | id == "ui_A1_Button" = "a1"
+    | id == "ui_A2_Button" = "a2"
+    | id == "ui_A3_Button" = "a3"
+    | id == "ui_A4_Button" = "a4"
+    | id == "ui_B1_Button" = "b1"
+    | id == "ui_B2_Button" = "b2"
+    | id == "ui_B3_Button" = "b3"
+    | id == "ui_B4_Button" = "b4"
+    | id == "ui_C1_Button" = "c1"
+    | id == "ui_C2_Button" = "c2"
+    | id == "ui_C3_Button" = "c3"
+    | id == "ui_C4_Button" = "c4"
+    | id == "ui_D1_Button" = "d1"
+    | id == "ui_D2_Button" = "d2"
+    | id == "ui_D3_Button" = "d3"
+    | id == "ui_D4_Button" = "d4"
+    | otherwise = ""
+

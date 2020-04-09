@@ -30,4 +30,5 @@ executable asocijacije
     , text
     , json
     , directory
+    , random
   c-sources: src/gresource.c
