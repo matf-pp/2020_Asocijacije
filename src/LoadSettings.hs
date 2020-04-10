@@ -20,6 +20,7 @@ data Settings = Settings
                      , player2_image :: String
                      , game_duration_in_seconds :: String
                      , waiting_time_for_one_play_in_seconds :: String
+                     , first_play :: String
                      } deriving (Data, Typeable)
 
 instance Show Settings where
@@ -32,7 +33,10 @@ instance Show Settings where
                         ++ "\n\tplayer2_image: " ++ getItem "player2_image" settingsObject ++ ","
                         ++ "\n\tgame_duration_in_seconds: " ++ getItem "game_duration_in_seconds" settingsObject ++ ","
                         ++ "\n\twaiting_time_for_one_play_in_seconds: " ++ getItem "waiting_time_for_one_play_in_seconds" settingsObject
+                        ++ "\n\tfirst_play: " ++ getItem "first_play" settingsObject
                         ++ "\n}"
+
+
 
 getItem :: String -> Settings -> String
 getItem item settingsObject 
@@ -44,6 +48,7 @@ getItem item settingsObject
     | item == "player2_image" = player2_image settingsObject 
     | item == "game_duration_in_seconds" = game_duration_in_seconds settingsObject 
     | item == "waiting_time_for_one_play_in_seconds" = waiting_time_for_one_play_in_seconds settingsObject 
+    | item == "first_play" = first_play settingsObject 
     | otherwise = ""
                    
 myOpenFile :: FilePath -> IO (String)

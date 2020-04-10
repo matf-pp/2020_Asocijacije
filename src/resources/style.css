@@ -65,7 +65,7 @@
 }
 
 .uiPlayerBoxEventBox {
-	
+	opacity: 0.5;
 
 }
 
@@ -77,6 +77,11 @@
 	/*box-shadow: 2px 2px 15px 9px rgba(0,0,0,0.5);*/
 	box-shadow: 0px 3px 9px 1px rgba(0,0,0,0.4);
 	border-radius: 5px;
+	opacity: 0.5;
+}
+
+.na-potezu {
+	opacity: 1;
 }
 
 .uiPlayerNameEventBox {

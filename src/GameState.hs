@@ -18,8 +18,10 @@ import System.IO
 
 data GameState = GameState { settings                :: LoadSettings.Settings
                            , association             :: LoadAssociation.Association  
-                           , reaming_time_in_seconds :: String  
-                           --, on_move                 :: Int
+                           , reaming_time_in_seconds :: Int  
+                           , on_move                 :: Int
+                           , player1_score           :: Int
+                           , player2_score           :: Int
                            } deriving (Data, Typeable)
 
 getSettings :: GameState -> LoadSettings.Settings
@@ -32,7 +34,10 @@ instance Show GameState where
     show gameStateObject = "GameState{"
                         ++ "\n" ++ (show $ settings gameStateObject) ++ ","
                         ++ "\n" ++ (show $ association gameStateObject) ++ ","
-                        ++ "\nreaming_time_in_seconds: " ++ (reaming_time_in_seconds gameStateObject)
+                        ++ "\nreaming_time_in_seconds: " ++ (show $ reaming_time_in_seconds gameStateObject)
+                        ++ "\non_move: " ++ (show $ on_move gameStateObject)
+                        ++ "\nplayer1_score: " ++ (show $ player1_score gameStateObject)
+                        ++ "\nplayer2_score: " ++ (show $ player2_score gameStateObject)
                         ++ "\n}"
                    
 myOpenFile :: FilePath -> IO (String)
@@ -49,7 +54,10 @@ makeGameState = do
     associationObject <- LoadAssociation.makeNewAssociation
     let gameStateObject = GameState { settings = settingsObject
                                     , association = associationObject
-                                    , reaming_time_in_seconds = LoadSettings.getItem "game_duration_in_seconds" settingsObject 
+                                    , reaming_time_in_seconds = read $ LoadSettings.getItem "game_duration_in_seconds" settingsObject :: Int
+                                    , on_move = read $ LoadSettings.getItem "first_play" settingsObject :: Int
+                                    , player1_score = 0
+                                    , player2_score = 0
                                     }
     saveGameState gameStateObject   
 
