@@ -16,12 +16,13 @@ import System.Exit
 import System.Environment  
 import System.IO  
 
-data GameState = GameState { settings                :: LoadSettings.Settings
-                           , association             :: LoadAssociation.Association  
-                           , reaming_time_in_seconds :: Int  
-                           , on_move                 :: Int
-                           , player1_score           :: Int
-                           , player2_score           :: Int
+data GameState = GameState { settings                       :: LoadSettings.Settings
+                           , association                    :: LoadAssociation.Association  
+                           , reaming_time_in_seconds        :: Int  
+                           , on_move                        :: Int
+                           , did_on_move_player_open_word   :: Bool
+                           , player1_score                  :: Int
+                           , player2_score                  :: Int
                            } deriving (Data, Typeable)
 
 getSettings :: GameState -> LoadSettings.Settings
@@ -36,6 +37,7 @@ instance Show GameState where
                         ++ "\n" ++ (show $ association gameStateObject) ++ ","
                         ++ "\nreaming_time_in_seconds: " ++ (show $ reaming_time_in_seconds gameStateObject)
                         ++ "\non_move: " ++ (show $ on_move gameStateObject)
+                        ++ "\ndid_on_move_player_open_word: " ++ (show $ did_on_move_player_open_word gameStateObject)
                         ++ "\nplayer1_score: " ++ (show $ player1_score gameStateObject)
                         ++ "\nplayer2_score: " ++ (show $ player2_score gameStateObject)
                         ++ "\n}"
@@ -56,6 +58,7 @@ makeGameState = do
                                     , association = associationObject
                                     , reaming_time_in_seconds = read $ LoadSettings.getItem "game_duration_in_seconds" settingsObject :: Int
                                     , on_move = read $ LoadSettings.getItem "first_play" settingsObject :: Int
+                                    , did_on_move_player_open_word = False
                                     , player1_score = 0
                                     , player2_score = 0
                                     }

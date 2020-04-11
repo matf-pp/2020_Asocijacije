@@ -100,6 +100,21 @@ createUI args = do
     Logic.connectBtnClick builder "ui_D4_Button" $ do
         Logic.ui_abcd1234_ButtonHandler "ui_D4_Button" builder
   
+    Logic.connectEntryActivate builder "uiColumn_A_Entry"  $ do
+        Logic.uiColumn_ABCD_Entry_handler "uiColumn_A_Entry" builder
+
+    Logic.connectEntryActivate builder "uiColumn_B_Entry"  $ do
+        Logic.uiColumn_ABCD_Entry_handler "uiColumn_B_Entry" builder
+
+    Logic.connectEntryActivate builder "uiColumn_C_Entry"  $ do
+        Logic.uiColumn_ABCD_Entry_handler "uiColumn_C_Entry" builder
+
+    Logic.connectEntryActivate builder "uiColumn_D_Entry"  $ do
+        Logic.uiColumn_ABCD_Entry_handler "uiColumn_D_Entry" builder
+
+    Logic.connectEntryActivate builder "uiFinalAnswerEntry"  $ do
+        Logic.uiFinalAnswerEntry_handler builder
+
     Logic.connectBtnClick builder "uiButtonSettings" $ do 
         Logic.uiButtonSettingsClickHandler builder
         
