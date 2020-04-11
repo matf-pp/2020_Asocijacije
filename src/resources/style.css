@@ -1,5 +1,5 @@
 * {
-    transition:  .2s;
+    transition:.2s;
 	/* potrebno zbog boje dugmica, poznat bug gtk css-a */
 	border-image: none;
   	background-image: none;
@@ -134,8 +134,53 @@
  {
 	background-color: white;
 	border: none;
-	border-radius: 2px;
+	border-radius: 4px;
 
+}
+
+
+#uiFinalAnswerEntry,
+#uiColumn_A_Entry,
+#uiColumn_B_Entry,
+#uiColumn_C_Entry,
+#uiColumn_D_Entry {
+	border-radius: 4px;
+	/*background-color: white;*/
+	border: none;
+}
+
+#ui_A4_Button,
+#ui_A3_Button,
+#ui_A2_Button,
+#ui_A1_Button,
+#ui_B4_Button,
+#ui_B3_Button,
+#ui_B2_Button,
+#ui_B1_Button,
+#ui_C4_Button,
+#ui_C3_Button,
+#ui_C2_Button,
+#ui_C1_Button,
+#ui_D4_Button,
+#ui_D3_Button,
+#ui_D2_Button,
+#ui_D1_Button {
+	border-radius: 4px;
+	/*background-color: white;*/
+	border: none;
+}
+
+
+.polje-plava {
+	background-color: #005b96;
+	color: white;
+	font-weight: 500;
+}
+
+.polje-crvena {
+	background-color: #9D2626;
+	color: white;
+	font-weight: 500;
 }
 
 #uiReamingTimeEventBox {

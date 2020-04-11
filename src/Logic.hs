@@ -57,6 +57,12 @@ uiButtonPlayOnePlayerClickHandler builder = do
     Just uiOnePlayerGame <- getBuilderObj builder "uiOnePlayerGame" Gtk.Grid
     Gtk.stackSetVisibleChild uiStack uiOnePlayerGame 
 
+ukloniFokusSaTrenutnogEntry :: Gtk.Builder -> IO ()
+ukloniFokusSaTrenutnogEntry builder = do
+    Just ui_A1_Button <- getBuilderObj builder "ui_A1_Button" Gtk.Button
+    Gtk.widgetSetCanFocus ui_A1_Button True
+    Gtk.widgetGrabFocus ui_A1_Button
+
 uiButtonPlayTwoPlayersClickHandler :: Gtk.Builder -> IO ()
 uiButtonPlayTwoPlayersClickHandler builder = do
     Just uiStack <- getBuilderObj builder "uiStack" Gtk.Stack
@@ -78,10 +84,7 @@ uiButtonPlayTwoPlayersClickHandler builder = do
 
     setFirstPlayerToPlay gameStateObject builder
 
-    -- fokus na pocetku se sklanja sa polja konacno (sto se desava automatski) na polje a1
-    Just ui_A1_Button <- getBuilderObj builder "ui_A1_Button" Gtk.Button
-    Gtk.widgetSetCanFocus ui_A1_Button True
-    Gtk.widgetGrabFocus ui_A1_Button
+    ukloniFokusSaTrenutnogEntry builder -- fokus na pocetku se sklanja sa polja konacno (sto se desava automatski) na polje a1
 
  
 uiButtonSettingsClickHandler :: Gtk.Builder -> IO ()
@@ -293,12 +296,26 @@ upisiRec polje gameStateObject builder = do
                     return (gameStateObject)
 
 
+obojiPolje :: String -> GameState.GameState -> Gtk.Builder -> IO()
+obojiPolje polje gameStateObject builder = do
+    if any (==True) $ map (==polje) ["a1", "a2", "a3", "a4", "b1", "b2", "b3", "b4", "c1", "c2", "c3", "c4", "d1", "d2", "d3", "d4"] then do
+        Just uiButton <- getBuilderObj builder (T.pack $ poljeToButtonId polje) Gtk.Button
+        styleContextUiButton <- Gtk.widgetGetStyleContext uiButton
+        Gtk.styleContextAddClass styleContextUiButton $ T.pack $ "polje-" ++ (LoadSettings.getItem ("player" ++ (show $ GameState.on_move gameStateObject) ++ "_color") $ GameState.getSettings gameStateObject)
+    
+        else do
+            Just uiEntry <- getBuilderObj builder (T.pack $ poljeToEntryId polje) Gtk.Entry
+            styleContextUiEntry <- Gtk.widgetGetStyleContext uiEntry
+            Gtk.styleContextAddClass styleContextUiEntry $ T.pack $ "polje-" ++ (LoadSettings.getItem ("player" ++ (show $ GameState.on_move gameStateObject) ++ "_color") $ GameState.getSettings gameStateObject)
+    
+
 poljeToEntryId :: String -> String
 poljeToEntryId polje
     | polje == "a" = "uiColumn_A_Entry"
     | polje == "b" = "uiColumn_B_Entry"
     | polje == "c" = "uiColumn_C_Entry"
     | polje == "d" = "uiColumn_D_Entry"
+    | otherwise    = "uiFinalAnswerEntry"
 
 btnIdToPolje :: String -> String
 btnIdToPolje id
@@ -384,17 +401,21 @@ uiColumn_ABCD_Entry_handler entry_id builder = do
         gameStateObject <- upisiRec (entryIdToColumnCell entry_id "cell2") gameStateObject builder
         gameStateObject <- upisiRec (entryIdToColumnCell entry_id "cell3") gameStateObject builder
         gameStateObject <- upisiRec (entryIdToColumnCell entry_id "cell4") gameStateObject builder
+        obojiPolje                  (entryIdToColumnCell entry_id "cell1") gameStateObject builder
+        obojiPolje                  (entryIdToColumnCell entry_id "cell2") gameStateObject builder
+        obojiPolje                  (entryIdToColumnCell entry_id "cell3") gameStateObject builder
+        obojiPolje                  (entryIdToColumnCell entry_id "cell4") gameStateObject builder
+        obojiPolje                  (entryIdToColumnCell entry_id "columnFinal") gameStateObject builder
         gameStateObject <- dodajPoene (10 + bonus_poeni) gameStateObject builder
         set uiColumn_ABCD_Entry [ #editable := False ]
+        ukloniFokusSaTrenutnogEntry builder 
         GameState.saveGameState gameStateObject{GameState.did_on_move_player_open_word = True}
         else do
             gameStateObject <- changePlayerOnMove gameStateObject builder
             Gtk.entrySetText uiColumn_ABCD_Entry $ T.pack ""
             GameState.saveGameState gameStateObject
-            -- uklanja fokus sa entry-ja u koji je uneta pogresna rec
-            Just ui_A1_Button <- getBuilderObj builder "ui_A1_Button" Gtk.Button
-            Gtk.widgetSetCanFocus ui_A1_Button True
-            Gtk.widgetGrabFocus ui_A1_Button
+            ukloniFokusSaTrenutnogEntry builder
+            
 
     
     where cell1_bonus gameStateObject = if (LoadAssociation.getIsOpened $ LoadAssociation.getItem (entryIdToColumnCell entry_id "cell1") $ GameState.getAssociation gameStateObject) == False then 2 else 0
@@ -454,17 +475,39 @@ uiFinalAnswerEntry_handler builder = do
         gameStateObject <- upisiRec "d4" gameStateObject builder
         gameStateObject <- upisiRec "d" gameStateObject builder
 
+        obojiPolje "a1" gameStateObject builder
+        obojiPolje "a2" gameStateObject builder
+        obojiPolje "a3" gameStateObject builder
+        obojiPolje "a4" gameStateObject builder
+        obojiPolje "a" gameStateObject builder
+        obojiPolje "b1" gameStateObject builder
+        obojiPolje "b2" gameStateObject builder
+        obojiPolje "b3" gameStateObject builder
+        obojiPolje "b4" gameStateObject builder
+        obojiPolje "b" gameStateObject builder
+        obojiPolje "c1" gameStateObject builder
+        obojiPolje "c2" gameStateObject builder
+        obojiPolje "c3" gameStateObject builder
+        obojiPolje "c4" gameStateObject builder
+        obojiPolje "c" gameStateObject builder
+        obojiPolje "d1" gameStateObject builder
+        obojiPolje "d2" gameStateObject builder
+        obojiPolje "d3" gameStateObject builder
+        obojiPolje "d4" gameStateObject builder
+        obojiPolje "d" gameStateObject builder
+        obojiPolje "final" gameStateObject builder
+
+
         gameStateObject <- dodajPoene (20 + bonus_poeni) gameStateObject builder
         set uiFinalAnswerEntry [ #editable := False ]
+        ukloniFokusSaTrenutnogEntry builder
         GameState.saveGameState gameStateObject{GameState.did_on_move_player_open_word = True}
         else do
             putStrLn "Netacno"
             gameStateObject <- changePlayerOnMove gameStateObject builder
             Gtk.entrySetText uiFinalAnswerEntry $ T.pack ""
             GameState.saveGameState gameStateObject
-            Just ui_A1_Button <- getBuilderObj builder "ui_A1_Button" Gtk.Button
-            Gtk.widgetSetCanFocus ui_A1_Button True
-            Gtk.widgetGrabFocus ui_A1_Button
+            ukloniFokusSaTrenutnogEntry builder
 
     
     where a1_bonus gameStateObject = if (LoadAssociation.getIsOpened $ LoadAssociation.getItem "a1" $ GameState.getAssociation gameStateObject) == False then 2 else 0
