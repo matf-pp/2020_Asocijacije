@@ -1,19 +1,18 @@
 {-# LANGUAGE OverloadedStrings, OverloadedLabels, ScopedTypeVariables, LambdaCase, DeriveDataTypeable #-}
-module Logic 
-(
-getBuilderObj,
-connectBtnClick,
-connectEntryActivate,
-uiButtonPlayOnePlayerClickHandler,
-uiButtonPlayTwoPlayersClickHandler,
-uiButtonSettingsClickHandler,
-uiButtonBackFromSettingsClickHandler,
-ui_abcd1234_ButtonHandler,
---uiColumn_A_Entry_handler,
-uiColumn_ABCD_Entry_handler,
-uiFinalAnswerEntry_handler
+module Logic (
+    getBuilderObj,
+    connectBtnClick,
+    connectEntryActivate,
+    uiButtonPlayOnePlayerClickHandler,
+    uiButtonPlayTwoPlayersClickHandler,
+    uiButtonSettingsClickHandler,
+    uiButtonBackFromSettingsClickHandler,
+    kolonaPoljeButtonHandler,
+    kolonaHandler,
+    uiFinalAnswerEntry_handler
 ) where
-    
+
+import Types
 import qualified LoadSettings
 import qualified LoadAssociation
 import qualified GameState
@@ -166,22 +165,23 @@ uiButtonBackFromSettingsClickHandler builder = do
     Just uiMainMenu <- getBuilderObj builder "uiMainMenu" Gtk.Box
     Gtk.stackSetVisibleChild uiStack uiMainMenu
 
-    
 
-ui_abcd1234_ButtonHandler :: String -> Gtk.Builder -> IO ()
-ui_abcd1234_ButtonHandler button_id builder = do
-    --putStrLn $ btnIdToPolje button_id
+-- Funkcija koja se pokrece s klikom polja
+kolonaPoljeButtonHandler :: Polje -> Gtk.Builder -> IO ()
+kolonaPoljeButtonHandler polje builder = do
+    -- DEBUG
+    -- putStrLn $ polje
     gameStateObject <- GameState.loadGameState
-    if (daLiPoljeNijeOtvorenoIDaLiIgracNaPotezuNijeOtvaraoPolje gameStateObject) then do
-        gameStateObject <- upisiRecBtn button_id gameStateObject builder
+    if ((daLiPoljeNijeOtvoreno gameStateObject) && (daLiIgracNaPotezuNijeOtvaraoPolje gameStateObject)) then do
+        gameStateObject <- upisiRecBtn polje gameStateObject builder
         GameState.saveGameState gameStateObject{GameState.did_on_move_player_open_word = True}
-        -- DEBUG ISPIS, treba obrisati posle
         gs <- GameState.loadGameState
-        putStrLn $ show $ gs
+        -- DEBUG
+        -- putStrLn $ show $ gs
+        return ()
     else 
         return ()
-    where daLiPoljeNijeOtvorenoIDaLiIgracNaPotezuNijeOtvaraoPolje gameStateObject = (daLiPoljeNijeOtvoreno gameStateObject) && (daLiIgracNaPotezuNijeOtvaraoPolje gameStateObject)
-          daLiPoljeNijeOtvoreno gameStateObject = (LoadAssociation.getIsOpened $ LoadAssociation.getItem (btnIdToPolje button_id) $ GameState.getAssociation gameStateObject) == False
+    where daLiPoljeNijeOtvoreno gameStateObject = (LoadAssociation.getIsOpened $ LoadAssociation.uzmiPolje polje $ GameState.getAssociation gameStateObject) == False
           daLiIgracNaPotezuNijeOtvaraoPolje gameStateObject = (GameState.did_on_move_player_open_word gameStateObject) == False
         
 
@@ -196,8 +196,6 @@ changePlayerOnMove gameStateObject builder = do
     else 
         return (gameStateObject)
 
-
- 
 
 setPlayer1ToPlay :: GameState.GameState -> Gtk.Builder -> IO (GameState.GameState)
 setPlayer1ToPlay gameStateObject builder = do
@@ -263,149 +261,72 @@ setFirstPlayerToPlay gameStateObject builder = do
         return ()
 
 
-upisiRecBtn :: String -> GameState.GameState -> Gtk.Builder -> IO(GameState.GameState)
-upisiRecBtn button_id gameStateObject builder = do
-    Just uiButton <- getBuilderObj builder (T.pack button_id) Gtk.Button
-    let word = LoadAssociation.getWord $ LoadAssociation.getItem (btnIdToPolje button_id) $ GameState.getAssociation gameStateObject
+upisiRecBtn :: Polje -> GameState.GameState -> Gtk.Builder -> IO (GameState.GameState)
+upisiRecBtn polje gameStateObject builder = do
+    Just uiButton <- getBuilderObj builder (T.pack (poljeId polje) ) Gtk.Button
+    let word = LoadAssociation.getWord $ LoadAssociation.uzmiPolje polje $ GameState.getAssociation gameStateObject
     Gtk.buttonSetLabel uiButton $ T.pack word
-    return (gameStateObject{GameState.association = LoadAssociation.setItem (btnIdToPolje button_id) word True $ GameState.getAssociation gameStateObject})
+    return (gameStateObject{GameState.association = LoadAssociation.setItem polje word True $ GameState.getAssociation gameStateObject})
 
 
-upisiRecEntry :: String -> GameState.GameState -> Gtk.Builder -> IO(GameState.GameState)
-upisiRecEntry entry_id gameStateObject builder = do
-    Just uiEntry <- getBuilderObj builder (T.pack entry_id) Gtk.Entry
-    let word = LoadAssociation.getWord $ LoadAssociation.getItem (entryIdToColumnCell entry_id "columnFinal") $ GameState.getAssociation gameStateObject
+upisiRecEntry :: Polje -> GameState.GameState -> Gtk.Builder -> IO (GameState.GameState)
+upisiRecEntry polje gameStateObject builder = do
+    Just uiEntry <- getBuilderObj builder (T.pack (poljeId polje)) Gtk.Entry
+    let word = LoadAssociation.getWord $ LoadAssociation.uzmiPolje polje $ GameState.getAssociation gameStateObject
     Gtk.entrySetText uiEntry $ T.pack word
-    return (gameStateObject{GameState.association = LoadAssociation.setItem (entryIdToColumnCell entry_id "columnFinal") word True $ GameState.getAssociation gameStateObject})
+    return (gameStateObject{GameState.association = LoadAssociation.setItem polje word True $ GameState.getAssociation gameStateObject})
 
 
-
-upisiRec :: String -> GameState.GameState -> Gtk.Builder -> IO(GameState.GameState)
-upisiRec polje gameStateObject builder = do
-    if any (==True) $ map (==polje) ["a1", "a2", "a3", "a4", "b1", "b2", "b3", "b4", "c1", "c2", "c3", "c4", "d1", "d2", "d3", "d4"] then do
-        if (LoadAssociation.getIsOpened $ LoadAssociation.getItem polje $ GameState.getAssociation gameStateObject) == False then do
-            gameStateObject <- upisiRecBtn (poljeToButtonId polje) gameStateObject builder
+upisiRecKolonaPolje :: Polje -> GameState.GameState -> Gtk.Builder -> IO (GameState.GameState)
+upisiRecKolonaPolje polje gameStateObject builder = do
+    if (LoadAssociation.getIsOpened $ LoadAssociation.uzmiPolje polje $ GameState.getAssociation gameStateObject) == False then do
+        gameStateObject <- upisiRecBtn polje gameStateObject builder
+        return (gameStateObject)
+        else 
             return (gameStateObject)
-            else 
-                return (gameStateObject)
-        else do
-            if (LoadAssociation.getIsOpened $ LoadAssociation.getItem polje $ GameState.getAssociation gameStateObject) == False then do
-                gameStateObject <- upisiRecEntry (poljeToEntryId polje) gameStateObject builder
-                return (gameStateObject)
-                else 
-                    return (gameStateObject)
+
+upisiRecKolona :: Polje -> GameState.GameState -> Gtk.Builder -> IO (GameState.GameState)
+upisiRecKolona polje gameStateObject builder = do
+    if (LoadAssociation.getIsOpened $ LoadAssociation.uzmiPolje polje $ GameState.getAssociation gameStateObject) == False then do
+        gameStateObject <- upisiRecEntry polje gameStateObject builder
+        return (gameStateObject)
+        else 
+            return (gameStateObject)
 
 
-obojiPolje :: String -> GameState.GameState -> Gtk.Builder -> IO()
+
+obojiPolje :: Polje -> GameState.GameState -> Gtk.Builder -> IO ()
 obojiPolje polje gameStateObject builder = do
-    if any (==True) $ map (==polje) ["a1", "a2", "a3", "a4", "b1", "b2", "b3", "b4", "c1", "c2", "c3", "c4", "d1", "d2", "d3", "d4"] then do
-        Just uiButton <- getBuilderObj builder (T.pack $ poljeToButtonId polje) Gtk.Button
-        styleContextUiButton <- Gtk.widgetGetStyleContext uiButton
-        Gtk.styleContextAddClass styleContextUiButton $ T.pack $ "polje-" ++ (LoadSettings.getItem ("player" ++ (show $ GameState.on_move gameStateObject) ++ "_color") $ GameState.getSettings gameStateObject)
+    Just uiButton <- getBuilderObj builder (T.pack $ poljeId polje) Gtk.Button
+    styleContextUiButton <- Gtk.widgetGetStyleContext uiButton
+    Gtk.styleContextAddClass styleContextUiButton $ T.pack $ "polje-" ++ (LoadSettings.getItem ("player" ++ (show $ GameState.on_move gameStateObject) ++ "_color") $ GameState.getSettings gameStateObject)
+
+
+obojiKolonu :: Polje -> GameState.GameState -> Gtk.Builder -> IO ()
+obojiKolonu polje gameStateObject builder = do
+    Just uiEntry <- getBuilderObj builder (T.pack $ poljeId polje) Gtk.Entry
+    styleContextUiEntry <- Gtk.widgetGetStyleContext uiEntry
+    Gtk.styleContextAddClass styleContextUiEntry $ T.pack $ "polje-" ++ (LoadSettings.getItem ("player" ++ (show $ GameState.on_move gameStateObject) ++ "_color") $ GameState.getSettings gameStateObject)
     
-        else do
-            Just uiEntry <- getBuilderObj builder (T.pack $ poljeToEntryId polje) Gtk.Entry
-            styleContextUiEntry <- Gtk.widgetGetStyleContext uiEntry
-            Gtk.styleContextAddClass styleContextUiEntry $ T.pack $ "polje-" ++ (LoadSettings.getItem ("player" ++ (show $ GameState.on_move gameStateObject) ++ "_color") $ GameState.getSettings gameStateObject)
-    
 
-poljeToEntryId :: String -> String
-poljeToEntryId polje
-    | polje == "a" = "uiColumn_A_Entry"
-    | polje == "b" = "uiColumn_B_Entry"
-    | polje == "c" = "uiColumn_C_Entry"
-    | polje == "d" = "uiColumn_D_Entry"
-    | otherwise    = "uiFinalAnswerEntry"
-
-btnIdToPolje :: String -> String
-btnIdToPolje id
-    | id == "ui_A1_Button" = "a1"
-    | id == "ui_A2_Button" = "a2"
-    | id == "ui_A3_Button" = "a3"
-    | id == "ui_A4_Button" = "a4"
-    | id == "ui_B1_Button" = "b1"
-    | id == "ui_B2_Button" = "b2"
-    | id == "ui_B3_Button" = "b3"
-    | id == "ui_B4_Button" = "b4"
-    | id == "ui_C1_Button" = "c1"
-    | id == "ui_C2_Button" = "c2"
-    | id == "ui_C3_Button" = "c3"
-    | id == "ui_C4_Button" = "c4"
-    | id == "ui_D1_Button" = "d1"
-    | id == "ui_D2_Button" = "d2"
-    | id == "ui_D3_Button" = "d3"
-    | id == "ui_D4_Button" = "d4"
-    | otherwise = ""
-
-poljeToButtonId :: String -> String
-poljeToButtonId polje
-    | polje == "a1" = "ui_A1_Button"
-    | polje == "a2" = "ui_A2_Button"
-    | polje == "a3" = "ui_A3_Button"
-    | polje == "a4" = "ui_A4_Button"
-    | polje == "b1" = "ui_B1_Button"
-    | polje == "b2" = "ui_B2_Button"
-    | polje == "b3" = "ui_B3_Button"
-    | polje == "b4" = "ui_B4_Button"
-    | polje == "c1" = "ui_C1_Button"
-    | polje == "c2" = "ui_C2_Button"
-    | polje == "c3" = "ui_C3_Button"
-    | polje == "c4" = "ui_C4_Button"
-    | polje == "d1" = "ui_D1_Button"
-    | polje == "d2" = "ui_D2_Button"
-    | polje == "d3" = "ui_D3_Button"
-    | polje == "d4" = "ui_D4_Button"
-    | otherwise = ""
-
-{-uiColumn_A_Entry_handler :: Gtk.Builder -> IO ()
-uiColumn_A_Entry_handler builder = do
-    Just uiColumn_A_Entry <- getBuilderObj builder "uiColumn_A_Entry" Gtk.Entry
-    input_Text <- Gtk.entryGetText uiColumn_A_Entry
-    let user_input = T.unpack input_Text
-    gameStateObject <- GameState.loadGameState
-    let correct_answer = LoadAssociation.getWord $ LoadAssociation.getItem "a" $ GameState.getAssociation gameStateObject
-    if user_input == correct_answer then do
-        let bonus_poeni = ((a1_bonus gameStateObject)+ (a2_bonus gameStateObject) + (a3_bonus gameStateObject) + (a4_bonus gameStateObject))
-        gameStateObject <- upisiRec "a1" gameStateObject builder
-        gameStateObject <- upisiRec "a2" gameStateObject builder
-        gameStateObject <- upisiRec "a3" gameStateObject builder
-        gameStateObject <- upisiRec "a4" gameStateObject builder
-        gameStateObject <- dodajPoene (10 + bonus_poeni) gameStateObject builder
-        set uiColumn_A_Entry [ #editable := False ]
-        GameState.saveGameState gameStateObject{GameState.did_on_move_player_open_word = True}
-        else do
-            gameStateObject <- changePlayerOnMove gameStateObject builder
-            Gtk.entrySetText uiColumn_A_Entry $ T.pack ""
-            GameState.saveGameState gameStateObject
-            Just ui_A1_Button <- getBuilderObj builder "ui_A1_Button" Gtk.Button
-            Gtk.widgetSetCanFocus ui_A1_Button True
-            Gtk.widgetGrabFocus ui_A1_Button
-
-    
-    where a1_bonus gameStateObject = if (LoadAssociation.getIsOpened $ LoadAssociation.getItem "a1" $ GameState.getAssociation gameStateObject) == False then 2 else 0
-          a2_bonus gameStateObject = if (LoadAssociation.getIsOpened $ LoadAssociation.getItem "a2" $ GameState.getAssociation gameStateObject) == False then 2 else 0
-          a3_bonus gameStateObject = if (LoadAssociation.getIsOpened $ LoadAssociation.getItem "a3" $ GameState.getAssociation gameStateObject) == False then 2 else 0
-          a4_bonus gameStateObject = if (LoadAssociation.getIsOpened $ LoadAssociation.getItem "a4" $ GameState.getAssociation gameStateObject) == False then 2 else 0
--}
-
-uiColumn_ABCD_Entry_handler :: String -> Gtk.Builder -> IO ()
-uiColumn_ABCD_Entry_handler entry_id builder = do
-    Just uiColumn_ABCD_Entry <- getBuilderObj builder (T.pack entry_id) Gtk.Entry
+kolonaHandler :: Kolona -> Gtk.Builder -> IO ()
+kolonaHandler kolona builder = do
+    Just uiColumn_ABCD_Entry <- getBuilderObj builder (T.pack $ poljeId $ Konacno $ Just kolona) Gtk.Entry
     input_Text <- Gtk.entryGetText uiColumn_ABCD_Entry
     let user_input = T.unpack input_Text
     gameStateObject <- GameState.loadGameState
-    let correct_answer = LoadAssociation.getWord $ LoadAssociation.getItem (entryIdToColumnCell entry_id "columnFinal") $ GameState.getAssociation gameStateObject
+    let correct_answer = LoadAssociation.getWord $ LoadAssociation.uzmiPolje (Konacno (Just kolona)) $ GameState.getAssociation gameStateObject
     if user_input == correct_answer then do
         let bonus_poeni = ((cell1_bonus gameStateObject)+ (cell2_bonus gameStateObject) + (cell3_bonus gameStateObject) + (cell4_bonus gameStateObject))
-        gameStateObject <- upisiRec (entryIdToColumnCell entry_id "cell1") gameStateObject builder
-        gameStateObject <- upisiRec (entryIdToColumnCell entry_id "cell2") gameStateObject builder
-        gameStateObject <- upisiRec (entryIdToColumnCell entry_id "cell3") gameStateObject builder
-        gameStateObject <- upisiRec (entryIdToColumnCell entry_id "cell4") gameStateObject builder
-        obojiPolje                  (entryIdToColumnCell entry_id "cell1") gameStateObject builder
-        obojiPolje                  (entryIdToColumnCell entry_id "cell2") gameStateObject builder
-        obojiPolje                  (entryIdToColumnCell entry_id "cell3") gameStateObject builder
-        obojiPolje                  (entryIdToColumnCell entry_id "cell4") gameStateObject builder
-        obojiPolje                  (entryIdToColumnCell entry_id "columnFinal") gameStateObject builder
+        gameStateObject <- upisiRecKolonaPolje (NijeKonacno (kolona, F1)) gameStateObject builder
+        gameStateObject <- upisiRecKolonaPolje (NijeKonacno (kolona, F2)) gameStateObject builder
+        gameStateObject <- upisiRecKolonaPolje (NijeKonacno (kolona, F3)) gameStateObject builder
+        gameStateObject <- upisiRecKolonaPolje (NijeKonacno (kolona, F4)) gameStateObject builder
+        obojiPolje (NijeKonacno (kolona, F1)) gameStateObject builder
+        obojiPolje (NijeKonacno (kolona, F2)) gameStateObject builder
+        obojiPolje (NijeKonacno (kolona, F3)) gameStateObject builder
+        obojiPolje (NijeKonacno (kolona, F4)) gameStateObject builder
+        obojiKolonu (Konacno (Just kolona)) gameStateObject builder
         gameStateObject <- dodajPoene (10 + bonus_poeni) gameStateObject builder
         set uiColumn_ABCD_Entry [ #editable := False ]
         ukloniFokusSaTrenutnogEntry builder 
@@ -415,13 +336,11 @@ uiColumn_ABCD_Entry_handler entry_id builder = do
             Gtk.entrySetText uiColumn_ABCD_Entry $ T.pack ""
             GameState.saveGameState gameStateObject
             ukloniFokusSaTrenutnogEntry builder
-            
 
-    
-    where cell1_bonus gameStateObject = if (LoadAssociation.getIsOpened $ LoadAssociation.getItem (entryIdToColumnCell entry_id "cell1") $ GameState.getAssociation gameStateObject) == False then 2 else 0
-          cell2_bonus gameStateObject = if (LoadAssociation.getIsOpened $ LoadAssociation.getItem (entryIdToColumnCell entry_id "cell2") $ GameState.getAssociation gameStateObject) == False then 2 else 0
-          cell3_bonus gameStateObject = if (LoadAssociation.getIsOpened $ LoadAssociation.getItem (entryIdToColumnCell entry_id "cell3") $ GameState.getAssociation gameStateObject) == False then 2 else 0
-          cell4_bonus gameStateObject = if (LoadAssociation.getIsOpened $ LoadAssociation.getItem (entryIdToColumnCell entry_id "cell4") $ GameState.getAssociation gameStateObject) == False then 2 else 0
+    where cell1_bonus gameStateObject = if (LoadAssociation.getIsOpened $ LoadAssociation.uzmiPolje (NijeKonacno (kolona, F1)) $ GameState.getAssociation gameStateObject) == False then 2 else 0
+          cell2_bonus gameStateObject = if (LoadAssociation.getIsOpened $ LoadAssociation.uzmiPolje (NijeKonacno (kolona, F2)) $ GameState.getAssociation gameStateObject) == False then 2 else 0
+          cell3_bonus gameStateObject = if (LoadAssociation.getIsOpened $ LoadAssociation.uzmiPolje (NijeKonacno (kolona, F3)) $ GameState.getAssociation gameStateObject) == False then 2 else 0
+          cell4_bonus gameStateObject = if (LoadAssociation.getIsOpened $ LoadAssociation.uzmiPolje (NijeKonacno (kolona, F4)) $ GameState.getAssociation gameStateObject) == False then 2 else 0
 
 
 uiFinalAnswerEntry_handler :: Gtk.Builder -> IO ()
@@ -430,9 +349,10 @@ uiFinalAnswerEntry_handler builder = do
     input_Text <- Gtk.entryGetText uiFinalAnswerEntry
     let user_input = T.unpack input_Text
     gameStateObject <- GameState.loadGameState
-    let correct_answer = LoadAssociation.getWord $ LoadAssociation.getItem "final" $ GameState.getAssociation gameStateObject
+    let correct_answer = LoadAssociation.getWord $ LoadAssociation.uzmiPolje (Konacno Nothing) $ GameState.getAssociation gameStateObject
     if user_input == correct_answer then do
-        putStrLn "Tacno"
+        -- DEBUG
+        -- putStrLn "Tacno"
         let bonus_poeni = ((a1_bonus gameStateObject)
                          + (a2_bonus gameStateObject) 
                          + (a3_bonus gameStateObject) 
@@ -454,55 +374,55 @@ uiFinalAnswerEntry_handler builder = do
                          + (d4_bonus gameStateObject)
                          + (d_bonus gameStateObject))
 
-        gameStateObject <- upisiRec "a1" gameStateObject builder
-        gameStateObject <- upisiRec "a2" gameStateObject builder
-        gameStateObject <- upisiRec "a3" gameStateObject builder
-        gameStateObject <- upisiRec "a4" gameStateObject builder
-        gameStateObject <- upisiRec "a" gameStateObject builder
-        gameStateObject <- upisiRec "b1" gameStateObject builder
-        gameStateObject <- upisiRec "b2" gameStateObject builder
-        gameStateObject <- upisiRec "b3" gameStateObject builder
-        gameStateObject <- upisiRec "b4" gameStateObject builder
-        gameStateObject <- upisiRec "b" gameStateObject builder
-        gameStateObject <- upisiRec "c1" gameStateObject builder
-        gameStateObject <- upisiRec "c2" gameStateObject builder
-        gameStateObject <- upisiRec "c3" gameStateObject builder
-        gameStateObject <- upisiRec "c4" gameStateObject builder
-        gameStateObject <- upisiRec "c" gameStateObject builder
-        gameStateObject <- upisiRec "d1" gameStateObject builder
-        gameStateObject <- upisiRec "d2" gameStateObject builder
-        gameStateObject <- upisiRec "d3" gameStateObject builder
-        gameStateObject <- upisiRec "d4" gameStateObject builder
-        gameStateObject <- upisiRec "d" gameStateObject builder
+        gameStateObject <- upisiRecKolonaPolje (NijeKonacno (A,F1)) gameStateObject builder
+        gameStateObject <- upisiRecKolonaPolje (NijeKonacno (A,F2)) gameStateObject builder
+        gameStateObject <- upisiRecKolonaPolje (NijeKonacno (A,F3)) gameStateObject builder
+        gameStateObject <- upisiRecKolonaPolje (NijeKonacno (A,F4)) gameStateObject builder
+        gameStateObject <- upisiRecKolonaPolje (NijeKonacno (B,F1)) gameStateObject builder
+        gameStateObject <- upisiRecKolonaPolje (NijeKonacno (B,F2)) gameStateObject builder
+        gameStateObject <- upisiRecKolonaPolje (NijeKonacno (B,F3)) gameStateObject builder
+        gameStateObject <- upisiRecKolonaPolje (NijeKonacno (B,F4)) gameStateObject builder
+        gameStateObject <- upisiRecKolonaPolje (NijeKonacno (C,F1)) gameStateObject builder
+        gameStateObject <- upisiRecKolonaPolje (NijeKonacno (C,F2)) gameStateObject builder
+        gameStateObject <- upisiRecKolonaPolje (NijeKonacno (C,F3)) gameStateObject builder
+        gameStateObject <- upisiRecKolonaPolje (NijeKonacno (C,F4)) gameStateObject builder
+        gameStateObject <- upisiRecKolonaPolje (NijeKonacno (D,F1)) gameStateObject builder
+        gameStateObject <- upisiRecKolonaPolje (NijeKonacno (D,F2)) gameStateObject builder
+        gameStateObject <- upisiRecKolonaPolje (NijeKonacno (D,F3)) gameStateObject builder
+        gameStateObject <- upisiRecKolonaPolje (NijeKonacno (D,F4)) gameStateObject builder
+        gameStateObject <- upisiRecKolona (Konacno $ Just A) gameStateObject builder
+        gameStateObject <- upisiRecKolona (Konacno $ Just B) gameStateObject builder
+        gameStateObject <- upisiRecKolona (Konacno $ Just C) gameStateObject builder
+        gameStateObject <- upisiRecKolona (Konacno $ Just D) gameStateObject builder
 
-        obojiPolje "a1" gameStateObject builder
-        obojiPolje "a2" gameStateObject builder
-        obojiPolje "a3" gameStateObject builder
-        obojiPolje "a4" gameStateObject builder
-        obojiPolje "a" gameStateObject builder
-        obojiPolje "b1" gameStateObject builder
-        obojiPolje "b2" gameStateObject builder
-        obojiPolje "b3" gameStateObject builder
-        obojiPolje "b4" gameStateObject builder
-        obojiPolje "b" gameStateObject builder
-        obojiPolje "c1" gameStateObject builder
-        obojiPolje "c2" gameStateObject builder
-        obojiPolje "c3" gameStateObject builder
-        obojiPolje "c4" gameStateObject builder
-        obojiPolje "c" gameStateObject builder
-        obojiPolje "d1" gameStateObject builder
-        obojiPolje "d2" gameStateObject builder
-        obojiPolje "d3" gameStateObject builder
-        obojiPolje "d4" gameStateObject builder
-        obojiPolje "d" gameStateObject builder
-        obojiPolje "final" gameStateObject builder
-
+        obojiPolje (NijeKonacno (A,F1)) gameStateObject builder
+        obojiPolje (NijeKonacno (A,F2)) gameStateObject builder
+        obojiPolje (NijeKonacno (A,F3)) gameStateObject builder
+        obojiPolje (NijeKonacno (A,F4)) gameStateObject builder
+        obojiPolje (NijeKonacno (B,F1)) gameStateObject builder
+        obojiPolje (NijeKonacno (B,F2)) gameStateObject builder
+        obojiPolje (NijeKonacno (B,F3)) gameStateObject builder
+        obojiPolje (NijeKonacno (B,F4)) gameStateObject builder
+        obojiPolje (NijeKonacno (C,F1)) gameStateObject builder
+        obojiPolje (NijeKonacno (C,F2)) gameStateObject builder
+        obojiPolje (NijeKonacno (C,F3)) gameStateObject builder
+        obojiPolje (NijeKonacno (C,F4)) gameStateObject builder
+        obojiPolje (NijeKonacno (D,F1)) gameStateObject builder
+        obojiPolje (NijeKonacno (D,F2)) gameStateObject builder
+        obojiPolje (NijeKonacno (D,F3)) gameStateObject builder
+        obojiPolje (NijeKonacno (D,F4)) gameStateObject builder
+        obojiKolonu (Konacno (Just A)) gameStateObject builder
+        obojiKolonu (Konacno (Just B)) gameStateObject builder
+        obojiKolonu (Konacno (Just C)) gameStateObject builder
+        obojiKolonu (Konacno (Just D)) gameStateObject builder
+        obojiKolonu (Konacno Nothing) gameStateObject builder
 
         gameStateObject <- dodajPoene (20 + bonus_poeni) gameStateObject builder
         set uiFinalAnswerEntry [ #editable := False ]
         ukloniFokusSaTrenutnogEntry builder
         GameState.saveGameState gameStateObject{GameState.did_on_move_player_open_word = True}
         else do
+            -- DEBUG
             putStrLn "Netacno"
             gameStateObject <- changePlayerOnMove gameStateObject builder
             Gtk.entrySetText uiFinalAnswerEntry $ T.pack ""
@@ -510,41 +430,26 @@ uiFinalAnswerEntry_handler builder = do
             ukloniFokusSaTrenutnogEntry builder
 
     
-    where a1_bonus gameStateObject = if (LoadAssociation.getIsOpened $ LoadAssociation.getItem "a1" $ GameState.getAssociation gameStateObject) == False then 2 else 0
-          a2_bonus gameStateObject = if (LoadAssociation.getIsOpened $ LoadAssociation.getItem "a2" $ GameState.getAssociation gameStateObject) == False then 2 else 0
-          a3_bonus gameStateObject = if (LoadAssociation.getIsOpened $ LoadAssociation.getItem "a3" $ GameState.getAssociation gameStateObject) == False then 2 else 0
-          a4_bonus gameStateObject = if (LoadAssociation.getIsOpened $ LoadAssociation.getItem "a4" $ GameState.getAssociation gameStateObject) == False then 2 else 0
-          a_bonus gameStateObject = if (LoadAssociation.getIsOpened $ LoadAssociation.getItem "a" $ GameState.getAssociation gameStateObject) == False then 4 else 0
-          b1_bonus gameStateObject = if (LoadAssociation.getIsOpened $ LoadAssociation.getItem "b1" $ GameState.getAssociation gameStateObject) == False then 2 else 0
-          b2_bonus gameStateObject = if (LoadAssociation.getIsOpened $ LoadAssociation.getItem "b2" $ GameState.getAssociation gameStateObject) == False then 2 else 0
-          b3_bonus gameStateObject = if (LoadAssociation.getIsOpened $ LoadAssociation.getItem "b3" $ GameState.getAssociation gameStateObject) == False then 2 else 0
-          b4_bonus gameStateObject = if (LoadAssociation.getIsOpened $ LoadAssociation.getItem "b4" $ GameState.getAssociation gameStateObject) == False then 2 else 0
-          b_bonus gameStateObject = if (LoadAssociation.getIsOpened $ LoadAssociation.getItem "b" $ GameState.getAssociation gameStateObject) == False then 4 else 0
-          c1_bonus gameStateObject = if (LoadAssociation.getIsOpened $ LoadAssociation.getItem "c1" $ GameState.getAssociation gameStateObject) == False then 2 else 0
-          c2_bonus gameStateObject = if (LoadAssociation.getIsOpened $ LoadAssociation.getItem "c2" $ GameState.getAssociation gameStateObject) == False then 2 else 0
-          c3_bonus gameStateObject = if (LoadAssociation.getIsOpened $ LoadAssociation.getItem "c3" $ GameState.getAssociation gameStateObject) == False then 2 else 0
-          c4_bonus gameStateObject = if (LoadAssociation.getIsOpened $ LoadAssociation.getItem "c4" $ GameState.getAssociation gameStateObject) == False then 2 else 0
-          c_bonus gameStateObject = if (LoadAssociation.getIsOpened $ LoadAssociation.getItem "c" $ GameState.getAssociation gameStateObject) == False then 4 else 0
-          d1_bonus gameStateObject = if (LoadAssociation.getIsOpened $ LoadAssociation.getItem "d1" $ GameState.getAssociation gameStateObject) == False then 2 else 0
-          d2_bonus gameStateObject = if (LoadAssociation.getIsOpened $ LoadAssociation.getItem "d2" $ GameState.getAssociation gameStateObject) == False then 2 else 0
-          d3_bonus gameStateObject = if (LoadAssociation.getIsOpened $ LoadAssociation.getItem "d3" $ GameState.getAssociation gameStateObject) == False then 2 else 0
-          d4_bonus gameStateObject = if (LoadAssociation.getIsOpened $ LoadAssociation.getItem "d4" $ GameState.getAssociation gameStateObject) == False then 2 else 0
-          d_bonus gameStateObject = if (LoadAssociation.getIsOpened $ LoadAssociation.getItem "d" $ GameState.getAssociation gameStateObject) == False then 4 else 0
-
-
-
-
-entryIdToColumnCell :: String -> String -> String
-entryIdToColumnCell entry_id cell
-    | cell == "cell1" = (abcd entry_id) ++ "1"
-    | cell == "cell2" = (abcd entry_id) ++ "2"
-    | cell == "cell3" = (abcd entry_id) ++ "3"
-    | cell == "cell4" = (abcd entry_id) ++ "4"
-    | otherwise = (abcd entry_id)
-    where abcd "uiColumn_A_Entry" = "a"
-          abcd "uiColumn_B_Entry" = "b"
-          abcd "uiColumn_C_Entry" = "c"
-          abcd "uiColumn_D_Entry" = "d"
+    where a1_bonus gameStateObject = if (LoadAssociation.getIsOpened $ LoadAssociation.uzmiPolje (NijeKonacno (A,F1)) $ GameState.getAssociation gameStateObject) == False then 2 else 0
+          a2_bonus gameStateObject = if (LoadAssociation.getIsOpened $ LoadAssociation.uzmiPolje (NijeKonacno (A,F2)) $ GameState.getAssociation gameStateObject) == False then 2 else 0
+          a3_bonus gameStateObject = if (LoadAssociation.getIsOpened $ LoadAssociation.uzmiPolje (NijeKonacno (A,F3)) $ GameState.getAssociation gameStateObject) == False then 2 else 0
+          a4_bonus gameStateObject = if (LoadAssociation.getIsOpened $ LoadAssociation.uzmiPolje (NijeKonacno (A,F4)) $ GameState.getAssociation gameStateObject) == False then 2 else 0
+          a_bonus gameStateObject  = if (LoadAssociation.getIsOpened $ LoadAssociation.uzmiPolje (Konacno (Just A))   $ GameState.getAssociation gameStateObject) == False then 4 else 0
+          b1_bonus gameStateObject = if (LoadAssociation.getIsOpened $ LoadAssociation.uzmiPolje (NijeKonacno (B,F1)) $ GameState.getAssociation gameStateObject) == False then 2 else 0
+          b2_bonus gameStateObject = if (LoadAssociation.getIsOpened $ LoadAssociation.uzmiPolje (NijeKonacno (B,F2)) $ GameState.getAssociation gameStateObject) == False then 2 else 0
+          b3_bonus gameStateObject = if (LoadAssociation.getIsOpened $ LoadAssociation.uzmiPolje (NijeKonacno (B,F3)) $ GameState.getAssociation gameStateObject) == False then 2 else 0
+          b4_bonus gameStateObject = if (LoadAssociation.getIsOpened $ LoadAssociation.uzmiPolje (NijeKonacno (B,F4)) $ GameState.getAssociation gameStateObject) == False then 2 else 0
+          b_bonus gameStateObject  = if (LoadAssociation.getIsOpened $ LoadAssociation.uzmiPolje (Konacno (Just B))   $ GameState.getAssociation gameStateObject) == False then 4 else 0
+          c1_bonus gameStateObject = if (LoadAssociation.getIsOpened $ LoadAssociation.uzmiPolje (NijeKonacno (C,F1)) $ GameState.getAssociation gameStateObject) == False then 2 else 0
+          c2_bonus gameStateObject = if (LoadAssociation.getIsOpened $ LoadAssociation.uzmiPolje (NijeKonacno (C,F2)) $ GameState.getAssociation gameStateObject) == False then 2 else 0
+          c3_bonus gameStateObject = if (LoadAssociation.getIsOpened $ LoadAssociation.uzmiPolje (NijeKonacno (C,F3)) $ GameState.getAssociation gameStateObject) == False then 2 else 0
+          c4_bonus gameStateObject = if (LoadAssociation.getIsOpened $ LoadAssociation.uzmiPolje (NijeKonacno (C,F4)) $ GameState.getAssociation gameStateObject) == False then 2 else 0
+          c_bonus gameStateObject  = if (LoadAssociation.getIsOpened $ LoadAssociation.uzmiPolje (Konacno (Just C))   $ GameState.getAssociation gameStateObject) == False then 4 else 0
+          d1_bonus gameStateObject = if (LoadAssociation.getIsOpened $ LoadAssociation.uzmiPolje (NijeKonacno (D,F1)) $ GameState.getAssociation gameStateObject) == False then 2 else 0
+          d2_bonus gameStateObject = if (LoadAssociation.getIsOpened $ LoadAssociation.uzmiPolje (NijeKonacno (D,F2)) $ GameState.getAssociation gameStateObject) == False then 2 else 0
+          d3_bonus gameStateObject = if (LoadAssociation.getIsOpened $ LoadAssociation.uzmiPolje (NijeKonacno (D,F3)) $ GameState.getAssociation gameStateObject) == False then 2 else 0
+          d4_bonus gameStateObject = if (LoadAssociation.getIsOpened $ LoadAssociation.uzmiPolje (NijeKonacno (D,F4)) $ GameState.getAssociation gameStateObject) == False then 2 else 0
+          d_bonus gameStateObject  = if (LoadAssociation.getIsOpened $ LoadAssociation.uzmiPolje (Konacno (Just D))   $ GameState.getAssociation gameStateObject) == False then 4 else 0
 
 
 dodajPoene :: Int -> GameState.GameState -> Gtk.Builder -> IO (GameState.GameState)
@@ -574,3 +479,27 @@ uiColumn_D_Entry_handler builder = do
 uiFinalAnswerEntry_handler :: Gtk.Builder ->
 uiFinalAnswerEntry_handler builder = do
     Just uiFinalAnswerEntry <- getBuilderObj builder "uiFinalAnswerEntry" Gtk.Entry-}
+
+
+poljeId :: Polje -> String
+poljeId (NijeKonacno (A,F1)) = "ui_A1_Button"
+poljeId (NijeKonacno (A,F2)) = "ui_A2_Button"
+poljeId (NijeKonacno (A,F3)) = "ui_A3_Button"
+poljeId (NijeKonacno (A,F4)) = "ui_A4_Button"
+poljeId (NijeKonacno (B,F1)) = "ui_B1_Button"
+poljeId (NijeKonacno (B,F2)) = "ui_B2_Button"
+poljeId (NijeKonacno (B,F3)) = "ui_B3_Button"
+poljeId (NijeKonacno (B,F4)) = "ui_B4_Button"
+poljeId (NijeKonacno (C,F1)) = "ui_C1_Button"
+poljeId (NijeKonacno (C,F2)) = "ui_C2_Button"
+poljeId (NijeKonacno (C,F3)) = "ui_C3_Button"
+poljeId (NijeKonacno (C,F4)) = "ui_C4_Button"
+poljeId (NijeKonacno (D,F1)) = "ui_D1_Button"
+poljeId (NijeKonacno (D,F2)) = "ui_D2_Button"
+poljeId (NijeKonacno (D,F3)) = "ui_D3_Button"
+poljeId (NijeKonacno (D,F4)) = "ui_D4_Button"
+poljeId (Konacno (Just A))   = "uiColumn_A_Entry"
+poljeId (Konacno (Just B))   = "uiColumn_B_Entry"
+poljeId (Konacno (Just C))   = "uiColumn_C_Entry"
+poljeId (Konacno (Just D))   = "uiColumn_D_Entry"
+poljeId (Konacno Nothing)    = "uiFinalAnswerEntry"

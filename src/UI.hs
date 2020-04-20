@@ -2,10 +2,12 @@
 
 module UI where
 
-import qualified Logic
+import Logic
+import Types
 
 import qualified Data.Text.IO as T
 import Data.Text
+import Data.Foldable 
 
 import qualified GI.Gtk as Gtk
 import qualified GI.Gdk as Gdk
@@ -30,7 +32,7 @@ loadCss = do
 
 -- fixBackgroundColorForFixedWidgets :: Gtk.Builder -> IO ()
 -- fixBackgroundColorForFixedWidgets builder = do
---     Just uiPlayer1Box <- Logic.getBuilderObj builder "uiPlayer1Box" Gtk.Fixed
+--     Just uiPlayer1Box <- getBuilderObj builder "uiPlayer1Box" Gtk.Fixed
 --     Gtk.set uiPlayer1Box [ HasWindow := True ]
 
 createUI :: Maybe [Text] -> IO ()
@@ -42,86 +44,55 @@ createUI args = do
 
     -- fixBackgroundColorForFixedWidgets builder
 
-    Just window <- Logic.getBuilderObj builder "uiWindow" Gtk.Window
+    Just window <- getBuilderObj builder "uiWindow" Gtk.Window
     on window #destroy $ Gtk.mainQuit
 
 
-    Logic.connectBtnClick builder "uiButtonPlayOnePlayer" $ do 
-        Logic.uiButtonPlayOnePlayerClickHandler builder
+    connectBtnClick builder "uiButtonPlayOnePlayer" $ do 
+        uiButtonPlayOnePlayerClickHandler builder
 
-    Logic.connectBtnClick builder "uiButtonPlayTwoPlayers" $ do 
-        Logic.uiButtonPlayTwoPlayersClickHandler builder
+    connectBtnClick builder "uiButtonPlayTwoPlayers" $ do 
+        uiButtonPlayTwoPlayersClickHandler builder
 
-    Logic.connectBtnClick builder "ui_A1_Button" $ do
-        Logic.ui_abcd1234_ButtonHandler "ui_A1_Button" builder
+    traverse_ (\x -> connectBtnClick builder (pack $ poljeId $ x) $ kolonaPoljeButtonHandler x builder) 
+                [(NijeKonacno (x, y))  | x <- [A .. D], y <- [F1 .. F4]]
 
-    Logic.connectBtnClick builder "ui_A2_Button" $ do
-        Logic.ui_abcd1234_ButtonHandler "ui_A2_Button" builder
+    traverse_ (\x -> connectBtnClick builder (pack $ poljeId $ Konacno $ Just x) $ kolonaHandler x builder)  [A .. D]
 
-    Logic.connectBtnClick builder "ui_A3_Button" $ do
-        Logic.ui_abcd1234_ButtonHandler "ui_A3_Button" builder
+    connectEntryActivate builder "uiFinalAnswerEntry"  $ do
+        uiFinalAnswerEntry_handler builder
 
-    Logic.connectBtnClick builder "ui_A4_Button" $ do
-        Logic.ui_abcd1234_ButtonHandler "ui_A4_Button" builder
-
-    Logic.connectBtnClick builder "ui_B1_Button" $ do
-        Logic.ui_abcd1234_ButtonHandler "ui_B1_Button" builder
-
-    Logic.connectBtnClick builder "ui_B2_Button" $ do
-        Logic.ui_abcd1234_ButtonHandler "ui_B2_Button" builder
-
-    Logic.connectBtnClick builder "ui_B3_Button" $ do
-        Logic.ui_abcd1234_ButtonHandler "ui_B3_Button" builder
-
-    Logic.connectBtnClick builder "ui_B4_Button" $ do
-        Logic.ui_abcd1234_ButtonHandler "ui_B4_Button" builder
-
-    Logic.connectBtnClick builder "ui_C1_Button" $ do
-        Logic.ui_abcd1234_ButtonHandler "ui_C1_Button" builder
-
-    Logic.connectBtnClick builder "ui_C2_Button" $ do
-        Logic.ui_abcd1234_ButtonHandler "ui_C2_Button" builder
-
-    Logic.connectBtnClick builder "ui_C3_Button" $ do
-        Logic.ui_abcd1234_ButtonHandler "ui_C3_Button" builder
-
-    Logic.connectBtnClick builder "ui_C4_Button" $ do
-        Logic.ui_abcd1234_ButtonHandler "ui_C4_Button" builder
-
-    Logic.connectBtnClick builder "ui_D1_Button" $ do
-        Logic.ui_abcd1234_ButtonHandler "ui_D1_Button" builder
-
-    Logic.connectBtnClick builder "ui_D2_Button" $ do
-        Logic.ui_abcd1234_ButtonHandler "ui_D2_Button" builder
-
-    Logic.connectBtnClick builder "ui_D3_Button" $ do
-        Logic.ui_abcd1234_ButtonHandler "ui_D3_Button" builder
-
-    Logic.connectBtnClick builder "ui_D4_Button" $ do
-        Logic.ui_abcd1234_ButtonHandler "ui_D4_Button" builder
-  
-    Logic.connectEntryActivate builder "uiColumn_A_Entry"  $ do
-        Logic.uiColumn_ABCD_Entry_handler "uiColumn_A_Entry" builder
-
-    Logic.connectEntryActivate builder "uiColumn_B_Entry"  $ do
-        Logic.uiColumn_ABCD_Entry_handler "uiColumn_B_Entry" builder
-
-    Logic.connectEntryActivate builder "uiColumn_C_Entry"  $ do
-        Logic.uiColumn_ABCD_Entry_handler "uiColumn_C_Entry" builder
-
-    Logic.connectEntryActivate builder "uiColumn_D_Entry"  $ do
-        Logic.uiColumn_ABCD_Entry_handler "uiColumn_D_Entry" builder
-
-    Logic.connectEntryActivate builder "uiFinalAnswerEntry"  $ do
-        Logic.uiFinalAnswerEntry_handler builder
-
-    Logic.connectBtnClick builder "uiButtonSettings" $ do 
-        Logic.uiButtonSettingsClickHandler builder
+    connectBtnClick builder "uiButtonSettings" $ do 
+        uiButtonSettingsClickHandler builder
         
-    Logic.connectBtnClick builder "uiButtonBackFromSettings" $ do 
-        Logic.uiButtonBackFromSettingsClickHandler builder
+    connectBtnClick builder "uiButtonBackFromSettings" $ do 
+        uiButtonBackFromSettingsClickHandler builder
         
-    Logic.connectBtnClick builder "uiButtonQuit" $ do 
+    connectBtnClick builder "uiButtonQuit" $ do 
         Gtk.mainQuit
       
     Gtk.main
+
+
+poljeId :: Polje -> String
+poljeId (NijeKonacno (A,F1)) = "ui_A1_Button"
+poljeId (NijeKonacno (A,F2)) = "ui_A2_Button"
+poljeId (NijeKonacno (A,F3)) = "ui_A3_Button"
+poljeId (NijeKonacno (A,F4)) = "ui_A4_Button"
+poljeId (NijeKonacno (B,F1)) = "ui_B1_Button"
+poljeId (NijeKonacno (B,F2)) = "ui_B2_Button"
+poljeId (NijeKonacno (B,F3)) = "ui_B3_Button"
+poljeId (NijeKonacno (B,F4)) = "ui_B4_Button"
+poljeId (NijeKonacno (C,F1)) = "ui_C1_Button"
+poljeId (NijeKonacno (C,F2)) = "ui_C2_Button"
+poljeId (NijeKonacno (C,F3)) = "ui_C3_Button"
+poljeId (NijeKonacno (C,F4)) = "ui_C4_Button"
+poljeId (NijeKonacno (D,F1)) = "ui_D1_Button"
+poljeId (NijeKonacno (D,F2)) = "ui_D2_Button"
+poljeId (NijeKonacno (D,F3)) = "ui_D3_Button"
+poljeId (NijeKonacno (D,F4)) = "ui_D4_Button"
+poljeId (Konacno (Just A))   = "uiColumn_A_Entry"
+poljeId (Konacno (Just B))   = "uiColumn_B_Entry"
+poljeId (Konacno (Just C))   = "uiColumn_C_Entry"
+poljeId (Konacno (Just D))   = "uiColumn_D_Entry"
+poljeId (Konacno Nothing)    = "uiFinalAnswerEntry"

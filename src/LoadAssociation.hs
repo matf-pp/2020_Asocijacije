@@ -3,11 +3,14 @@ module LoadAssociation
 (
     Association (..), 
     makeNewAssociation, 
-    getItem, 
+    uzmiPolje, 
     setItem,
     getWord,
-    getIsOpened
+    getIsOpened,
+    noveAsocijacije
 ) where
+
+import Types
 
 import Text.JSON.Generic
 import System.Exit
@@ -18,42 +21,35 @@ import Control.Exception
 import System.Directory
 import System.Random
 
-data PairWordIsOpened = PairWordIsOpened { word :: String
-                                         , isOpened :: Bool
-                                         } deriving (Data, Typeable)
-
 getWord :: PairWordIsOpened -> String
-getWord pairWordIsOpenedObject = word pairWordIsOpenedObject
+getWord pairWordIsOpenedObject = fst pairWordIsOpenedObject
 
 getIsOpened :: PairWordIsOpened -> Bool
-getIsOpened pairWordIsOpenedObject = isOpened pairWordIsOpenedObject
+getIsOpened pairWordIsOpenedObject = snd pairWordIsOpenedObject
 
-instance Show PairWordIsOpened where
-    show pairWordIsOpenedObject = "(word: " ++ (word pairWordIsOpenedObject) ++ ", isOpened: " ++ (show $ isOpened pairWordIsOpenedObject) ++ ")"
+noveAsocijacije =  Association { a1_private = ("A1", False) 
+                               , a2_private = ("A2", False) 
+                               , a3_private = ("A3", False) 
+                               , a4_private = ("A4", False) 
+                               , a_private  = ("A", False)
+                               , b1_private = ("B1", False) 
+                               , b2_private = ("B2", False) 
+                               , b3_private = ("B3", False) 
+                               , b4_private = ("B4", False) 
+                               , b_private  = ("B", False)
+                               , c1_private = ("C1", False) 
+                               , c2_private = ("C2", False) 
+                               , c3_private = ("C3", False) 
+                               , c4_private = ("C4", False) 
+                               , c_private  = ("C", False)
+                               , d1_private = ("D1", False) 
+                               , d2_private = ("D2", False) 
+                               , d3_private = ("D3", False) 
+                               , d4_private = ("D4", False) 
+                               , d_private  = ("D", False)
+                               , final_private = ("F", False)
+}
 
-
-data Association = Association   { a1_private :: PairWordIsOpened 
-                                 , a2_private :: PairWordIsOpened
-                                 , a3_private :: PairWordIsOpened
-                                 , a4_private :: PairWordIsOpened
-                                 , a_private :: PairWordIsOpened
-                                 , b1_private :: PairWordIsOpened
-                                 , b2_private :: PairWordIsOpened
-                                 , b3_private :: PairWordIsOpened
-                                 , b4_private :: PairWordIsOpened
-                                 , b_private :: PairWordIsOpened
-                                 , c1_private :: PairWordIsOpened
-                                 , c2_private :: PairWordIsOpened
-                                 , c3_private :: PairWordIsOpened
-                                 , c4_private :: PairWordIsOpened
-                                 , c_private :: PairWordIsOpened
-                                 , d1_private :: PairWordIsOpened
-                                 , d2_private :: PairWordIsOpened
-                                 , d3_private :: PairWordIsOpened
-                                 , d4_private :: PairWordIsOpened
-                                 , d_private :: PairWordIsOpened
-                                 , final_private :: PairWordIsOpened
-                                 } deriving (Data, Typeable)
 
 data AssociationOnly = AssociationOnly
                      { a1 :: String 
@@ -77,83 +73,60 @@ data AssociationOnly = AssociationOnly
                      , d4 :: String
                      , d :: String
                      , final :: String
-                     } deriving (Data, Typeable)
-
-instance Show Association where
-    show associationObject = "Association{"
-                                          ++ "\n\ta1: " ++ (show $ getItem "a1" associationObject) ++ ","
-                                          ++ "\n\ta2: " ++ (show $ getItem "a2" associationObject) ++ ","
-                                          ++ "\n\ta3: " ++ (show $ getItem "a3" associationObject) ++ ","
-                                          ++ "\n\ta4: " ++ (show $ getItem "a4" associationObject) ++ ","
-                                          ++ "\n\ta: " ++ (show $ getItem "a" associationObject) ++ ","
-                                          ++ "\n\tb1: " ++ (show $ getItem "b1" associationObject) ++ ","
-                                          ++ "\n\tb2: " ++ (show $ getItem "b2" associationObject) ++ ","
-                                          ++ "\n\tb3: " ++ (show $ getItem "b3" associationObject) ++ ","
-                                          ++ "\n\tb4: " ++ (show $ getItem "b4" associationObject) ++ ","
-                                          ++ "\n\tb: " ++ (show $ getItem "b" associationObject) ++ ","
-                                          ++ "\n\tc1: " ++ (show $ getItem "c1" associationObject) ++ ","
-                                          ++ "\n\tc2: " ++ (show $ getItem "c2" associationObject) ++ ","
-                                          ++ "\n\tc3: " ++ (show $ getItem "c3" associationObject) ++ ","
-                                          ++ "\n\tc4: " ++ (show $ getItem "c4" associationObject) ++ ","
-                                          ++ "\n\tc: " ++ (show $ getItem "c" associationObject) ++ ","
-                                          ++ "\n\td1: " ++ (show $ getItem "d1" associationObject) ++ ","
-                                          ++ "\n\td2: " ++ (show $ getItem "d2" associationObject) ++ ","
-                                          ++ "\n\td3: " ++ (show $ getItem "d3" associationObject) ++ ","
-                                          ++ "\n\td4: " ++ (show $ getItem "d4" associationObject) ++ ","
-                                          ++ "\n\td: " ++ (show $ getItem "d" associationObject) ++ ","
-                                          ++ "\n\tfinal: " ++ (show $ getItem "final" associationObject)
-                                          ++ "\n}"
+                     } deriving (Data, Typeable, Show)
 
 
-getItem :: String -> Association -> PairWordIsOpened
-getItem item associationObject 
-    | item == "a1" = a1_private associationObject
-    | item == "a2" = a2_private associationObject
-    | item == "a3" = a3_private associationObject
-    | item == "a4" = a4_private associationObject
-    | item == "a" = a_private associationObject
-    | item == "b1" = b1_private associationObject
-    | item == "b2" = b2_private associationObject
-    | item == "b3" = b3_private associationObject
-    | item == "b4" = b4_private associationObject
-    | item == "c" = c_private associationObject
-    | item == "c1" = c1_private associationObject
-    | item == "c2" = c2_private associationObject
-    | item == "c3" = c3_private associationObject
-    | item == "c4" = c4_private associationObject
-    | item == "c" = c_private associationObject
-    | item == "d1" = d1_private associationObject
-    | item == "d2" = d2_private associationObject
-    | item == "d3" = d3_private associationObject
-    | item == "d4" = d4_private associationObject
-    | item == "d" = d_private associationObject
-    | item == "final" = final_private associationObject
-    | otherwise = PairWordIsOpened{word="", isOpened=False} --die "Bad function call. Function name: getItem, from source file load.hs."
-     
-setItem :: String -> String -> Bool -> Association -> Association
-setItem pair word_ isOpened_ associationObject
-    | pair == "a1" = associationObject{a1_private=PairWordIsOpened{word=word_, isOpened=isOpened_}}
-    | pair == "a2" = associationObject{a2_private=PairWordIsOpened{word=word_, isOpened=isOpened_}}
-    | pair == "a3" = associationObject{a3_private=PairWordIsOpened{word=word_, isOpened=isOpened_}}
-    | pair == "a4" = associationObject{a4_private=PairWordIsOpened{word=word_, isOpened=isOpened_}}
-    | pair == "a" = associationObject{a_private=PairWordIsOpened{word=word_, isOpened=isOpened_}}
-    | pair == "b1" = associationObject{b1_private=PairWordIsOpened{word=word_, isOpened=isOpened_}}
-    | pair == "b2" = associationObject{b2_private=PairWordIsOpened{word=word_, isOpened=isOpened_}}
-    | pair == "b3" = associationObject{b3_private=PairWordIsOpened{word=word_, isOpened=isOpened_}}
-    | pair == "b4" = associationObject{b4_private=PairWordIsOpened{word=word_, isOpened=isOpened_}}
-    | pair == "b" = associationObject{b_private=PairWordIsOpened{word=word_, isOpened=isOpened_}}
-    | pair == "c1" = associationObject{c1_private=PairWordIsOpened{word=word_, isOpened=isOpened_}}
-    | pair == "c2" = associationObject{c2_private=PairWordIsOpened{word=word_, isOpened=isOpened_}}
-    | pair == "c3" = associationObject{c3_private=PairWordIsOpened{word=word_, isOpened=isOpened_}}
-    | pair == "c4" = associationObject{c4_private=PairWordIsOpened{word=word_, isOpened=isOpened_}}
-    | pair == "c" = associationObject{c_private=PairWordIsOpened{word=word_, isOpened=isOpened_}}
-    | pair == "d1" = associationObject{d1_private=PairWordIsOpened{word=word_, isOpened=isOpened_}}
-    | pair == "d2" = associationObject{d2_private=PairWordIsOpened{word=word_, isOpened=isOpened_}}
-    | pair == "d3" = associationObject{d3_private=PairWordIsOpened{word=word_, isOpened=isOpened_}}
-    | pair == "d4" = associationObject{d4_private=PairWordIsOpened{word=word_, isOpened=isOpened_}}
-    | pair == "d" = associationObject{d_private=PairWordIsOpened{word=word_, isOpened=isOpened_}}
-    | pair == "final" = associationObject{final_private=PairWordIsOpened{word=word_, isOpened=isOpened_}}
-    | otherwise = associationObject
+uzmiPolje :: Polje -> Association -> PairWordIsOpened
+uzmiPolje (NijeKonacno polje) associationObject 
+    | polje == (A,F1) = a1_private associationObject
+    | polje == (A,F2) = a2_private associationObject
+    | polje == (A,F3) = a3_private associationObject
+    | polje == (A,F4) = a4_private associationObject
+    | polje == (B,F1) = b1_private associationObject
+    | polje == (B,F2) = b2_private associationObject
+    | polje == (B,F3) = b3_private associationObject
+    | polje == (B,F4) = b4_private associationObject
+    | polje == (C,F1) = c1_private associationObject
+    | polje == (C,F2) = c2_private associationObject
+    | polje == (C,F3) = c3_private associationObject
+    | polje == (C,F4) = c4_private associationObject
+    | polje == (D,F1) = d1_private associationObject
+    | polje == (D,F2) = d2_private associationObject
+    | polje == (D,F3) = d3_private associationObject
+    | polje == (D,F4) = d4_private associationObject
+uzmiPolje (Konacno (Just polje)) associationObject
+    | polje == A = a_private  associationObject
+    | polje == B = c_private  associationObject
+    | polje == C = c_private  associationObject
+    | polje == D = d_private  associationObject
+uzmiPolje (Konacno Nothing) associationObject = final_private associationObject
+
+ 
+setItem :: Polje -> String -> Bool -> Association -> Association
+setItem (NijeKonacno polje) word_ isOpened_ associationObject
+    | polje == (A,F1) = associationObject{a1_private= (word_, isOpened_)}
+    | polje == (A,F2) = associationObject{a2_private= (word_, isOpened_)}
+    | polje == (A,F3) = associationObject{a3_private= (word_, isOpened_)}
+    | polje == (A,F4) = associationObject{a4_private= (word_, isOpened_)}
+    | polje == (B,F1) = associationObject{b1_private= (word_, isOpened_)}
+    | polje == (B,F2) = associationObject{b2_private= (word_, isOpened_)}
+    | polje == (B,F3) = associationObject{b3_private= (word_, isOpened_)}
+    | polje == (B,F4) = associationObject{b4_private= (word_, isOpened_)}
+    | polje == (C,F1) = associationObject{c1_private= (word_, isOpened_)}
+    | polje == (C,F2) = associationObject{c2_private= (word_, isOpened_)}
+    | polje == (C,F3) = associationObject{c3_private= (word_, isOpened_)}
+    | polje == (C,F4) = associationObject{c4_private= (word_, isOpened_)}
+    | polje == (D,F1) = associationObject{d1_private= (word_, isOpened_)}
+    | polje == (D,F2) = associationObject{d2_private= (word_, isOpened_)}
+    | polje == (D,F3) = associationObject{d3_private= (word_, isOpened_)}
+    | polje == (D,F4) = associationObject{d4_private= (word_, isOpened_)}
+setItem (Konacno (Just polje)) word_ isOpened_ associationObject   
+    | polje == A = associationObject{a_private = (word_, isOpened_)}
+    | polje == B = associationObject{b_private = (word_, isOpened_)}
+    | polje == C = associationObject{c_private = (word_, isOpened_)}
+    | polje == D = associationObject{d_private = (word_, isOpened_)}
+setItem (Konacno Nothing) word_ isOpened_ associationObject  = associationObject{final_private=(word_, isOpened_)}
+
 
 myOpenFile :: IO FilePath -> IO (String)
 myOpenFile fileName = do
@@ -183,26 +156,26 @@ makeNewAssociation = do
     let fileName = makeFileName
     associationOnlyJson <- myOpenFile fileName
     associationOnlyObject <- return (decodeJSON associationOnlyJson :: AssociationOnly)
-    return Association  { a1_private = PairWordIsOpened {word=a1 associationOnlyObject, isOpened=False}
-                        , a2_private = PairWordIsOpened {word=a2 associationOnlyObject, isOpened=False}
-                        , a3_private = PairWordIsOpened {word=a3 associationOnlyObject, isOpened=False}
-                        , a4_private = PairWordIsOpened {word=a4 associationOnlyObject, isOpened=False}
-                        , a_private = PairWordIsOpened {word=a associationOnlyObject, isOpened=False}
-                        , b1_private = PairWordIsOpened {word=b1 associationOnlyObject, isOpened=False}
-                        , b2_private = PairWordIsOpened {word=b2 associationOnlyObject, isOpened=False}
-                        , b3_private = PairWordIsOpened {word=b3 associationOnlyObject, isOpened=False}
-                        , b4_private = PairWordIsOpened {word=b4 associationOnlyObject, isOpened=False}
-                        , b_private = PairWordIsOpened {word=b associationOnlyObject, isOpened=False}
-                        , c1_private = PairWordIsOpened {word=c1 associationOnlyObject, isOpened=False}
-                        , c2_private = PairWordIsOpened {word=c2 associationOnlyObject, isOpened=False}
-                        , c3_private = PairWordIsOpened {word=c3 associationOnlyObject, isOpened=False}
-                        , c4_private = PairWordIsOpened {word=c4 associationOnlyObject, isOpened=False}
-                        , c_private = PairWordIsOpened {word=c associationOnlyObject, isOpened=False}
-                        , d1_private = PairWordIsOpened {word=d1 associationOnlyObject, isOpened=False}
-                        , d2_private = PairWordIsOpened {word=d2 associationOnlyObject, isOpened=False}
-                        , d3_private = PairWordIsOpened {word=d3 associationOnlyObject, isOpened=False}
-                        , d4_private = PairWordIsOpened {word=d4 associationOnlyObject, isOpened=False}
-                        , d_private = PairWordIsOpened {word=d associationOnlyObject, isOpened=False}
-                        , final_private = PairWordIsOpened {word=final associationOnlyObject, isOpened=False}
+    return Association  { a1_private = (a1 associationOnlyObject, False)
+                        , a2_private = (a2 associationOnlyObject, False)
+                        , a3_private = (a3 associationOnlyObject, False)
+                        , a4_private = (a4 associationOnlyObject, False)
+                        , a_private  = (a associationOnlyObject,  False)
+                        , b1_private = (b1 associationOnlyObject, False)
+                        , b2_private = (b2 associationOnlyObject, False)
+                        , b3_private = (b3 associationOnlyObject, False)
+                        , b4_private = (b4 associationOnlyObject, False)
+                        , b_private  = (b associationOnlyObject,  False)
+                        , c1_private = (c1 associationOnlyObject, False)
+                        , c2_private = (c2 associationOnlyObject, False)
+                        , c3_private = (c3 associationOnlyObject, False)
+                        , c4_private = (c4 associationOnlyObject, False)
+                        , c_private  = (c associationOnlyObject,  False)
+                        , d1_private = (d1 associationOnlyObject, False)
+                        , d2_private = (d2 associationOnlyObject, False)
+                        , d3_private = (d3 associationOnlyObject, False)
+                        , d4_private = (d4 associationOnlyObject, False)
+                        , d_private  = (d associationOnlyObject,  False)
+                        , final_private = (final associationOnlyObject, False)
                         }    
 

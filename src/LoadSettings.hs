@@ -1,15 +1,15 @@
 {-# LANGUAGE DeriveDataTypeable #-}
 module LoadSettings (
-Settings (..), -- (..) eksportuje sve Data konstruktore za tip Settings
-readSettingsFile, 
-writeToSettingsFile,
-getItem
+    Settings (..),
+    readSettingsFile, 
+    writeToSettingsFile,
+    getItem
 ) where
 
 import Text.JSON.Generic
 import System.Exit
 import System.Environment  
-import System.IO  
+import System.IO 
 
 data Settings = Settings
                      { player1_name :: String 
