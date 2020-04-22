@@ -5,8 +5,7 @@ module UI where
 import Logic
 import Types
 
-import qualified Data.Text.IO as T
-import Data.Text
+import qualified Data.Text as T
 import Data.Foldable 
 
 import qualified GI.Gtk as Gtk
@@ -22,7 +21,7 @@ loadCss = do
 
     case (maybeScreen) of
         (Just screen) -> do
-            Gtk.cssProviderLoadFromPath provider (Data.Text.pack "src/resources/style.css")
+            Gtk.cssProviderLoadFromPath provider (T.pack "src/resources/style.css")
             Gtk.styleContextAddProviderForScreen
                 screen
                 provider
@@ -35,7 +34,7 @@ loadCss = do
 --     Just uiPlayer1Box <- getBuilderObj builder "uiPlayer1Box" Gtk.Fixed
 --     Gtk.set uiPlayer1Box [ HasWindow := True ]
 
-createUI :: Maybe [Text] -> IO ()
+createUI :: Maybe [T.Text] -> IO ()
 createUI args = do
     Gtk.init args
     builder <- Gtk.builderNewFromResource "/asocijacije/resources/ui.glade"
@@ -47,52 +46,68 @@ createUI args = do
     Just window <- getBuilderObj builder "uiWindow" Gtk.Window
     on window #destroy $ Gtk.mainQuit
 
+    a1Button' <- getBuilderObj builder (T.pack "ui_A1_Button") Gtk.Button 
+    a2Button' <- getBuilderObj builder (T.pack "ui_A2_Button") Gtk.Button
+    a3Button' <- getBuilderObj builder (T.pack "ui_A3_Button") Gtk.Button
+    a4Button' <- getBuilderObj builder (T.pack "ui_A4_Button") Gtk.Button
+    aEntry'   <- getBuilderObj builder (T.pack "uiColumn_A_Entry") Gtk.Entry
+    b1Button' <- getBuilderObj builder (T.pack "ui_B1_Button") Gtk.Button
+    b2Button' <- getBuilderObj builder (T.pack "ui_B2_Button") Gtk.Button
+    b3Button' <- getBuilderObj builder (T.pack "ui_B3_Button") Gtk.Button
+    b4Button' <- getBuilderObj builder (T.pack "ui_B4_Button") Gtk.Button
+    bEntry'   <- getBuilderObj builder (T.pack "uiColumn_B_Entry") Gtk.Entry
+    c1Button' <- getBuilderObj builder (T.pack "ui_C1_Button") Gtk.Button
+    c2Button' <- getBuilderObj builder (T.pack "ui_C2_Button") Gtk.Button
+    c3Button' <- getBuilderObj builder (T.pack "ui_C3_Button") Gtk.Button
+    c4Button' <- getBuilderObj builder (T.pack "ui_C4_Button") Gtk.Button
+    cEntry'   <- getBuilderObj builder (T.pack "uiColumn_C_Entry") Gtk.Entry
+    d1Button' <- getBuilderObj builder (T.pack "ui_D1_Button") Gtk.Button
+    d2Button' <- getBuilderObj builder (T.pack "ui_D2_Button") Gtk.Button
+    d3Button' <- getBuilderObj builder (T.pack "ui_D3_Button") Gtk.Button
+    d4Button' <- getBuilderObj builder (T.pack "ui_D4_Button") Gtk.Button
+    dEntry'   <- getBuilderObj builder (T.pack "uiColumn_D_Entry") Gtk.Entry
+    finEntry' <- getBuilderObj builder (T.pack "uiFinalAnswerEntry") Gtk.Entry
+    startGameButton' <- getBuilderObj builder (T.pack "uiButtonPlayTwoPlayers") Gtk.Button
+    settingsButton' <- getBuilderObj builder (T.pack "uiButtonSettings") Gtk.Button
+    backButton' <- getBuilderObj builder (T.pack "uiButtonBackFromSettings") Gtk.Button
+    nextButton' <- getBuilderObj builder (T.pack "uiButtonNext") Gtk.Button
+    quitButton' <- getBuilderObj builder (T.pack "uiButtonQuit") Gtk.Button
 
-    connectBtnClick builder "uiButtonPlayOnePlayer" $ do 
-        uiButtonPlayOnePlayerClickHandler builder
+    saveUI   UI { a1Button = a1Button', 
+                  a2Button = a2Button', 
+                  a3Button = a3Button', 
+                  a4Button = a4Button', 
+                  aEntry   = aEntry', 
+                  b1Button = b1Button', 
+                  b2Button = b2Button', 
+                  b3Button = b3Button', 
+                  b4Button = b4Button', 
+                  bEntry   = bEntry', 
+                  c1Button = c1Button', 
+                  c2Button = c2Button', 
+                  c3Button = c3Button', 
+                  c4Button = c4Button', 
+                  cEntry   = cEntry', 
+                  d1Button = d1Button', 
+                  d2Button = d2Button', 
+                  d3Button = d3Button', 
+                  d4Button = d4Button', 
+                  dEntry   = dEntry', 
+                  finEntry = finEntry',
+                  startGameButton = startGameButton',
+                  settingsButton = settingsButton', 
+                  backButton = backButton',
+                  nextButton = nextButton',
+                  quitButton = quitButton'}
 
-    connectBtnClick builder "uiButtonPlayTwoPlayers" $ do 
-        uiButtonPlayTwoPlayersClickHandler builder
+    connectBtnClick (startGameButton loadUI) $ uiButtonPlayTwoPlayersClickHandler builder
+    connectBtnClick (settingsButton loadUI) $ uiButtonSettingsClickHandler builder
+    connectBtnClick (backButton loadUI) $ uiButtonBackFromSettingsClickHandler builder
+ -- connectBtnClick (nextButton loadUI) $ poljeHandler (NijeKonacno (D, F4))
+    connectBtnClick (quitButton loadUI) $ Gtk.mainQuit
 
-    traverse_ (\x -> connectBtnClick builder (pack $ poljeId $ x) $ kolonaPoljeButtonHandler x builder) 
-                [(NijeKonacno (x, y))  | x <- [A .. D], y <- [F1 .. F4]]
+    traverse_ (\x -> connectBtnClick (poljeButton x) $ poljeHandler x) [(x,y) | x <- [A .. D], y <- [F1 .. F4]]
+    traverse_ (\x -> connectEntryActivate' (kolonaEntry (Just x)) $ kolonaHandler x builder) [A .. D]
+    connectEntryActivate' (finEntry loadUI) $ uiFinalAnswerEntry_handler builder
 
-    traverse_ (\x -> connectBtnClick builder (pack $ poljeId $ Konacno $ Just x) $ kolonaHandler x builder)  [A .. D]
-
-    connectEntryActivate builder "uiFinalAnswerEntry"  $ do
-        uiFinalAnswerEntry_handler builder
-
-    connectBtnClick builder "uiButtonSettings" $ do 
-        uiButtonSettingsClickHandler builder
-        
-    connectBtnClick builder "uiButtonBackFromSettings" $ do 
-        uiButtonBackFromSettingsClickHandler builder
-        
-    connectBtnClick builder "uiButtonQuit" $ do 
-        Gtk.mainQuit
-      
     Gtk.main
-
-
-poljeId :: Polje -> String
-poljeId (NijeKonacno (A,F1)) = "ui_A1_Button"
-poljeId (NijeKonacno (A,F2)) = "ui_A2_Button"
-poljeId (NijeKonacno (A,F3)) = "ui_A3_Button"
-poljeId (NijeKonacno (A,F4)) = "ui_A4_Button"
-poljeId (NijeKonacno (B,F1)) = "ui_B1_Button"
-poljeId (NijeKonacno (B,F2)) = "ui_B2_Button"
-poljeId (NijeKonacno (B,F3)) = "ui_B3_Button"
-poljeId (NijeKonacno (B,F4)) = "ui_B4_Button"
-poljeId (NijeKonacno (C,F1)) = "ui_C1_Button"
-poljeId (NijeKonacno (C,F2)) = "ui_C2_Button"
-poljeId (NijeKonacno (C,F3)) = "ui_C3_Button"
-poljeId (NijeKonacno (C,F4)) = "ui_C4_Button"
-poljeId (NijeKonacno (D,F1)) = "ui_D1_Button"
-poljeId (NijeKonacno (D,F2)) = "ui_D2_Button"
-poljeId (NijeKonacno (D,F3)) = "ui_D3_Button"
-poljeId (NijeKonacno (D,F4)) = "ui_D4_Button"
-poljeId (Konacno (Just A))   = "uiColumn_A_Entry"
-poljeId (Konacno (Just B))   = "uiColumn_B_Entry"
-poljeId (Konacno (Just C))   = "uiColumn_C_Entry"
-poljeId (Konacno (Just D))   = "uiColumn_D_Entry"
-poljeId (Konacno Nothing)    = "uiFinalAnswerEntry"

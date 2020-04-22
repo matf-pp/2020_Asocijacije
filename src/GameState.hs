@@ -5,7 +5,8 @@ makeGameState,
 loadGameState, 
 saveGameState,
 getSettings,
-getAssociation
+getAssociation,
+getMove
 ) where
 
 import qualified LoadSettings
@@ -17,6 +18,7 @@ import System.Exit
 import System.Environment  
 import System.IO 
 import Data.IORef
+import Control.Monad
 import System.IO.Unsafe (unsafePerformIO)
 
 data GameState = GameState { settings                       :: LoadSettings.Settings
@@ -53,11 +55,14 @@ noviStatus = GameState { settings = noveSettings
 
 x = unsafePerformIO (newIORef noviStatus)
 
-getSettings :: GameState -> LoadSettings.Settings
-getSettings gameStateObject = settings gameStateObject
+getSettings :: LoadSettings.Settings
+getSettings = settings $ unsafePerformIO $ loadGameState
 
-getAssociation :: GameState -> Association 
-getAssociation gameStateObject = association gameStateObject
+getAssociation :: Association
+getAssociation = association $ unsafePerformIO $ loadGameState
+
+getMove :: Int
+getMove = on_move $ unsafePerformIO $ loadGameState
 
 
 makeGameState :: IO ()

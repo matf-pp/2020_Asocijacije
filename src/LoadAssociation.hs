@@ -3,8 +3,10 @@ module LoadAssociation
 (
     Association (..), 
     makeNewAssociation, 
-    uzmiPolje, 
+    uzmiPolje,
+    uzmiKolonu,
     setItem,
+    postaviKolonu,
     getWord,
     getIsOpened,
     noveAsocijacije
@@ -47,8 +49,7 @@ noveAsocijacije =  Association { a1_private = ("A1", False)
                                , d3_private = ("D3", False) 
                                , d4_private = ("D4", False) 
                                , d_private  = ("D", False)
-                               , final_private = ("F", False)
-}
+                               , final_private = ("F", False) }
 
 
 data AssociationOnly = AssociationOnly
@@ -77,7 +78,7 @@ data AssociationOnly = AssociationOnly
 
 
 uzmiPolje :: Polje -> Association -> PairWordIsOpened
-uzmiPolje (NijeKonacno polje) associationObject 
+uzmiPolje polje associationObject 
     | polje == (A,F1) = a1_private associationObject
     | polje == (A,F2) = a2_private associationObject
     | polje == (A,F3) = a3_private associationObject
@@ -94,16 +95,19 @@ uzmiPolje (NijeKonacno polje) associationObject
     | polje == (D,F2) = d2_private associationObject
     | polje == (D,F3) = d3_private associationObject
     | polje == (D,F4) = d4_private associationObject
-uzmiPolje (Konacno (Just polje)) associationObject
-    | polje == A = a_private  associationObject
-    | polje == B = c_private  associationObject
-    | polje == C = c_private  associationObject
-    | polje == D = d_private  associationObject
-uzmiPolje (Konacno Nothing) associationObject = final_private associationObject
 
- 
+
+uzmiKolonu :: Maybe Kolona -> Association -> PairWordIsOpened
+uzmiKolonu (Just kolona) associationObject
+    | kolona == A = a_private  associationObject
+    | kolona == B = c_private  associationObject
+    | kolona == C = c_private  associationObject
+    | kolona == D = d_private  associationObject
+uzmiKolonu Nothing associationObject = final_private associationObject
+
+
 setItem :: Polje -> String -> Bool -> Association -> Association
-setItem (NijeKonacno polje) word_ isOpened_ associationObject
+setItem polje word_ isOpened_ associationObject
     | polje == (A,F1) = associationObject{a1_private= (word_, isOpened_)}
     | polje == (A,F2) = associationObject{a2_private= (word_, isOpened_)}
     | polje == (A,F3) = associationObject{a3_private= (word_, isOpened_)}
@@ -120,12 +124,16 @@ setItem (NijeKonacno polje) word_ isOpened_ associationObject
     | polje == (D,F2) = associationObject{d2_private= (word_, isOpened_)}
     | polje == (D,F3) = associationObject{d3_private= (word_, isOpened_)}
     | polje == (D,F4) = associationObject{d4_private= (word_, isOpened_)}
-setItem (Konacno (Just polje)) word_ isOpened_ associationObject   
-    | polje == A = associationObject{a_private = (word_, isOpened_)}
-    | polje == B = associationObject{b_private = (word_, isOpened_)}
-    | polje == C = associationObject{c_private = (word_, isOpened_)}
-    | polje == D = associationObject{d_private = (word_, isOpened_)}
-setItem (Konacno Nothing) word_ isOpened_ associationObject  = associationObject{final_private=(word_, isOpened_)}
+
+
+
+postaviKolonu :: Maybe Kolona -> String -> Bool -> Association -> Association
+postaviKolonu (Just kolona) word_ isOpened_ associationObject   
+    | kolona == A = associationObject{a_private = (word_, isOpened_)}
+    | kolona == B = associationObject{b_private = (word_, isOpened_)}
+    | kolona == C = associationObject{c_private = (word_, isOpened_)}
+    | kolona == D = associationObject{d_private = (word_, isOpened_)}
+postaviKolonu (Nothing) word_ isOpened_ associationObject  = associationObject{final_private=(word_, isOpened_)}
 
 
 myOpenFile :: IO FilePath -> IO (String)
