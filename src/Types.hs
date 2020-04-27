@@ -1,4 +1,6 @@
+{-# LANGUAGE DeriveDataTypeable #-}
 module Types (
+    Igrac (..),
     Kolona (..), 
     Broj (..),
     Polje (..),
@@ -9,13 +11,16 @@ module Types (
     loadUI
 ) where
 
-
+import Data.Data
+import Data.Typeable
 import System.IO 
 import Data.IORef
 import Control.Monad
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GI.Gtk as Gtk
 import Data.GI.Base
+
+data Igrac = Plavi | Crveni deriving (Show, Eq, Data, Typeable)
 
 data Kolona = A | B | C | D  deriving (Eq, Show, Enum)
 
@@ -73,38 +78,24 @@ data UI = UI {    a1Button :: (Maybe Gtk.Button)
                 , settingsButton :: (Maybe Gtk.Button)
                 , backButton :: (Maybe Gtk.Button)
                 , nextButton :: (Maybe Gtk.Button)
-                , quitButton :: (Maybe Gtk.Button)}
+                , quitButton :: (Maybe Gtk.Button)
+                , uiStack :: (Maybe Gtk.Stack)
+                , gameBox :: (Maybe Gtk.EventBox)
+                , player1NameLabel :: (Maybe Gtk.Label)
+                , player2NameLabel :: (Maybe Gtk.Label)
+                , player1ScoreLabel :: (Maybe Gtk.Label)
+                , player2ScoreLabel :: (Maybe Gtk.Label)
+                , player1EventBox :: (Maybe Gtk.EventBox)
+                , player2EventBox :: (Maybe Gtk.EventBox)
+                , settingBlueNameEntry  :: (Maybe Gtk.Entry)
+                , settingBlueImageEntry :: (Maybe Gtk.Entry)
+                , settingRedNameEntry  :: (Maybe Gtk.Entry)
+                , settingRedImageEntry :: (Maybe Gtk.Entry)
+                , settingFirstPlayCombo :: (Maybe Gtk.ComboBoxText)
+            }
 
 
-ui = UI {     a1Button = Nothing 
-            , a2Button = Nothing
-            , a3Button = Nothing
-            , a4Button = Nothing
-            , aEntry   = Nothing
-            , b1Button = Nothing
-            , b2Button = Nothing
-            , b3Button = Nothing
-            , b4Button = Nothing
-            , bEntry   = Nothing
-            , c1Button = Nothing
-            , c2Button = Nothing
-            , c3Button = Nothing
-            , c4Button = Nothing
-            , cEntry   = Nothing
-            , d1Button = Nothing
-            , d2Button = Nothing
-            , d3Button = Nothing
-            , d4Button = Nothing
-            , dEntry   = Nothing
-            , finEntry = Nothing
-            , startGameButton = Nothing
-            , settingsButton = Nothing
-            , backButton = Nothing
-            , nextButton = Nothing
-            , quitButton = Nothing }
-
-
-x = unsafePerformIO (newIORef ui)
+x = unsafePerformIO (newIORef (UI {}))
 
 loadUI :: UI
 loadUI = unsafePerformIO $ readIORef x

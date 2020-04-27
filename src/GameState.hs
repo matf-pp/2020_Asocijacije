@@ -1,12 +1,13 @@
 {-# LANGUAGE DeriveDataTypeable #-}
 module GameState (
-GameState (..),
-makeGameState,
-loadGameState, 
-saveGameState,
-getSettings,
-getAssociation,
-getMove
+  GameState (..),
+  Igrac (..),
+  makeGameState,
+  loadGameState, 
+  saveGameState,
+  getSettings,
+  getAssociation,
+  getMove
 ) where
 
 import qualified LoadSettings
@@ -23,30 +24,24 @@ import System.IO.Unsafe (unsafePerformIO)
 
 data GameState = GameState { settings                       :: LoadSettings.Settings
                            , association                    :: Association  
-                           , reaming_time_in_seconds        :: Int  
-                           , on_move                        :: Int
+                           , igracNaPotezu                  :: Igrac
                            , did_on_move_player_open_word   :: Bool
                            , player1_score                  :: Int
                            , player2_score                  :: Int
                            } deriving (Show)
 
 
-noveSettings = LoadSettings.Settings { LoadSettings.player1_name = "A" 
-                                       , LoadSettings.player1_color = "C"
-                                       , LoadSettings.player1_image = "I"
-                                       , LoadSettings.player2_name  = "B"
-                                       , LoadSettings.player2_color = "C"
-                                       , LoadSettings.player2_image = "I"
-                                       , LoadSettings.game_duration_in_seconds = "10"
-                                       , LoadSettings.waiting_time_for_one_play_in_seconds = "10"
-                                       , LoadSettings.first_play = "A"
+noveSettings = LoadSettings.Settings { LoadSettings.blueName = "A" 
+                                       , LoadSettings.blueImage = "I"
+                                       , LoadSettings.redName  = "B"
+                                       , LoadSettings.redImage = "I"
+                                       , LoadSettings.firstPlay = Plavi
 }
 
 
 noviStatus = GameState { settings = noveSettings
                                     , association = noveAsocijacije
-                                    , reaming_time_in_seconds = read $ LoadSettings.getItem "game_duration_in_seconds" noveSettings :: Int
-                                    , on_move = read $ LoadSettings.getItem "first_play" noveSettings :: Int
+                                    , igracNaPotezu = Plavi
                                     , did_on_move_player_open_word = False
                                     , player1_score = 0
                                     , player2_score = 0
@@ -61,8 +56,8 @@ getSettings = settings $ unsafePerformIO $ loadGameState
 getAssociation :: Association
 getAssociation = association $ unsafePerformIO $ loadGameState
 
-getMove :: Int
-getMove = on_move $ unsafePerformIO $ loadGameState
+getMove :: Igrac
+getMove = igracNaPotezu $ unsafePerformIO $ loadGameState
 
 
 makeGameState :: IO ()
@@ -71,8 +66,7 @@ makeGameState = do
     associationObject <- makeNewAssociation
     let gameStateObject = GameState { settings = settingsObject
                                     , association = associationObject
-                                    , reaming_time_in_seconds = read $ LoadSettings.getItem "game_duration_in_seconds" settingsObject :: Int
-                                    , on_move = read $ LoadSettings.getItem "first_play" settingsObject :: Int
+                                    , igracNaPotezu = Plavi
                                     , did_on_move_player_open_word = False
                                     , player1_score = 0
                                     , player2_score = 0

@@ -42,7 +42,7 @@
                 <property name="margin_right">20</property>
                 <property name="margin_top">20</property>
                 <property name="margin_bottom">27</property>
-                <property name="label" translatable="yes">::asocijacije</property>
+                <property name="label" translatable="yes">АСОЦИЈАЦИЈЕ</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -62,29 +62,13 @@
                 <property name="spacing">10</property>
                 <property name="homogeneous">True</property>
                 <child>
-                  <object class="GtkButton" id="uiButtonPlayOnePlayer">
-                    <property name="label" translatable="yes">Igraj (1 igrač)</property>
-                    <property name="name">uiButtonPlayOnePlayer</property>
+                  <object class="GtkButton" id="uiButtonPlay">
+                    <property name="label" translatable="yes">ИГРАЈ</property>
+                    <property name="name">uiButtonPlay</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <style>
-                      <class name="btn-class"/>
-                    </style>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkButton" id="uiButtonPlayTwoPlayers">
-                    <property name="label" translatable="yes">Igraj (2 igrača)</property>
-                    <property name="name">uiButtonPlayTwoPlayers</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
+                    <property name="relief">none</property>
                     <style>
                       <class name="btn-class"/>
                     </style>
@@ -97,11 +81,12 @@
                 </child>
                 <child>
                   <object class="GtkButton" id="uiButtonSettings">
-                    <property name="label" translatable="yes">Podešavanja</property>
+                    <property name="label" translatable="yes">ПОДЕШАВАЊА</property>
                     <property name="name">uiButtonSettings</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="relief">none</property>
                     <style>
                       <class name="btn-class"/>
                     </style>
@@ -114,11 +99,12 @@
                 </child>
                 <child>
                   <object class="GtkButton" id="uiButtonQuit">
-                    <property name="label" translatable="yes">Izlaz</property>
+                    <property name="label" translatable="yes">ИЗЛАЗ</property>
                     <property name="name">uiButtonQuit</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="relief">none</property>
                     <style>
                       <class name="btn-class"/>
                     </style>
@@ -152,38 +138,6 @@
                 <property name="name">uiTwoPlayersGame</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <child>
-                  <object class="GtkLabel" id="senka1">
-                    <property name="name">senka1</property>
-                    <property name="width_request">150</property>
-                    <property name="height_request">186</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <style>
-                      <class name="senka"/>
-                    </style>
-                  </object>
-                  <packing>
-                    <property name="x">20</property>
-                    <property name="y">200</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="senka2">
-                    <property name="name">senka2</property>
-                    <property name="width_request">150</property>
-                    <property name="height_request">186</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <style>
-                      <class name="senka"/>
-                    </style>
-                  </object>
-                  <packing>
-                    <property name="x">669</property>
-                    <property name="y">200</property>
-                  </packing>
-                </child>
                 <child>
                   <object class="GtkEventBox" id="uiPlayer1BoxEventBox">
                     <property name="name">uiPlayer1BoxEventBox</property>
@@ -391,7 +345,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="xalign">0.5</property>
-                        <property name="placeholder_text" translatable="yes">Konačno</property>
+                        <property name="placeholder_text" translatable="yes">КОНАЧНО</property>
                       </object>
                     </child>
                   </object>
@@ -413,7 +367,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="xalign">0.5</property>
-                        <property name="placeholder_text" translatable="yes">Kolona A</property>
+                        <property name="placeholder_text" translatable="yes">КОЛОНА А</property>
                       </object>
                     </child>
                   </object>
@@ -435,7 +389,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="xalign">0.5</property>
-                        <property name="placeholder_text" translatable="yes">Kolona B</property>
+                        <property name="placeholder_text" translatable="yes">КОЛОНА Б</property>
                       </object>
                     </child>
                   </object>
@@ -457,7 +411,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="xalign">0.5</property>
-                        <property name="placeholder_text" translatable="yes">Kolona C</property>
+                        <property name="placeholder_text" translatable="yes">КОЛОНА В</property>
                       </object>
                     </child>
                   </object>
@@ -479,7 +433,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="xalign">0.5</property>
-                        <property name="placeholder_text" translatable="yes">Kolona D</property>
+                        <property name="placeholder_text" translatable="yes">КОЛОНА Д</property>
                       </object>
                     </child>
                   </object>
@@ -500,8 +454,10 @@
                         <property name="label" translatable="yes">A4</property>
                         <property name="name">ui_A4_Button</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="focus_on_click">False</property>
                         <property name="receives_default">True</property>
+                        <property name="relief">none</property>
                       </object>
                     </child>
                   </object>
@@ -522,8 +478,10 @@
                         <property name="label" translatable="yes">A3</property>
                         <property name="name">ui_A3_Button</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="focus_on_click">False</property>
                         <property name="receives_default">True</property>
+                        <property name="relief">none</property>
                       </object>
                     </child>
                   </object>
@@ -544,8 +502,10 @@
                         <property name="label" translatable="yes">A2</property>
                         <property name="name">ui_A2_Button</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="focus_on_click">False</property>
                         <property name="receives_default">True</property>
+                        <property name="relief">none</property>
                       </object>
                     </child>
                   </object>
@@ -568,6 +528,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
+                        <property name="relief">none</property>
                       </object>
                     </child>
                   </object>
@@ -585,11 +546,13 @@
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkButton" id="ui_C4_Button">
-                        <property name="label" translatable="yes">C4</property>
+                        <property name="label" translatable="yes">В4</property>
                         <property name="name">ui_C4_Button</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="focus_on_click">False</property>
                         <property name="receives_default">True</property>
+                        <property name="relief">none</property>
                       </object>
                     </child>
                   </object>
@@ -607,11 +570,13 @@
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkButton" id="ui_C3_Button">
-                        <property name="label" translatable="yes">C3</property>
+                        <property name="label" translatable="yes">В3</property>
                         <property name="name">ui_C3_Button</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="focus_on_click">False</property>
                         <property name="receives_default">True</property>
+                        <property name="relief">none</property>
                       </object>
                     </child>
                   </object>
@@ -629,11 +594,13 @@
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkButton" id="ui_C2_Button">
-                        <property name="label" translatable="yes">C2</property>
+                        <property name="label" translatable="yes">В2</property>
                         <property name="name">ui_C2_Button</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="focus_on_click">False</property>
                         <property name="receives_default">True</property>
+                        <property name="relief">none</property>
                       </object>
                     </child>
                   </object>
@@ -651,11 +618,13 @@
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkButton" id="ui_C1_Button">
-                        <property name="label" translatable="yes">C1</property>
+                        <property name="label" translatable="yes">В1</property>
                         <property name="name">ui_C1_Button</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="focus_on_click">False</property>
                         <property name="receives_default">True</property>
+                        <property name="relief">none</property>
                       </object>
                     </child>
                   </object>
@@ -673,11 +642,13 @@
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkButton" id="ui_D4_Button">
-                        <property name="label" translatable="yes">D4</property>
+                        <property name="label" translatable="yes">Г4</property>
                         <property name="name">ui_D4_Button</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="focus_on_click">False</property>
                         <property name="receives_default">True</property>
+                        <property name="relief">none</property>
                       </object>
                     </child>
                   </object>
@@ -695,11 +666,13 @@
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkButton" id="ui_D3_Button">
-                        <property name="label" translatable="yes">D3</property>
+                        <property name="label" translatable="yes">Г3</property>
                         <property name="name">ui_D3_Button</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="focus_on_click">False</property>
                         <property name="receives_default">True</property>
+                        <property name="relief">none</property>
                       </object>
                     </child>
                   </object>
@@ -717,11 +690,13 @@
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkButton" id="ui_D2_Button">
-                        <property name="label" translatable="yes">D2</property>
+                        <property name="label" translatable="yes">Г2</property>
                         <property name="name">ui_D2_Button</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="focus_on_click">False</property>
                         <property name="receives_default">True</property>
+                        <property name="relief">none</property>
                       </object>
                     </child>
                   </object>
@@ -739,11 +714,13 @@
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkButton" id="ui_D1_Button">
-                        <property name="label" translatable="yes">D1</property>
+                        <property name="label" translatable="yes">Г1</property>
                         <property name="name">ui_D1_Button</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="focus_on_click">False</property>
                         <property name="receives_default">True</property>
+                        <property name="relief">none</property>
                       </object>
                     </child>
                   </object>
@@ -761,11 +738,13 @@
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkButton" id="ui_B4_Button">
-                        <property name="label" translatable="yes">B4</property>
+                        <property name="label" translatable="yes">Б4</property>
                         <property name="name">ui_B4_Button</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="focus_on_click">False</property>
                         <property name="receives_default">True</property>
+                        <property name="relief">none</property>
                       </object>
                     </child>
                   </object>
@@ -783,11 +762,13 @@
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkButton" id="ui_B3_Button">
-                        <property name="label" translatable="yes">B3</property>
+                        <property name="label" translatable="yes">Б3</property>
                         <property name="name">ui_B3_Button</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="focus_on_click">False</property>
                         <property name="receives_default">True</property>
+                        <property name="relief">none</property>
                       </object>
                     </child>
                   </object>
@@ -805,11 +786,13 @@
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkButton" id="ui_B2_Button">
-                        <property name="label" translatable="yes">B2</property>
+                        <property name="label" translatable="yes">Б2</property>
                         <property name="name">ui_B2_Button</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="focus_on_click">False</property>
                         <property name="receives_default">True</property>
+                        <property name="relief">none</property>
                       </object>
                     </child>
                   </object>
@@ -827,39 +810,19 @@
                     <property name="can_focus">False</property>
                     <child>
                       <object class="GtkButton" id="ui_B1_Button">
-                        <property name="label" translatable="yes">B1</property>
+                        <property name="label" translatable="yes">Б1</property>
                         <property name="name">ui_B1_Button</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="focus_on_click">False</property>
                         <property name="receives_default">True</property>
+                        <property name="relief">none</property>
                       </object>
                     </child>
                   </object>
                   <packing>
                     <property name="x">567</property>
                     <property name="y">35</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEventBox" id="uiReamingTimeEventBox">
-                    <property name="name">uiReamingTimeEventBox</property>
-                    <property name="width_request">15</property>
-                    <property name="height_request">120</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkLevelBar" id="uiReamingTimeLevelBar">
-                        <property name="name">uiReamingTimeLevelBar</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="orientation">vertical</property>
-                        <property name="value">0.60999999999999999</property>
-                      </object>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="x">412</property>
-                    <property name="y">32</property>
                   </packing>
                 </child>
                 <child>
@@ -874,7 +837,7 @@
                         <property name="name">uiPlayer1ScoreLabel</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">100</property>
+                        <property name="label" translatable="yes">0</property>
                       </object>
                     </child>
                   </object>
@@ -895,7 +858,7 @@
                         <property name="name">uiPlayer2ScoreLabel</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">84</property>
+                        <property name="label" translatable="yes">0</property>
                       </object>
                     </child>
                   </object>
@@ -903,6 +866,32 @@
                     <property name="x">434</property>
                     <property name="y">32</property>
                   </packing>
+                </child>
+                <child>
+                  <object class="GtkButton">
+                    <property name="label" translatable="yes">Даље</property>
+                    <property name="width_request">97</property>
+                    <property name="height_request">28</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                  </object>
+                  <packing>
+                    <property name="x">370</property>
+                    <property name="y">543</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton">
+                    <property name="label" translatable="yes">Излаз</property>
+                    <property name="width_request">70</property>
+                    <property name="height_request">30</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="margin_left">5</property>
+                    <property name="margin_top">5</property>
+                  </object>
                 </child>
               </object>
             </child>
@@ -914,460 +903,26 @@
           </packing>
         </child>
         <child>
-          <object class="GtkGrid" id="uiOnePlayerGame">
+          <object class="GtkBox" id="uiSettings">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="halign">center</property>
-            <property name="valign">center</property>
-            <property name="row_spacing">15</property>
-            <property name="column_spacing">10</property>
+            <property name="valign">start</property>
+            <property name="margin_top">8</property>
+            <property name="orientation">vertical</property>
+            <property name="spacing">22</property>
+            <property name="homogeneous">True</property>
             <child>
-              <object class="GtkButton">
-                <property name="label" translatable="yes">A1</property>
-                <property name="width_request">150</property>
-                <property name="height_request">40</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton">
-                <property name="label" translatable="yes">A2</property>
-                <property name="width_request">150</property>
-                <property name="height_request">40</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton">
-                <property name="label" translatable="yes">A3</property>
-                <property name="width_request">150</property>
-                <property name="height_request">40</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">2</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton">
-                <property name="label" translatable="yes">A4</property>
-                <property name="width_request">150</property>
-                <property name="height_request">40</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">3</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkEntry">
-                <property name="height_request">40</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="xalign">0.5</property>
-                <property name="shadow_type">none</property>
-                <property name="caps_lock_warning">False</property>
-                <property name="placeholder_text" translatable="yes">Kolona A</property>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">4</property>
-                <property name="width">2</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkEntry">
-                <property name="width_request">300</property>
-                <property name="height_request">40</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="xalign">0.5</property>
-                <property name="placeholder_text" translatable="yes">KONAČNO</property>
-              </object>
-              <packing>
-                <property name="left_attach">1</property>
-                <property name="top_attach">5</property>
-                <property name="width">3</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkEntry">
-                <property name="height_request">40</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="xalign">0.5</property>
-                <property name="shadow_type">none</property>
-                <property name="caps_lock_warning">False</property>
-                <property name="placeholder_text" translatable="yes">Kolona B</property>
-              </object>
-              <packing>
-                <property name="left_attach">3</property>
-                <property name="top_attach">4</property>
-                <property name="width">2</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton">
-                <property name="label" translatable="yes">B1</property>
-                <property name="width_request">150</property>
-                <property name="height_request">40</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-              </object>
-              <packing>
-                <property name="left_attach">4</property>
-                <property name="top_attach">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton">
-                <property name="label" translatable="yes">B2</property>
-                <property name="width_request">150</property>
-                <property name="height_request">40</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-              </object>
-              <packing>
-                <property name="left_attach">4</property>
-                <property name="top_attach">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton">
-                <property name="label" translatable="yes">B3</property>
-                <property name="width_request">150</property>
-                <property name="height_request">40</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-              </object>
-              <packing>
-                <property name="left_attach">4</property>
-                <property name="top_attach">2</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton">
-                <property name="label" translatable="yes">B4</property>
-                <property name="width_request">150</property>
-                <property name="height_request">40</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-              </object>
-              <packing>
-                <property name="left_attach">4</property>
-                <property name="top_attach">3</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkEntry">
-                <property name="height_request">40</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="xalign">0.5</property>
-                <property name="shadow_type">none</property>
-                <property name="caps_lock_warning">False</property>
-                <property name="placeholder_text" translatable="yes">Kolona C</property>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">6</property>
-                <property name="width">2</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkEntry">
-                <property name="height_request">40</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="xalign">0.5</property>
-                <property name="shadow_type">none</property>
-                <property name="caps_lock_warning">False</property>
-                <property name="placeholder_text" translatable="yes">Kolona D</property>
-              </object>
-              <packing>
-                <property name="left_attach">3</property>
-                <property name="top_attach">6</property>
-                <property name="width">2</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton">
-                <property name="label" translatable="yes">C1</property>
-                <property name="width_request">150</property>
-                <property name="height_request">40</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">7</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton">
-                <property name="label" translatable="yes">C2</property>
-                <property name="width_request">150</property>
-                <property name="height_request">40</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">8</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton">
-                <property name="label" translatable="yes">C3</property>
-                <property name="width_request">150</property>
-                <property name="height_request">40</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">9</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton">
-                <property name="label" translatable="yes">D1</property>
-                <property name="width_request">150</property>
-                <property name="height_request">40</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-              </object>
-              <packing>
-                <property name="left_attach">4</property>
-                <property name="top_attach">7</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton">
-                <property name="label" translatable="yes">D2</property>
-                <property name="width_request">150</property>
-                <property name="height_request">40</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-              </object>
-              <packing>
-                <property name="left_attach">4</property>
-                <property name="top_attach">8</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton">
-                <property name="label" translatable="yes">D3</property>
-                <property name="width_request">150</property>
-                <property name="height_request">40</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-              </object>
-              <packing>
-                <property name="left_attach">4</property>
-                <property name="top_attach">9</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton">
-                <property name="label" translatable="yes">C4</property>
-                <property name="width_request">150</property>
-                <property name="height_request">40</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">10</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton">
-                <property name="label" translatable="yes">D4</property>
-                <property name="width_request">150</property>
-                <property name="height_request">40</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-              </object>
-              <packing>
-                <property name="left_attach">4</property>
-                <property name="top_attach">10</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkProgressBar">
-                <property name="height_request">100</property>
+              <object class="GtkLabel">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="halign">center</property>
                 <property name="valign">center</property>
-                <property name="orientation">vertical</property>
-              </object>
-              <packing>
-                <property name="left_attach">2</property>
-                <property name="top_attach">0</property>
-                <property name="height">4</property>
-              </packing>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-          </object>
-          <packing>
-            <property name="name">page3</property>
-            <property name="title" translatable="yes">page3</property>
-            <property name="position">2</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkBox" id="uiSettings">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="margin_left">10</property>
-            <property name="margin_right">10</property>
-            <property name="margin_top">10</property>
-            <property name="margin_bottom">10</property>
-            <child>
-              <object class="GtkBox">
-                <property name="width_request">50</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="halign">start</property>
-                <property name="orientation">vertical</property>
-                <child>
-                  <object class="GtkButton" id="uiButtonBackFromSettings">
-                    <property name="label" translatable="yes">Nazad</property>
-                    <property name="width_request">0</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
-                </child>
+                <property name="label" translatable="yes">ПОДЕШАВАЊА</property>
+                <attributes>
+                  <attribute name="weight" value="bold"/>
+                  <attribute name="scale" value="2"/>
+                </attributes>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -1377,58 +932,14 @@
             </child>
             <child>
               <object class="GtkBox">
-                <property name="width_request">700</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="halign">center</property>
-                <property name="margin_left">7</property>
-                <property name="margin_right">7</property>
-                <property name="orientation">vertical</property>
+                <property name="valign">start</property>
                 <child>
-                  <object class="GtkBox">
+                  <object class="GtkLabel">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="halign">center</property>
-                    <child>
-                      <object class="GtkFixed">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkLabel">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="halign">center</property>
-                        <property name="valign">center</property>
-                        <property name="label" translatable="yes">Podešavanja</property>
-                        <attributes>
-                          <attribute name="weight" value="bold"/>
-                          <attribute name="scale" value="2"/>
-                        </attributes>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkFixed">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">2</property>
-                      </packing>
-                    </child>
+                    <property name="label" translatable="yes">Црвени играч име:</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -1437,488 +948,17 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkScrolledWindow">
-                    <property name="height_request">524</property>
+                  <object class="GtkEntry" id="uiEntry_player1_name">
+                    <property name="width_request">220</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="margin_top">9</property>
-                    <property name="hscrollbar_policy">never</property>
-                    <property name="vscrollbar_policy">always</property>
-                    <property name="shadow_type">in</property>
-                    <child>
-                      <object class="GtkViewport">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="vexpand">True</property>
-                        <child>
-                          <object class="GtkBox">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="valign">start</property>
-                            <property name="margin_left">24</property>
-                            <property name="margin_right">24</property>
-                            <property name="margin_top">8</property>
-                            <property name="vexpand">True</property>
-                            <property name="orientation">vertical</property>
-                            <property name="spacing">31</property>
-                            <property name="homogeneous">True</property>
-                            <child>
-                              <object class="GtkBox">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="valign">start</property>
-                                <child>
-                                  <object class="GtkLabel">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">Igrač 1 Ime: </property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="position">0</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkEntry" id="uiEntry_player1_name">
-                                    <property name="width_request">220</property>
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="pack_type">end</property>
-                                    <property name="position">1</property>
-                                  </packing>
-                                </child>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkBox">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="valign">start</property>
-                                <child>
-                                  <object class="GtkLabel">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">Igrač 1 Boja: </property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="position">0</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkEntry" id="uiEntry_player1_color">
-                                    <property name="width_request">220</property>
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="pack_type">end</property>
-                                    <property name="position">1</property>
-                                  </packing>
-                                </child>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">1</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkBox">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="valign">start</property>
-                                <child>
-                                  <object class="GtkLabel">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">Igrač 1 Slika: </property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="position">0</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkEntry" id="uiEntry_player1_image">
-                                    <property name="width_request">220</property>
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="pack_type">end</property>
-                                    <property name="position">1</property>
-                                  </packing>
-                                </child>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">2</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkBox">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="valign">start</property>
-                                <child>
-                                  <object class="GtkLabel">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">Igrač 2 Ime: </property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="position">0</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkEntry" id="uiEntry_player2_name">
-                                    <property name="width_request">220</property>
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="pack_type">end</property>
-                                    <property name="position">1</property>
-                                  </packing>
-                                </child>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">3</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkBox">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="valign">start</property>
-                                <child>
-                                  <object class="GtkLabel">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">Igrač 2 Boja: </property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="position">0</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkEntry" id="uiEntry_player2_color">
-                                    <property name="width_request">220</property>
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="pack_type">end</property>
-                                    <property name="position">1</property>
-                                  </packing>
-                                </child>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">4</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkBox">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="valign">start</property>
-                                <child>
-                                  <object class="GtkLabel">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">Igrač 2 Slika: </property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="position">0</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkEntry" id="uiEntry_player2_image">
-                                    <property name="width_request">220</property>
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="pack_type">end</property>
-                                    <property name="position">1</property>
-                                  </packing>
-                                </child>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">5</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkBox">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="valign">start</property>
-                                <child>
-                                  <object class="GtkLabel">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">Duzina igre u sekundama: </property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="position">0</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkEntry" id="uiEntry_game_duration_in_seconds">
-                                    <property name="width_request">220</property>
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="pack_type">end</property>
-                                    <property name="position">1</property>
-                                  </packing>
-                                </child>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">6</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkBox">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="valign">start</property>
-                                <child>
-                                  <object class="GtkLabel">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">Duzina  jednog poteza u sekundama: </property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="position">0</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkEntry" id="uiEntry_waiting_time_for_one_play_in_seconds">
-                                    <property name="width_request">220</property>
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="pack_type">end</property>
-                                    <property name="position">1</property>
-                                  </packing>
-                                </child>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">7</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkBox">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="valign">start</property>
-                                <child>
-                                  <object class="GtkLabel">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">Igrač koji je prvi na potezu: </property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="position">0</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkComboBoxText" id="uiComboBoxText_first_play">
-                                    <property name="width_request">220</property>
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="active">0</property>
-                                    <items>
-                                      <item translatable="yes">Igrač 1</item>
-                                      <item translatable="yes">Igrač 2</item>
-                                    </items>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="pack_type">end</property>
-                                    <property name="position">1</property>
-                                  </packing>
-                                </child>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">8</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkBox">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="valign">start</property>
-                                <child>
-                                  <object class="GtkLabel">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">Neko podesavanje1: </property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="position">0</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkEntry">
-                                    <property name="width_request">220</property>
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="pack_type">end</property>
-                                    <property name="position">1</property>
-                                  </packing>
-                                </child>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">9</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkBox">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="valign">start</property>
-                                <child>
-                                  <object class="GtkLabel">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">Neko podesavanje2: </property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="position">0</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkEntry">
-                                    <property name="width_request">220</property>
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="pack_type">end</property>
-                                    <property name="position">1</property>
-                                  </packing>
-                                </child>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">10</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkBox">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="valign">start</property>
-                                <child>
-                                  <object class="GtkLabel">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">Neko podesavanje3: </property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="position">0</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkEntry">
-                                    <property name="width_request">220</property>
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">True</property>
-                                    <property name="pack_type">end</property>
-                                    <property name="position">1</property>
-                                  </packing>
-                                </child>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">11</property>
-                              </packing>
-                            </child>
-                          </object>
-                        </child>
-                      </object>
-                    </child>
+                    <property name="shadow_type">none</property>
+                    <property name="input_purpose">name</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
+                    <property name="pack_type">end</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
@@ -1931,19 +971,33 @@
             </child>
             <child>
               <object class="GtkBox">
-                <property name="width_request">50</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="halign">end</property>
-                <property name="orientation">vertical</property>
+                <property name="valign">start</property>
                 <child>
-                  <placeholder/>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">Плави играч слика:</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
                 </child>
                 <child>
-                  <placeholder/>
-                </child>
-                <child>
-                  <placeholder/>
+                  <object class="GtkEntry" id="uiEntry_player1_image">
+                    <property name="width_request">220</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="pack_type">end</property>
+                    <property name="position">1</property>
+                  </packing>
                 </child>
               </object>
               <packing>
@@ -1952,11 +1006,145 @@
                 <property name="position">2</property>
               </packing>
             </child>
+            <child>
+              <object class="GtkBox">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="valign">start</property>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">Црвени играч име:</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="uiEntry_player2_name">
+                    <property name="width_request">220</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="pack_type">end</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">3</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkBox">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="valign">start</property>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">Плави играч слика:</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="uiEntry_player2_image">
+                    <property name="width_request">220</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="pack_type">end</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">4</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkBox">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="valign">start</property>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="margin_right">40</property>
+                    <property name="label" translatable="yes">Први играч на потезу:</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkComboBoxText" id="uiComboBoxText_first_play">
+                    <property name="width_request">220</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="active">0</property>
+                    <items>
+                      <item translatable="yes">Плави</item>
+                      <item translatable="yes">Igrač 2</item>
+                    </items>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="pack_type">end</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">5</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="uiButtonBackFromSettings">
+                <property name="label" translatable="yes">Сачувај подешавања и изађи</property>
+                <property name="width_request">0</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="halign">end</property>
+                <property name="valign">center</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="pack_type">end</property>
+                <property name="position">6</property>
+              </packing>
+            </child>
           </object>
           <packing>
             <property name="name">page0</property>
             <property name="title" translatable="yes">page0</property>
-            <property name="position">3</property>
+            <property name="position">2</property>
           </packing>
         </child>
       </object>

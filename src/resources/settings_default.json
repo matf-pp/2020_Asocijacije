@@ -1,10 +1,7 @@
 {
-  "igrac1_ime": "Filip",  
-  "igrac1_boja": "Plava",
+  "igrac1_ime": "Slavoljub",  
   "igrac1_slika": "nekiUrl",
-  "igrac2_ime": "Nikola",  
-  "igrac2_boja": "Crvena",
+  "igrac2_ime": "Vojislav",  
   "igrac2_slika": "nekiUrl",
-  "duzina_igre_u_sekundama": "120",
-  "duzina_jednog_poteza_u_sekundama": "6"
+  "first_play":"2"
 }

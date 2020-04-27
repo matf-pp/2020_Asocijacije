@@ -67,11 +67,24 @@ createUI args = do
     d4Button' <- getBuilderObj builder (T.pack "ui_D4_Button") Gtk.Button
     dEntry'   <- getBuilderObj builder (T.pack "uiColumn_D_Entry") Gtk.Entry
     finEntry' <- getBuilderObj builder (T.pack "uiFinalAnswerEntry") Gtk.Entry
-    startGameButton' <- getBuilderObj builder (T.pack "uiButtonPlayTwoPlayers") Gtk.Button
+    startGameButton' <- getBuilderObj builder (T.pack "uiButtonPlay") Gtk.Button
     settingsButton' <- getBuilderObj builder (T.pack "uiButtonSettings") Gtk.Button
     backButton' <- getBuilderObj builder (T.pack "uiButtonBackFromSettings") Gtk.Button
     nextButton' <- getBuilderObj builder (T.pack "uiButtonNext") Gtk.Button
     quitButton' <- getBuilderObj builder (T.pack "uiButtonQuit") Gtk.Button
+    uiStack' <- getBuilderObj builder "uiStack" Gtk.Stack
+    gameBox' <- getBuilderObj builder "uiTwoPlayersGameEventBox" Gtk.EventBox
+    player1NameLabel' <- getBuilderObj builder "uiPlayer1NameLabel" Gtk.Label
+    player2NameLabel' <- getBuilderObj builder "uiPlayer2NameLabel" Gtk.Label
+    player1ScoreLabel' <- getBuilderObj builder "uiPlayer1ScoreLabel" Gtk.Label
+    player2ScoreLabel' <- getBuilderObj builder "uiPlayer2ScoreLabel" Gtk.Label
+    player1EventBox' <- getBuilderObj builder "uiPlayer1BoxEventBox" Gtk.EventBox
+    player2EventBox' <- getBuilderObj builder "uiPlayer2BoxEventBox" Gtk.EventBox
+    settingBlueNameEntry' <- getBuilderObj builder "uiEntry_player1_name" Gtk.Entry
+    settingBlueImageEntry' <- getBuilderObj builder "uiEntry_player1_image" Gtk.Entry
+    settingRedNameEntry' <- getBuilderObj builder "uiEntry_player2_name" Gtk.Entry
+    settingRedImageEntry' <- getBuilderObj builder "uiEntry_player2_image" Gtk.Entry
+    settingFirstPlayCombo' <- getBuilderObj builder "uiComboBoxText_first_play" Gtk.ComboBoxText
 
     saveUI   UI { a1Button = a1Button', 
                   a2Button = a2Button', 
@@ -98,9 +111,23 @@ createUI args = do
                   settingsButton = settingsButton', 
                   backButton = backButton',
                   nextButton = nextButton',
-                  quitButton = quitButton'}
+                  quitButton = quitButton',
+                  uiStack = uiStack',
+                  gameBox = gameBox',
+                  player1NameLabel = player1NameLabel',
+                  player2NameLabel = player2NameLabel',
+                  player1ScoreLabel = player1ScoreLabel',
+                  player2ScoreLabel = player2ScoreLabel',
+                  player1EventBox = player1EventBox',
+                  player2EventBox = player2EventBox',
+                  settingBlueNameEntry = settingBlueNameEntry',
+                  settingBlueImageEntry = settingBlueImageEntry',
+                  settingRedNameEntry = settingRedNameEntry',
+                  settingRedImageEntry = settingRedImageEntry',
+                  settingFirstPlayCombo = settingFirstPlayCombo'
+                }
 
-    connectBtnClick (startGameButton loadUI) $ uiButtonPlayTwoPlayersClickHandler builder
+    connectBtnClick (startGameButton loadUI) $ uiButtonPlayTwoPlayersClickHandler
     connectBtnClick (settingsButton loadUI) $ uiButtonSettingsClickHandler builder
     connectBtnClick (backButton loadUI) $ uiButtonBackFromSettingsClickHandler builder
  -- connectBtnClick (nextButton loadUI) $ poljeHandler (NijeKonacno (D, F4))
