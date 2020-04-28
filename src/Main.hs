@@ -3,7 +3,7 @@ module Main where
 import System.Environment (getArgs)
 import Data.Text (pack)
 
-import UI (createUI)
+import Game (createUI)
 
 main :: IO ()
 main = do
