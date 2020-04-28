@@ -10,7 +10,7 @@
     <property name="title" translatable="yes">Asocijacije</property>
     <property name="resizable">False</property>
     <property name="window_position">center</property>
-    <property name="default_width">800</property>
+    <property name="default_width">840</property>
     <property name="default_height">620</property>
     <property name="gravity">center</property>
     <child>
@@ -70,7 +70,7 @@
                     <property name="receives_default">True</property>
                     <property name="relief">none</property>
                     <style>
-                      <class name="btn-class"/>
+                      <class name="field"/>
                     </style>
                   </object>
                   <packing>
@@ -88,7 +88,7 @@
                     <property name="receives_default">True</property>
                     <property name="relief">none</property>
                     <style>
-                      <class name="btn-class"/>
+                      <class name="field"/>
                     </style>
                   </object>
                   <packing>
@@ -106,7 +106,7 @@
                     <property name="receives_default">True</property>
                     <property name="relief">none</property>
                     <style>
-                      <class name="btn-class"/>
+                      <class name="field"/>
                     </style>
                   </object>
                   <packing>
@@ -445,23 +445,19 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkEventBox" id="ui_A4_EventBox">
-                    <property name="name">ui_A4_EventBox</property>
+                  <object class="GtkButton" id="ui_A4_Button">
+                    <property name="label" translatable="yes">A4</property>
+                    <property name="name">ui_A4_Button</property>
                     <property name="width_request">190</property>
                     <property name="height_request">40</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkButton" id="ui_A4_Button">
-                        <property name="label" translatable="yes">A4</property>
-                        <property name="name">ui_A4_Button</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="focus_on_click">False</property>
-                        <property name="receives_default">True</property>
-                        <property name="relief">none</property>
-                      </object>
-                    </child>
+                    <property name="focus_on_click">False</property>
+                    <property name="receives_default">True</property>
+                    <property name="relief">none</property>
+                    <style>
+                      <class name="field"/>
+                    </style>
                   </object>
                   <packing>
                     <property name="x">187</property>
@@ -469,23 +465,19 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkEventBox" id="ui_A3_EventBox">
-                    <property name="name">ui_A3_EventBox</property>
+                  <object class="GtkButton" id="ui_A3_Button">
+                    <property name="label" translatable="yes">A3</property>
+                    <property name="name">ui_A3_Button</property>
                     <property name="width_request">190</property>
                     <property name="height_request">40</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkButton" id="ui_A3_Button">
-                        <property name="label" translatable="yes">A3</property>
-                        <property name="name">ui_A3_Button</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="focus_on_click">False</property>
-                        <property name="receives_default">True</property>
-                        <property name="relief">none</property>
-                      </object>
-                    </child>
+                    <property name="focus_on_click">False</property>
+                    <property name="receives_default">True</property>
+                    <property name="relief">none</property>
+                    <style>
+                      <class name="field"/>
+                    </style>
                   </object>
                   <packing>
                     <property name="x">152</property>
@@ -493,23 +485,18 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkEventBox" id="ui_A2_EventBox">
-                    <property name="name">ui_A2_EventBox</property>
+                  <object class="GtkButton" id="ui_A2_Button">
+                    <property name="label" translatable="yes">A2</property>
+                    <property name="name">ui_A2_Button</property>
                     <property name="width_request">190</property>
                     <property name="height_request">40</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkButton" id="ui_A2_Button">
-                        <property name="label" translatable="yes">A2</property>
-                        <property name="name">ui_A2_Button</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="focus_on_click">False</property>
-                        <property name="receives_default">True</property>
-                        <property name="relief">none</property>
-                      </object>
-                    </child>
+                    <property name="focus_on_click">False</property>
+                    <property name="receives_default">True</property>
+                    <style>
+                      <class name="field"/>
+                    </style>
                   </object>
                   <packing>
                     <property name="x">117</property>
@@ -517,22 +504,18 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkEventBox" id="ui_A1_EventBox">
-                    <property name="name">ui_A1_EventBox</property>
+                  <object class="GtkButton" id="ui_A1_Button">
+                    <property name="label" translatable="yes">A1</property>
+                    <property name="name">ui_A1_Button</property>
                     <property name="width_request">190</property>
                     <property name="height_request">40</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkButton" id="ui_A1_Button">
-                        <property name="label" translatable="yes">A1</property>
-                        <property name="name">ui_A1_Button</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">True</property>
-                        <property name="relief">none</property>
-                      </object>
-                    </child>
+                    <property name="receives_default">True</property>
+                    <property name="relief">none</property>
+                    <style>
+                      <class name="field"/>
+                    </style>
                   </object>
                   <packing>
                     <property name="x">82</property>
@@ -540,23 +523,19 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkEventBox" id="ui_C4_EventBox">
-                    <property name="name">ui_C4_EventBox</property>
+                  <object class="GtkButton" id="ui_C4_Button">
+                    <property name="label" translatable="yes">В4</property>
+                    <property name="name">ui_C4_Button</property>
                     <property name="width_request">190</property>
                     <property name="height_request">40</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkButton" id="ui_C4_Button">
-                        <property name="label" translatable="yes">В4</property>
-                        <property name="name">ui_C4_Button</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="focus_on_click">False</property>
-                        <property name="receives_default">True</property>
-                        <property name="relief">none</property>
-                      </object>
-                    </child>
+                    <property name="focus_on_click">False</property>
+                    <property name="receives_default">True</property>
+                    <property name="relief">none</property>
+                    <style>
+                      <class name="field"/>
+                    </style>
                   </object>
                   <packing>
                     <property name="x">187</property>
@@ -564,23 +543,19 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkEventBox" id="ui_C3_EventBox">
-                    <property name="name">ui_C3_EventBox</property>
+                  <object class="GtkButton" id="ui_C3_Button">
+                    <property name="label" translatable="yes">В3</property>
+                    <property name="name">ui_C3_Button</property>
                     <property name="width_request">190</property>
                     <property name="height_request">40</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkButton" id="ui_C3_Button">
-                        <property name="label" translatable="yes">В3</property>
-                        <property name="name">ui_C3_Button</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="focus_on_click">False</property>
-                        <property name="receives_default">True</property>
-                        <property name="relief">none</property>
-                      </object>
-                    </child>
+                    <property name="focus_on_click">False</property>
+                    <property name="receives_default">True</property>
+                    <property name="relief">none</property>
+                    <style>
+                      <class name="field"/>
+                    </style>
                   </object>
                   <packing>
                     <property name="x">152</property>
@@ -588,23 +563,19 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkEventBox" id="ui_C2_EventBox">
-                    <property name="name">ui_C2_EventBox</property>
+                  <object class="GtkButton" id="ui_C2_Button">
+                    <property name="label" translatable="yes">В2</property>
+                    <property name="name">ui_C2_Button</property>
                     <property name="width_request">190</property>
                     <property name="height_request">40</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkButton" id="ui_C2_Button">
-                        <property name="label" translatable="yes">В2</property>
-                        <property name="name">ui_C2_Button</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="focus_on_click">False</property>
-                        <property name="receives_default">True</property>
-                        <property name="relief">none</property>
-                      </object>
-                    </child>
+                    <property name="focus_on_click">False</property>
+                    <property name="receives_default">True</property>
+                    <property name="relief">none</property>
+                    <style>
+                      <class name="field"/>
+                    </style>
                   </object>
                   <packing>
                     <property name="x">117</property>
@@ -612,23 +583,19 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkEventBox" id="ui_C1_EventBox">
-                    <property name="name">ui_C1_EventBox</property>
+                  <object class="GtkButton" id="ui_C1_Button">
+                    <property name="label" translatable="yes">В1</property>
+                    <property name="name">ui_C1_Button</property>
                     <property name="width_request">190</property>
                     <property name="height_request">40</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkButton" id="ui_C1_Button">
-                        <property name="label" translatable="yes">В1</property>
-                        <property name="name">ui_C1_Button</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="focus_on_click">False</property>
-                        <property name="receives_default">True</property>
-                        <property name="relief">none</property>
-                      </object>
-                    </child>
+                    <property name="focus_on_click">False</property>
+                    <property name="receives_default">True</property>
+                    <property name="relief">none</property>
+                    <style>
+                      <class name="field"/>
+                    </style>
                   </object>
                   <packing>
                     <property name="x">82</property>
@@ -636,23 +603,19 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkEventBox" id="ui_D4_EventBox">
-                    <property name="name">ui_D4_EventBox</property>
+                  <object class="GtkButton" id="ui_D4_Button">
+                    <property name="label" translatable="yes">Г4</property>
+                    <property name="name">ui_D4_Button</property>
                     <property name="width_request">190</property>
                     <property name="height_request">40</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkButton" id="ui_D4_Button">
-                        <property name="label" translatable="yes">Г4</property>
-                        <property name="name">ui_D4_Button</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="focus_on_click">False</property>
-                        <property name="receives_default">True</property>
-                        <property name="relief">none</property>
-                      </object>
-                    </child>
+                    <property name="focus_on_click">False</property>
+                    <property name="receives_default">True</property>
+                    <property name="relief">none</property>
+                    <style>
+                      <class name="field"/>
+                    </style>
                   </object>
                   <packing>
                     <property name="x">462</property>
@@ -660,23 +623,19 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkEventBox" id="ui_D3_EventBox">
-                    <property name="name">ui_D3_EventBox</property>
+                  <object class="GtkButton" id="ui_D3_Button">
+                    <property name="label" translatable="yes">Г3</property>
+                    <property name="name">ui_D3_Button</property>
                     <property name="width_request">190</property>
                     <property name="height_request">40</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkButton" id="ui_D3_Button">
-                        <property name="label" translatable="yes">Г3</property>
-                        <property name="name">ui_D3_Button</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="focus_on_click">False</property>
-                        <property name="receives_default">True</property>
-                        <property name="relief">none</property>
-                      </object>
-                    </child>
+                    <property name="focus_on_click">False</property>
+                    <property name="receives_default">True</property>
+                    <property name="relief">none</property>
+                    <style>
+                      <class name="field"/>
+                    </style>
                   </object>
                   <packing>
                     <property name="x">497</property>
@@ -684,23 +643,19 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkEventBox" id="ui_D2_EventBox">
-                    <property name="name">ui_D2_EventBox</property>
+                  <object class="GtkButton" id="ui_D2_Button">
+                    <property name="label" translatable="yes">Г2</property>
+                    <property name="name">ui_D2_Button</property>
                     <property name="width_request">190</property>
                     <property name="height_request">40</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkButton" id="ui_D2_Button">
-                        <property name="label" translatable="yes">Г2</property>
-                        <property name="name">ui_D2_Button</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="focus_on_click">False</property>
-                        <property name="receives_default">True</property>
-                        <property name="relief">none</property>
-                      </object>
-                    </child>
+                    <property name="focus_on_click">False</property>
+                    <property name="receives_default">True</property>
+                    <property name="relief">none</property>
+                    <style>
+                      <class name="field"/>
+                    </style>
                   </object>
                   <packing>
                     <property name="x">532</property>
@@ -708,23 +663,19 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkEventBox" id="ui_D1_EventBox">
-                    <property name="name">ui_D1_EventBox</property>
+                  <object class="GtkButton" id="ui_D1_Button">
+                    <property name="label" translatable="yes">Г1</property>
+                    <property name="name">ui_D1_Button</property>
                     <property name="width_request">190</property>
                     <property name="height_request">40</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkButton" id="ui_D1_Button">
-                        <property name="label" translatable="yes">Г1</property>
-                        <property name="name">ui_D1_Button</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="focus_on_click">False</property>
-                        <property name="receives_default">True</property>
-                        <property name="relief">none</property>
-                      </object>
-                    </child>
+                    <property name="focus_on_click">False</property>
+                    <property name="receives_default">True</property>
+                    <property name="relief">none</property>
+                    <style>
+                      <class name="field"/>
+                    </style>
                   </object>
                   <packing>
                     <property name="x">567</property>
@@ -732,23 +683,19 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkEventBox" id="ui_B4_EventBox">
-                    <property name="name">ui_B4_EventBox</property>
+                  <object class="GtkButton" id="ui_B4_Button">
+                    <property name="label" translatable="yes">Б4</property>
+                    <property name="name">ui_B4_Button</property>
                     <property name="width_request">190</property>
                     <property name="height_request">40</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkButton" id="ui_B4_Button">
-                        <property name="label" translatable="yes">Б4</property>
-                        <property name="name">ui_B4_Button</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="focus_on_click">False</property>
-                        <property name="receives_default">True</property>
-                        <property name="relief">none</property>
-                      </object>
-                    </child>
+                    <property name="focus_on_click">False</property>
+                    <property name="receives_default">True</property>
+                    <property name="relief">none</property>
+                    <style>
+                      <class name="field"/>
+                    </style>
                   </object>
                   <packing>
                     <property name="x">462</property>
@@ -756,23 +703,19 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkEventBox" id="ui_B3_EventBox">
-                    <property name="name">ui_B3_EventBox</property>
+                  <object class="GtkButton" id="ui_B3_Button">
+                    <property name="label" translatable="yes">Б3</property>
+                    <property name="name">ui_B3_Button</property>
                     <property name="width_request">190</property>
                     <property name="height_request">40</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkButton" id="ui_B3_Button">
-                        <property name="label" translatable="yes">Б3</property>
-                        <property name="name">ui_B3_Button</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="focus_on_click">False</property>
-                        <property name="receives_default">True</property>
-                        <property name="relief">none</property>
-                      </object>
-                    </child>
+                    <property name="focus_on_click">False</property>
+                    <property name="receives_default">True</property>
+                    <property name="relief">none</property>
+                    <style>
+                      <class name="field"/>
+                    </style>
                   </object>
                   <packing>
                     <property name="x">497</property>
@@ -780,23 +723,19 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkEventBox" id="ui_B2_EventBox">
-                    <property name="name">ui_B2_EventBox</property>
+                  <object class="GtkButton" id="ui_B2_Button">
+                    <property name="label" translatable="yes">Б2</property>
+                    <property name="name">ui_B2_Button</property>
                     <property name="width_request">190</property>
                     <property name="height_request">40</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkButton" id="ui_B2_Button">
-                        <property name="label" translatable="yes">Б2</property>
-                        <property name="name">ui_B2_Button</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="focus_on_click">False</property>
-                        <property name="receives_default">True</property>
-                        <property name="relief">none</property>
-                      </object>
-                    </child>
+                    <property name="focus_on_click">False</property>
+                    <property name="receives_default">True</property>
+                    <property name="relief">none</property>
+                    <style>
+                      <class name="field"/>
+                    </style>
                   </object>
                   <packing>
                     <property name="x">532</property>
@@ -804,23 +743,19 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkEventBox" id="ui_B1_EventBox">
-                    <property name="name">ui_B1_EventBox</property>
+                  <object class="GtkButton" id="ui_B1_Button">
+                    <property name="label" translatable="yes">Б1</property>
+                    <property name="name">ui_B1_Button</property>
                     <property name="width_request">190</property>
                     <property name="height_request">40</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkButton" id="ui_B1_Button">
-                        <property name="label" translatable="yes">Б1</property>
-                        <property name="name">ui_B1_Button</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="focus_on_click">False</property>
-                        <property name="receives_default">True</property>
-                        <property name="relief">none</property>
-                      </object>
-                    </child>
+                    <property name="focus_on_click">False</property>
+                    <property name="receives_default">True</property>
+                    <property name="relief">none</property>
+                    <style>
+                      <class name="field"/>
+                    </style>
                   </object>
                   <packing>
                     <property name="x">567</property>
@@ -877,6 +812,9 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <style>
+                      <class name="field"/>
+                    </style>
                   </object>
                   <packing>
                     <property name="x">370</property>
@@ -894,6 +832,9 @@
                     <property name="receives_default">True</property>
                     <property name="margin_left">5</property>
                     <property name="margin_top">5</property>
+                    <style>
+                      <class name="field"/>
+                    </style>
                   </object>
                 </child>
               </object>
