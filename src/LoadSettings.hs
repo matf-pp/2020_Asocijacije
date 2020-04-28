@@ -1,4 +1,5 @@
 {-# LANGUAGE DeriveDataTypeable #-}
+
 module LoadSettings (
     Settings (..),
     readSettingsFile, 
@@ -34,19 +35,15 @@ myOpenFile fileName = do
     pom2 <- readFile fileName
     return pom2
     
-makeFileName :: FilePath
-makeFileName = "src/resources/settings.json"
+fileName :: FilePath
+fileName = "src/resources/settings.json"
     
 readSettingsFile :: IO (Settings)
 readSettingsFile = do
-    let fileName = makeFileName
     settingsJson <- myOpenFile fileName
     settingsObject <- return (decodeJSON settingsJson :: Settings)
     return settingsObject    
     
 writeToSettingsFile :: Settings -> IO ()
-writeToSettingsFile settingsObject = do
-    let fileName = makeFileName
-    let sadrzaj = (encodeJSON settingsObject)
-    writeFile fileName sadrzaj
+writeToSettingsFile settingsObject = writeFile fileName (encodeJSON settingsObject)
     

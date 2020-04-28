@@ -14,8 +14,8 @@ import qualified GI.Gdk as Gdk
 import Data.GI.Base
 
 
-loadCss :: IO ()
-loadCss = do
+loadCSS :: IO ()
+loadCSS = do
     maybeScreen <- Gdk.screenGetDefault
     provider <- Gtk.cssProviderNew
 
@@ -29,19 +29,11 @@ loadCss = do
     return ()
 
 
--- fixBackgroundColorForFixedWidgets :: Gtk.Builder -> IO ()
--- fixBackgroundColorForFixedWidgets builder = do
---     Just uiPlayer1Box <- getBuilderObj builder "uiPlayer1Box" Gtk.Fixed
---     Gtk.set uiPlayer1Box [ HasWindow := True ]
-
 createUI :: Maybe [T.Text] -> IO ()
 createUI args = do
     Gtk.init args
     builder <- Gtk.builderNewFromResource "/asocijacije/resources/ui.glade"
-    
-    loadCss
-
-    -- fixBackgroundColorForFixedWidgets builder
+    loadCSS
 
     Just window <- getBuilderObj builder "uiWindow" Gtk.Window
     on window #destroy $ Gtk.mainQuit
@@ -70,16 +62,19 @@ createUI args = do
     startGameButton' <- getBuilderObj builder (T.pack "uiButtonPlay") Gtk.Button
     settingsButton' <- getBuilderObj builder (T.pack "uiButtonSettings") Gtk.Button
     backButton' <- getBuilderObj builder (T.pack "uiButtonBackFromSettings") Gtk.Button
-    nextButton' <- getBuilderObj builder (T.pack "uiButtonNext") Gtk.Button
+    nextButton' <- getBuilderObj builder (T.pack "gameNextButton") Gtk.Button
+    gameExitButton' <- getBuilderObj builder (T.pack "gameExitButton") Gtk.Button
     quitButton' <- getBuilderObj builder (T.pack "uiButtonQuit") Gtk.Button
-    uiStack' <- getBuilderObj builder "uiStack" Gtk.Stack
+    stack' <- getBuilderObj builder "uiStack" Gtk.Stack
+    menuBox' <- getBuilderObj builder "uiMainMenu" Gtk.Box
     gameBox' <- getBuilderObj builder "uiTwoPlayersGameEventBox" Gtk.EventBox
-    player1NameLabel' <- getBuilderObj builder "uiPlayer1NameLabel" Gtk.Label
-    player2NameLabel' <- getBuilderObj builder "uiPlayer2NameLabel" Gtk.Label
-    player1ScoreLabel' <- getBuilderObj builder "uiPlayer1ScoreLabel" Gtk.Label
-    player2ScoreLabel' <- getBuilderObj builder "uiPlayer2ScoreLabel" Gtk.Label
-    player1EventBox' <- getBuilderObj builder "uiPlayer1BoxEventBox" Gtk.EventBox
-    player2EventBox' <- getBuilderObj builder "uiPlayer2BoxEventBox" Gtk.EventBox
+    settingsBox' <- getBuilderObj builder "uiSettings" Gtk.Box
+    bluePlayerNameLabel' <- getBuilderObj builder "uiPlayer1NameLabel" Gtk.Label
+    redPlayerNameLabel' <- getBuilderObj builder "uiPlayer2NameLabel" Gtk.Label
+    bluePlayerScoreLabel' <- getBuilderObj builder "uiPlayer1ScoreLabel" Gtk.Label
+    redPlayerScoreLabel' <- getBuilderObj builder "uiPlayer2ScoreLabel" Gtk.Label
+    bluePlayerEventBox' <- getBuilderObj builder "uiPlayer1BoxEventBox" Gtk.EventBox
+    redPlayerEventBox' <- getBuilderObj builder "uiPlayer2BoxEventBox" Gtk.EventBox
     settingBlueNameEntry' <- getBuilderObj builder "uiEntry_player1_name" Gtk.Entry
     settingBlueImageEntry' <- getBuilderObj builder "uiEntry_player1_image" Gtk.Entry
     settingRedNameEntry' <- getBuilderObj builder "uiEntry_player2_name" Gtk.Entry
@@ -111,15 +106,18 @@ createUI args = do
                   settingsButton = settingsButton', 
                   backButton = backButton',
                   nextButton = nextButton',
+                  gameExitButton = gameExitButton',
                   quitButton = quitButton',
-                  uiStack = uiStack',
+                  stack = stack',
                   gameBox = gameBox',
-                  player1NameLabel = player1NameLabel',
-                  player2NameLabel = player2NameLabel',
-                  player1ScoreLabel = player1ScoreLabel',
-                  player2ScoreLabel = player2ScoreLabel',
-                  player1EventBox = player1EventBox',
-                  player2EventBox = player2EventBox',
+                  menuBox = menuBox',
+                  settingsBox = settingsBox',
+                  bluePlayerNameLabel = bluePlayerNameLabel',
+                  redPlayerNameLabel = redPlayerNameLabel',
+                  bluePlayerScoreLabel = bluePlayerScoreLabel',
+                  redPlayerScoreLabel = redPlayerScoreLabel',
+                  bluePlayerEventBox = bluePlayerEventBox',
+                  redPlayerEventBox = redPlayerEventBox',
                   settingBlueNameEntry = settingBlueNameEntry',
                   settingBlueImageEntry = settingBlueImageEntry',
                   settingRedNameEntry = settingRedNameEntry',
@@ -127,14 +125,14 @@ createUI args = do
                   settingFirstPlayCombo = settingFirstPlayCombo'
                 }
 
-    connectBtnClick (startGameButton loadUI) $ uiButtonPlayTwoPlayersClickHandler
-    connectBtnClick (settingsButton loadUI) $ uiButtonSettingsClickHandler builder
-    connectBtnClick (backButton loadUI) $ uiButtonBackFromSettingsClickHandler builder
+    connectBtnClick (startGameButton loadUI) playButtonHandler
+    connectBtnClick (settingsButton loadUI) openSettingsHandler
+    connectBtnClick (backButton loadUI) backFromSettingsButtonHandler
+    connectBtnClick (quitButton loadUI) Gtk.mainQuit
+    connectBtnClick (gameExitButton loadUI) backFromGameHandler
  -- connectBtnClick (nextButton loadUI) $ poljeHandler (NijeKonacno (D, F4))
-    connectBtnClick (quitButton loadUI) $ Gtk.mainQuit
-
     traverse_ (\x -> connectBtnClick (poljeButton x) $ poljeHandler x) [(x,y) | x <- [A .. D], y <- [F1 .. F4]]
-    traverse_ (\x -> connectEntryActivate' (kolonaEntry (Just x)) $ kolonaHandler x builder) [A .. D]
+    traverse_ (\x -> connectEntryActivate' (kolonaEntry (Just x)) $ columnHandler x builder) [A .. D]
     connectEntryActivate' (finEntry loadUI) $ uiFinalAnswerEntry_handler builder
 
     Gtk.main

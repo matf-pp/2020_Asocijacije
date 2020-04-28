@@ -4,14 +4,15 @@ module Logic (
     connectBtnClick,
     connectEntryActivate,
     connectEntryActivate',
-    uiButtonPlayTwoPlayersClickHandler,
-    uiButtonSettingsClickHandler,
-    uiButtonBackFromSettingsClickHandler,
+    playButtonHandler,
+    openSettingsHandler,
+    backFromSettingsButtonHandler,
     poljeHandler,
-    kolonaHandler,
+    columnHandler,
     uiFinalAnswerEntry_handler,
     poljeButton,
-    kolonaEntry
+    kolonaEntry,
+    backFromGameHandler
 ) where
 
 import Types
@@ -62,8 +63,8 @@ connectEntryActivate builder name handler = getBuilderObj builder name Gtk.Entry
     Nothing -> return ()
 
 
-fokusirajKolonu :: Maybe Kolona -> IO ()
-fokusirajKolonu kolona = do
+focusColumn :: Maybe Kolona -> IO ()
+focusColumn kolona = do
     Gtk.widgetSetCanFocus entry True
     Gtk.widgetGrabFocus entry
     where Just entry = kolonaEntry kolona
@@ -75,8 +76,8 @@ ukloniFokusSaTrenutnogEntry builder = do
     Gtk.widgetSetCanFocus ui_A1_Button True
     Gtk.widgetGrabFocus ui_A1_Button
 
-uiButtonPlayTwoPlayersClickHandler :: IO ()
-uiButtonPlayTwoPlayersClickHandler = do
+playButtonHandler :: IO ()
+playButtonHandler = do
     Gtk.stackSetVisibleChild uiStack' gameBox'
     GameState.makeGameState
     gameStateObject <- GameState.loadGameState
@@ -87,87 +88,81 @@ uiButtonPlayTwoPlayersClickHandler = do
     Gtk.labelSetText player1ScoreLabel' $ T.pack $ show $ GameState.player1_score gameStateObject 
     Gtk.labelSetText player2ScoreLabel' $ T.pack $ show $ GameState.player2_score gameStateObject
     setFirstPlayerToPlay gameStateObject
-    fokusirajKolonu Nothing
-    where Just uiStack' = uiStack loadUI
+    focusColumn Nothing
+    where Just uiStack' = stack loadUI
           Just gameBox' = gameBox loadUI
-          Just player1NameLabel' = player1NameLabel loadUI
-          Just player2NameLabel' = player2NameLabel loadUI
-          Just player1ScoreLabel' = player1ScoreLabel loadUI
-          Just player2ScoreLabel' = player2ScoreLabel loadUI
+          Just player1NameLabel' = bluePlayerNameLabel loadUI
+          Just player2NameLabel' = redPlayerNameLabel loadUI
+          Just player1ScoreLabel' = bluePlayerScoreLabel loadUI
+          Just player2ScoreLabel' = redPlayerScoreLabel loadUI
 
 
-uiButtonSettingsClickHandler :: Gtk.Builder -> IO ()
-uiButtonSettingsClickHandler builder = do
-    Just uiStack <- getBuilderObj builder "uiStack" Gtk.Stack
-    Just uiSettings <- getBuilderObj builder "uiSettings" Gtk.Box
+openSettingsHandler :: IO ()
+openSettingsHandler = do
     Gtk.stackSetVisibleChild uiStack uiSettings
     settingsObject <- LoadSettings.readSettingsFile
-    putStrLn $ show $ settingsObject
-    -- previse imperativno, uradi na funkcionalni nacin
-    Just uiEntry_player1_name <- getBuilderObj builder "uiEntry_player1_name" Gtk.Entry
-    Just uiEntry_player1_image <- getBuilderObj builder "uiEntry_player1_image" Gtk.Entry
-    Just uiEntry_player2_name <- getBuilderObj builder "uiEntry_player2_name" Gtk.Entry
-    Just uiEntry_player2_image <- getBuilderObj builder "uiEntry_player2_image" Gtk.Entry
-    Just uiComboBoxText_first_play <- getBuilderObj builder "uiComboBoxText_first_play" Gtk.ComboBoxText
+    -- DEBUG
+    -- putStrLn $ show $ settingsObject
     Gtk.entrySetText uiEntry_player1_name $ T.pack $ LoadSettings.blueName settingsObject
     Gtk.entrySetText uiEntry_player1_image $ T.pack $ LoadSettings.blueImage settingsObject
-    Gtk.entrySetText uiEntry_player2_name $ T.pack $ LoadSettings.redName   settingsObject
+    Gtk.entrySetText uiEntry_player2_name $ T.pack $ LoadSettings.redName settingsObject
     Gtk.entrySetText uiEntry_player2_image $ T.pack $ LoadSettings.redImage settingsObject
-    let indexIntProcitan = (read $ show $ LoadSettings.firstPlay settingsObject) 
-    let index = if ((indexIntProcitan == 1) || (indexIntProcitan == 2)) then indexIntProcitan - 1 else 0
-    Gtk.comboBoxSetActive uiComboBoxText_first_play index
+    Gtk.comboBoxSetActive combo $ index $ LoadSettings.firstPlay settingsObject
+    where Just uiStack = stack loadUI
+          Just uiSettings = settingsBox loadUI
+          Just uiEntry_player1_name = settingBlueNameEntry loadUI
+          Just uiEntry_player1_image = settingBlueImageEntry loadUI
+          Just uiEntry_player2_name = settingRedNameEntry loadUI
+          Just uiEntry_player2_image = settingRedImageEntry loadUI
+          Just combo = settingFirstPlayCombo loadUI
+          index x | (x == Plavi) = 0 
+                  | (x == Crveni) = 1 
 
 
-uiButtonBackFromSettingsClickHandler :: Gtk.Builder -> IO ()
-uiButtonBackFromSettingsClickHandler builder = do
-    
-    Just uiEntry_player1_name <- getBuilderObj builder "uiEntry_player1_name" Gtk.Entry
+backFromSettingsButtonHandler :: IO ()
+backFromSettingsButtonHandler = do
     uiEntry_player1_name_text <- Gtk.getEntryText uiEntry_player1_name
-    let uiEntry_player1_name_str = T.unpack uiEntry_player1_name_text
-    
-    Just uiEntry_player1_image <- getBuilderObj builder "uiEntry_player1_image" Gtk.Entry
     uiEntry_player1_image_text <- Gtk.getEntryText uiEntry_player1_image
-    let uiEntry_player1_image_str = T.unpack uiEntry_player1_image_text
-    
-    Just uiEntry_player2_name <- getBuilderObj builder "uiEntry_player2_name" Gtk.Entry
     uiEntry_player2_name_text <- Gtk.getEntryText uiEntry_player2_name
-    let uiEntry_player2_name_str = T.unpack uiEntry_player2_name_text
-    
-    Just uiEntry_player2_image <- getBuilderObj builder "uiEntry_player2_image" Gtk.Entry
     uiEntry_player2_image_text <- Gtk.getEntryText uiEntry_player2_image
-    let uiEntry_player2_image_str = T.unpack uiEntry_player2_image_text
-      
-    Just uiComboBoxText_first_play <- getBuilderObj builder "uiComboBoxText_first_play" Gtk.ComboBoxText
-    uiComboBoxText_first_play_text <- Gtk.comboBoxTextGetActiveText uiComboBoxText_first_play
-    let uiComboBoxText_first_play_str = T.unpack uiComboBoxText_first_play_text
-    let indexInt = if uiComboBoxText_first_play_str == "Igrač 2" then 2 else 1
-    let index = show indexInt
-    let ui_first_play_str = index
-
-    let settingsObject = LoadSettings.Settings uiEntry_player1_name_str uiEntry_player1_image_str uiEntry_player2_name_str "ds" Plavi
-    LoadSettings.writeToSettingsFile settingsObject
-    Just uiStack <- getBuilderObj builder "uiStack" Gtk.Stack
-    Just uiMainMenu <- getBuilderObj builder "uiMainMenu" Gtk.Box
-    Gtk.stackSetVisibleChild uiStack uiMainMenu
+    item <- Gtk.comboBoxGetActive combo
+    LoadSettings.writeToSettingsFile $ LoadSettings.Settings (T.unpack uiEntry_player1_name_text) (T.unpack uiEntry_player1_image_text) (T.unpack uiEntry_player2_name_text) (T.unpack uiEntry_player2_image_text) (index item)
+    Gtk.stackSetVisibleChild stack' menu
+    where Just stack' = stack loadUI
+          Just menu = menuBox loadUI
+          Just uiEntry_player1_name = settingBlueNameEntry loadUI
+          Just uiEntry_player1_image = settingBlueImageEntry loadUI
+          Just uiEntry_player2_name = settingRedNameEntry loadUI
+          Just uiEntry_player2_image = settingRedImageEntry loadUI
+          Just combo = settingFirstPlayCombo loadUI
+          index x | (x == 0) = Plavi 
+                  | (x == 1) = Crveni
 
 
--- Funkcija koja se pokrece klikom polja
+backFromGameHandler :: IO ()
+backFromGameHandler = do
+    Gtk.stackSetVisibleChild stack' menu
+    where Just stack' = stack loadUI
+          Just menu = menuBox loadUI
+
+
+-- Funkcija koja se pokrece aktivacijom polja
 poljeHandler :: Polje -> IO ()
 poljeHandler polje = do
     -- DEBUG
     -- putStrLn $ polje
     gameStateObject <- GameState.loadGameState
-    if ((daLiPoljeNijeOtvoreno gameStateObject) && (daLiIgracNaPotezuNijeOtvaraoPolje gameStateObject)) then do
+    if (fieldClosed && (gamerPlayed gameStateObject)) then do
         gameStateObject <- upisiRecBtn polje gameStateObject
-        GameState.saveGameState gameStateObject{GameState.did_on_move_player_open_word = True}
+        GameState.saveGameState gameStateObject{GameState.playerОpenedWord = True}
         gs <- GameState.loadGameState
         -- DEBUG
         -- putStrLn $ show $ gs
         return ()
     else 
         return ()
-    where daLiPoljeNijeOtvoreno gameStateObject = (getIsOpened $ uzmiPolje polje $ GameState.getAssociation) == False
-          daLiIgracNaPotezuNijeOtvaraoPolje gameStateObject = (GameState.did_on_move_player_open_word gameStateObject) == False
+    where fieldClosed = not $ getIsOpened $ uzmiPolje polje GameState.getAssociation
+          gamerPlayed gs = not $ GameState.playerОpenedWord gs
         
 
 changePlayerOnMove :: GameState.GameState -> IO (GameState.GameState)
@@ -178,12 +173,12 @@ changePlayerOnMove gameStateObject = do
     styleContextUiPlayer2BoxEventBox <- Gtk.widgetGetStyleContext player2EventBox'
     Gtk.styleContextRemoveClass styleContextUiPlayer2BoxEventBox $ T.pack "na-potezu"
 
-    return (gameStateObject{GameState.igracNaPotezu = sledeciIgrac, GameState.did_on_move_player_open_word = False})
+    return (gameStateObject{GameState.igracNaPotezu = sledeciIgrac, GameState.playerОpenedWord = False})
 
-    where  Just player1EventBox' | GameState.igracNaPotezu gameStateObject == GameState.Plavi = player1EventBox loadUI
-                                 | GameState.igracNaPotezu gameStateObject == GameState.Crveni = player2EventBox loadUI
-           Just player2EventBox' | GameState.igracNaPotezu gameStateObject == GameState.Crveni = player1EventBox loadUI
-                                 | GameState.igracNaPotezu gameStateObject == GameState.Plavi = player2EventBox loadUI
+    where  Just player1EventBox' | GameState.igracNaPotezu gameStateObject == GameState.Plavi = redPlayerEventBox loadUI
+                                 | GameState.igracNaPotezu gameStateObject == GameState.Crveni = bluePlayerEventBox loadUI
+           Just player2EventBox' | GameState.igracNaPotezu gameStateObject == GameState.Crveni = redPlayerEventBox loadUI
+                                 | GameState.igracNaPotezu gameStateObject == GameState.Plavi = bluePlayerEventBox loadUI
            sledeciIgrac | GameState.igracNaPotezu gameStateObject == GameState.Crveni = GameState.Plavi
                         | GameState.igracNaPotezu gameStateObject == GameState.Plavi = GameState.Crveni
 
@@ -196,8 +191,8 @@ setFirstPlayerToPlay gameStateObject = do
     else do
         styleContextUiPlayer2BoxEventBox <- Gtk.widgetGetStyleContext player2EventBox'
         Gtk.styleContextAddClass styleContextUiPlayer2BoxEventBox $ T.pack "na-potezu"
-    where Just player1EventBox' = player1EventBox loadUI
-          Just player2EventBox' = player2EventBox loadUI
+    where Just player1EventBox' = bluePlayerEventBox loadUI
+          Just player2EventBox' = redPlayerEventBox loadUI
 
 
 upisiRecBtn :: Polje -> GameState.GameState -> IO (GameState.GameState)
@@ -215,74 +210,70 @@ upisiRecEntry kolona gameStateObject = do
     where Just uiEntry = kolonaEntry kolona
 
 
-upisiRecKolonaPolje :: Polje -> GameState.GameState -> IO (GameState.GameState)
-upisiRecKolonaPolje polje gameStateObject = do
+openField :: Polje -> GameState.GameState -> IO (GameState.GameState)
+openField polje gameStateObject = do
     if (getIsOpened $ uzmiPolje polje $ GameState.getAssociation) == False then do
         gameStateObject <- upisiRecBtn polje gameStateObject
         return (gameStateObject)
-        else 
-            return (gameStateObject)
+    else 
+        return (gameStateObject)
 
 upisiRecKolona :: Maybe Kolona -> GameState.GameState -> IO (GameState.GameState)
 upisiRecKolona kolona gameStateObject = do
     if (getIsOpened $ uzmiKolonu kolona $ GameState.getAssociation) == False then do
         gameStateObject <- upisiRecEntry kolona gameStateObject
         return (gameStateObject)
-        else 
-            return (gameStateObject)
+    else 
+        return (gameStateObject)
 
 
 obojiPolje :: Polje -> GameState.Igrac -> IO ()
 obojiPolje polje igrac = do
     putStrLn "Bojim polje"
     styleContextUiButton <- Gtk.widgetGetStyleContext uiButton
-    Gtk.styleContextAddClass styleContextUiButton $  boja igrac
+    Gtk.styleContextAddClass styleContextUiButton $ colorClass igrac
     where Just uiButton = poljeButton polje
           
 
 obojiKolonu :: Maybe Kolona -> GameState.Igrac -> IO ()
 obojiKolonu kolona igrac = do
     styleContextUiEntry <- Gtk.widgetGetStyleContext uiEntry
-    Gtk.styleContextAddClass styleContextUiEntry $ boja igrac
+    Gtk.styleContextAddClass styleContextUiEntry $ colorClass igrac
     where Just uiEntry = kolonaEntry kolona
 
 
-boja :: GameState.Igrac -> Text
-boja GameState.Plavi = "polje-plava"
-boja GameState.Crveni = "polje-crvena"
+colorClass :: GameState.Igrac -> Text
+colorClass GameState.Plavi = "polje-plava"
+colorClass GameState.Crveni = "polje-crvena"
 
-kolonaHandler :: Kolona -> Gtk.Builder -> IO ()
-kolonaHandler kolona builder = do
-    input_Text <- Gtk.entryGetText uiColumn_ABCD_Entry
+
+columnHandler :: Kolona -> Gtk.Builder -> IO ()
+columnHandler kolona builder = do
+    input_Text <- Gtk.entryGetText entry
     let user_input = T.unpack input_Text
     gameStateObject <- GameState.loadGameState
     let correct_answer = getWord $ uzmiKolonu (Just kolona)  GameState.getAssociation
     if user_input == correct_answer then do
         -- DEBUG 
         putStrLn "Tacno"
-        let bonus_poeni = ((cell1_bonus gameStateObject) + (cell2_bonus gameStateObject) + (cell3_bonus gameStateObject) + (cell4_bonus gameStateObject))
-        gameStateObject <- upisiRecKolonaPolje (kolona, F1) gameStateObject
-        gameStateObject <- upisiRecKolonaPolje (kolona, F2) gameStateObject
-        gameStateObject <- upisiRecKolonaPolje (kolona, F3) gameStateObject
-        gameStateObject <- upisiRecKolonaPolje (kolona, F4) gameStateObject
+        gameStateObject <- openField (kolona, F1) gameStateObject
+        gameStateObject <- openField (kolona, F2) gameStateObject
+        gameStateObject <- openField (kolona, F3) gameStateObject
+        gameStateObject <- openField (kolona, F4) gameStateObject
         traverse_ (\x -> obojiPolje (kolona, x) $ GameState.igracNaPotezu gameStateObject) [F1 .. F4]
         obojiKolonu (Just kolona) (GameState.igracNaPotezu gameStateObject)
-        gameStateObject <- dodajPoene (10 + bonus_poeni) gameStateObject builder
-        set uiColumn_ABCD_Entry [ #editable := False ]
-        ukloniFokusSaTrenutnogEntry builder 
-        GameState.saveGameState gameStateObject{GameState.did_on_move_player_open_word = True}
+        gameStateObject <- addPoints (10 + 2*(length [ x | x <- [F1 .. F4], (getIsOpened $ uzmiPolje (kolona, x) $ GameState.getAssociation) == False ] )) (GameState.igracNaPotezu gameStateObject) gameStateObject
+        set entry [ #editable := False ]
+        focusColumn Nothing 
+        GameState.saveGameState gameStateObject
     else do
         -- DEBUG
         putStrLn "Netacno"
         gameStateObject <- changePlayerOnMove gameStateObject
-        Gtk.entrySetText uiColumn_ABCD_Entry $ T.pack ""
+        Gtk.entrySetText entry $ T.pack ""
         GameState.saveGameState gameStateObject
-        ukloniFokusSaTrenutnogEntry builder
-    where Just uiColumn_ABCD_Entry = kolonaEntry $ Just kolona
-          cell1_bonus gameStateObject = if (getIsOpened $ uzmiPolje (kolona, F1) $ GameState.getAssociation) == False then 2 else 0
-          cell2_bonus gameStateObject = if (getIsOpened $ uzmiPolje (kolona, F2) $ GameState.getAssociation) == False then 2 else 0
-          cell3_bonus gameStateObject = if (getIsOpened $ uzmiPolje (kolona, F3) $ GameState.getAssociation) == False then 2 else 0
-          cell4_bonus gameStateObject = if (getIsOpened $ uzmiPolje (kolona, F4) $ GameState.getAssociation) == False then 2 else 0
+        focusColumn Nothing
+    where Just entry = kolonaEntry $ Just kolona
 
 
 uiFinalAnswerEntry_handler :: Gtk.Builder -> IO ()
@@ -316,22 +307,22 @@ uiFinalAnswerEntry_handler builder = do
                          + (d4_bonus gameStateObject)
                          + (d_bonus gameStateObject))
 
-        gameStateObject <- upisiRecKolonaPolje (A,F1) gameStateObject
-        gameStateObject <- upisiRecKolonaPolje (A,F2) gameStateObject
-        gameStateObject <- upisiRecKolonaPolje (A,F3) gameStateObject
-        gameStateObject <- upisiRecKolonaPolje (A,F4) gameStateObject
-        gameStateObject <- upisiRecKolonaPolje (B,F1) gameStateObject
-        gameStateObject <- upisiRecKolonaPolje (B,F2) gameStateObject
-        gameStateObject <- upisiRecKolonaPolje (B,F3) gameStateObject
-        gameStateObject <- upisiRecKolonaPolje (B,F4) gameStateObject
-        gameStateObject <- upisiRecKolonaPolje (C,F1) gameStateObject
-        gameStateObject <- upisiRecKolonaPolje (C,F2) gameStateObject
-        gameStateObject <- upisiRecKolonaPolje (C,F3) gameStateObject
-        gameStateObject <- upisiRecKolonaPolje (C,F4) gameStateObject
-        gameStateObject <- upisiRecKolonaPolje (D,F1) gameStateObject
-        gameStateObject <- upisiRecKolonaPolje (D,F2) gameStateObject
-        gameStateObject <- upisiRecKolonaPolje (D,F3) gameStateObject
-        gameStateObject <- upisiRecKolonaPolje (D,F4) gameStateObject
+        gameStateObject <- openField (A,F1) gameStateObject
+        gameStateObject <- openField (A,F2) gameStateObject
+        gameStateObject <- openField (A,F3) gameStateObject
+        gameStateObject <- openField (A,F4) gameStateObject
+        gameStateObject <- openField (B,F1) gameStateObject
+        gameStateObject <- openField (B,F2) gameStateObject
+        gameStateObject <- openField (B,F3) gameStateObject
+        gameStateObject <- openField (B,F4) gameStateObject
+        gameStateObject <- openField (C,F1) gameStateObject
+        gameStateObject <- openField (C,F2) gameStateObject
+        gameStateObject <- openField (C,F3) gameStateObject
+        gameStateObject <- openField (C,F4) gameStateObject
+        gameStateObject <- openField (D,F1) gameStateObject
+        gameStateObject <- openField (D,F2) gameStateObject
+        gameStateObject <- openField (D,F3) gameStateObject
+        gameStateObject <- openField (D,F4) gameStateObject
         gameStateObject <- upisiRecKolona (Just A) gameStateObject
         gameStateObject <- upisiRecKolona (Just B) gameStateObject
         gameStateObject <- upisiRecKolona (Just C) gameStateObject
@@ -359,10 +350,10 @@ uiFinalAnswerEntry_handler builder = do
         obojiKolonu (Just D) (GameState.igracNaPotezu gameStateObject)
         obojiKolonu Nothing (GameState.igracNaPotezu gameStateObject)
 
-        gameStateObject <- dodajPoene (20 + bonus_poeni) gameStateObject builder
+        gameStateObject <- addPoints (20 + bonus_poeni) (GameState.igracNaPotezu gameStateObject) gameStateObject
         set uiFinalAnswerEntry [ #editable := False ]
         ukloniFokusSaTrenutnogEntry builder
-        GameState.saveGameState gameStateObject{GameState.did_on_move_player_open_word = True}
+        GameState.saveGameState gameStateObject{GameState.playerОpenedWord = True}
         else do
             -- DEBUG
             putStrLn "Netacno"
@@ -394,17 +385,18 @@ uiFinalAnswerEntry_handler builder = do
           d_bonus gameStateObject  = if (getIsOpened $ uzmiKolonu (Just D) $ GameState.getAssociation) == False then 4 else 0
 
 
-dodajPoene :: Int -> GameState.GameState -> Gtk.Builder -> IO (GameState.GameState)
-dodajPoene poeni gameStateObject builder = do
-    let trenutni_igrac = GameState.igracNaPotezu gameStateObject
-    let trenutni_poeni = if trenutni_igrac == GameState.Plavi then GameState.player1_score gameStateObject else GameState.player2_score gameStateObject
-    let novi_poeni = trenutni_poeni + poeni
-    -- Just uiPlayerScoreLabel <- getBuilderObj builder (T.pack $ "uiPlayer" ++ (show trenutni_igrac) ++ "ScoreLabel") Gtk.Label
-    --Gtk.labelSetText player1ScoreLabel $ T.pack $ show novi_poeni
-    if trenutni_igrac == GameState.Plavi then do
-        return (gameStateObject{GameState.player1_score = novi_poeni})
-    else do
-        return (gameStateObject{GameState.player2_score = novi_poeni})
+addPoints :: Int -> Igrac -> GameState.GameState -> IO (GameState.GameState)
+addPoints points Plavi gameStateObject = do
+    Gtk.labelSetText scoreLabel $ T.pack $ show newScore
+    return (gameStateObject{GameState.player1_score = newScore})
+    where newScore = (GameState.player1_score gameStateObject) + points
+          Just scoreLabel = bluePlayerScoreLabel loadUI
+addPoints points Crveni gameStateObject = do
+    Gtk.labelSetText scoreLabel $ T.pack $ show newScore
+    return (gameStateObject{GameState.player2_score = newScore})
+    where newScore = (GameState.player2_score gameStateObject) + points
+          Just scoreLabel = redPlayerScoreLabel loadUI
+
 
 
 poljeButton :: Polje -> Maybe Gtk.Button

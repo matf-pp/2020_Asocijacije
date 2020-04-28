@@ -1,4 +1,5 @@
 {-# LANGUAGE DeriveDataTypeable #-}
+
 module Types (
     Igrac (..),
     Kolona (..), 
@@ -78,15 +79,18 @@ data UI = UI {    a1Button :: (Maybe Gtk.Button)
                 , settingsButton :: (Maybe Gtk.Button)
                 , backButton :: (Maybe Gtk.Button)
                 , nextButton :: (Maybe Gtk.Button)
+                , gameExitButton :: (Maybe Gtk.Button)
                 , quitButton :: (Maybe Gtk.Button)
-                , uiStack :: (Maybe Gtk.Stack)
+                , stack :: (Maybe Gtk.Stack)
+                , menuBox :: (Maybe Gtk.Box)
                 , gameBox :: (Maybe Gtk.EventBox)
-                , player1NameLabel :: (Maybe Gtk.Label)
-                , player2NameLabel :: (Maybe Gtk.Label)
-                , player1ScoreLabel :: (Maybe Gtk.Label)
-                , player2ScoreLabel :: (Maybe Gtk.Label)
-                , player1EventBox :: (Maybe Gtk.EventBox)
-                , player2EventBox :: (Maybe Gtk.EventBox)
+                , settingsBox :: (Maybe Gtk.Box)
+                , bluePlayerNameLabel :: (Maybe Gtk.Label)
+                , redPlayerNameLabel :: (Maybe Gtk.Label)
+                , bluePlayerScoreLabel :: (Maybe Gtk.Label)
+                , redPlayerScoreLabel :: (Maybe Gtk.Label)
+                , bluePlayerEventBox :: (Maybe Gtk.EventBox)
+                , redPlayerEventBox :: (Maybe Gtk.EventBox)
                 , settingBlueNameEntry  :: (Maybe Gtk.Entry)
                 , settingBlueImageEntry :: (Maybe Gtk.Entry)
                 , settingRedNameEntry  :: (Maybe Gtk.Entry)

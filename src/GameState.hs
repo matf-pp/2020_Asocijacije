@@ -25,7 +25,7 @@ import System.IO.Unsafe (unsafePerformIO)
 data GameState = GameState { settings                       :: LoadSettings.Settings
                            , association                    :: Association  
                            , igracNaPotezu                  :: Igrac
-                           , did_on_move_player_open_word   :: Bool
+                           , playerОpenedWord   :: Bool
                            , player1_score                  :: Int
                            , player2_score                  :: Int
                            } deriving (Show)
@@ -42,7 +42,7 @@ noveSettings = LoadSettings.Settings { LoadSettings.blueName = "A"
 noviStatus = GameState { settings = noveSettings
                                     , association = noveAsocijacije
                                     , igracNaPotezu = Plavi
-                                    , did_on_move_player_open_word = False
+                                    , playerОpenedWord = False
                                     , player1_score = 0
                                     , player2_score = 0
                                     } 
@@ -67,7 +67,7 @@ makeGameState = do
     let gameStateObject = GameState { settings = settingsObject
                                     , association = associationObject
                                     , igracNaPotezu = Plavi
-                                    , did_on_move_player_open_word = False
+                                    , playerОpenedWord = False
                                     , player1_score = 0
                                     , player2_score = 0
                                     }

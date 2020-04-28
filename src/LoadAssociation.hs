@@ -100,7 +100,7 @@ uzmiPolje polje associationObject
 uzmiKolonu :: Maybe Kolona -> Association -> PairWordIsOpened
 uzmiKolonu (Just kolona) associationObject
     | kolona == A = a_private associationObject
-    | kolona == B = c_private associationObject
+    | kolona == B = b_private associationObject
     | kolona == C = c_private associationObject
     | kolona == D = d_private associationObject
 uzmiKolonu Nothing associationObject = final_private associationObject
