@@ -37,19 +37,11 @@ connectBtnClick (Just button) handler = do
 connectBtnClick Nothing _ = return ()
 
 
-connectEntryActivate' :: Maybe Gtk.Entry -> IO () -> IO ()
-connectEntryActivate' (Just entry) handler = do  
+connectEntryActivate :: Maybe Gtk.Entry -> IO () -> IO ()
+connectEntryActivate (Just entry) handler = do  
                                             on entry #activate $ do handler
                                             return ()
-connectEntryActivate' Nothing _ = do return ()
-
-
-connectEntryActivate :: Gtk.Builder -> Text -> IO () -> IO ()
-connectEntryActivate builder name handler = getBuilderObj builder name Gtk.Entry >>= \case
-    Just entry -> do 
-        on entry #activate $ do handler
-        return ()
-    Nothing -> return ()
+connectEntryActivate Nothing _ = do return ()
 
 
 focusColumn :: Maybe Kolona -> IO ()
@@ -135,18 +127,25 @@ backFromGameHandler = do
           Just menu = menuBox loadUI
 
 
--- Funkcija koja se pokrece aktivacijom polja
-poljeHandler :: Polje -> IO ()
-poljeHandler polje = do
+nextButtonHandler :: IO ()
+nextButtonHandler = do
+    gameStateObject <- GameState.loadGameState
+    if (GameState.playerОpenedWord gameStateObject) then do
+        gameStateObject <- changePlayerOnMove gameStateObject
+        GameState.saveGameState gameStateObject
+        focusColumn Nothing
+    else 
+        return ()
+
+
+fieldHandler :: Polje -> IO ()
+fieldHandler polje = do
     -- DEBUG
     -- putStrLn $ polje
     gameStateObject <- GameState.loadGameState
     if (fieldClosed && (gamerPlayed gameStateObject)) then do
         gameStateObject <- upisiRecBtn polje gameStateObject
         GameState.saveGameState gameStateObject{GameState.playerОpenedWord = True}
-        gs <- GameState.loadGameState
-        -- DEBUG
-        -- putStrLn $ show $ gs
         return ()
     else 
         return ()
@@ -530,9 +529,9 @@ createUI args = do
     connectBtnClick (backButton loadUI) backFromSettingsButtonHandler
     connectBtnClick (quitButton loadUI) Gtk.mainQuit
     connectBtnClick (gameExitButton loadUI) backFromGameHandler
- -- connectBtnClick (nextButton loadUI) $ poljeHandler (NijeKonacno (D, F4))
-    traverse_ (\x -> connectBtnClick (poljeButton x) $ poljeHandler x) [(x,y) | x <- [A .. D], y <- [F1 .. F4]]
-    traverse_ (\x -> connectEntryActivate' (kolonaEntry (Just x)) $ columnHandler x builder) [A .. D]
-    connectEntryActivate' (finEntry loadUI) $ uiFinalAnswerEntry_handler builder
+    connectBtnClick (nextButton loadUI) nextButtonHandler
+    traverse_ (\x -> connectBtnClick (poljeButton x) $ fieldHandler x) [(x,y) | x <- [A .. D], y <- [F1 .. F4]]
+    traverse_ (\x -> connectEntryActivate (kolonaEntry (Just x)) $ columnHandler x builder) [A .. D]
+    connectEntryActivate (finEntry loadUI) $ uiFinalAnswerEntry_handler builder
 
     Gtk.main
