@@ -5,11 +5,10 @@ module LoadAssociation
     makeNewAssociation, 
     uzmiPolje,
     uzmiKolonu,
-    setItem,
-    postaviKolonu,
     getWord,
     getIsOpened,
-    noveAsocijacije
+    noveAsocijacije,
+    openAssociation
 ) where
 
 import Types
@@ -22,6 +21,7 @@ import System.IO.Error
 import Control.Exception
 import System.Directory
 import System.Random
+import qualified Data.Map as Map
 
 getWord :: PairWordIsOpened -> String
 getWord pairWordIsOpenedObject = fst pairWordIsOpenedObject
@@ -77,63 +77,50 @@ data AssociationOnly = AssociationOnly
                      } deriving (Data, Typeable, Show)
 
 
-uzmiPolje :: Field -> Association -> PairWordIsOpened
-uzmiPolje polje associationObject 
-    | polje == (A,F1) = a1_private associationObject
-    | polje == (A,F2) = a2_private associationObject
-    | polje == (A,F3) = a3_private associationObject
-    | polje == (A,F4) = a4_private associationObject
-    | polje == (B,F1) = b1_private associationObject
-    | polje == (B,F2) = b2_private associationObject
-    | polje == (B,F3) = b3_private associationObject
-    | polje == (B,F4) = b4_private associationObject
-    | polje == (C,F1) = c1_private associationObject
-    | polje == (C,F2) = c2_private associationObject
-    | polje == (C,F3) = c3_private associationObject
-    | polje == (C,F4) = c4_private associationObject
-    | polje == (D,F1) = d1_private associationObject
-    | polje == (D,F2) = d2_private associationObject
-    | polje == (D,F3) = d3_private associationObject
-    | polje == (D,F4) = d4_private associationObject
+uzmiPolje :: Field -> PairWordIsOpened 
+uzmiPolje (A,F1) = a1_private association
+uzmiPolje (A,F2) = a2_private association
+uzmiPolje (A,F3) = a3_private association
+uzmiPolje (A,F4) = a4_private association
+uzmiPolje (B,F1) = b1_private association
+uzmiPolje (B,F2) = b2_private association
+uzmiPolje (B,F3) = b3_private association
+uzmiPolje (B,F4) = b4_private association
+uzmiPolje (C,F1) = c1_private association
+uzmiPolje (C,F2) = c2_private association
+uzmiPolje (C,F3) = c3_private association
+uzmiPolje (C,F4) = c4_private association
+uzmiPolje (D,F1) = d1_private association
+uzmiPolje (D,F2) = d2_private association
+uzmiPolje (D,F3) = d3_private association
+uzmiPolje (D,F4) = d4_private association
 
 
-uzmiKolonu :: Maybe Column -> Association -> PairWordIsOpened
-uzmiKolonu (Just kolona) associationObject
-    | kolona == A = a_private associationObject
-    | kolona == B = b_private associationObject
-    | kolona == C = c_private associationObject
-    | kolona == D = d_private associationObject
-uzmiKolonu Nothing associationObject = final_private associationObject
+uzmiKolonu :: Maybe Column -> PairWordIsOpened
+uzmiKolonu (Just A) = a_private association
+uzmiKolonu (Just B) = b_private association
+uzmiKolonu (Just C) = c_private association
+uzmiKolonu (Just D) = d_private association
+uzmiKolonu Nothing  = final_private association
 
 
-setItem :: Field -> String -> Bool -> Association -> Association
-setItem polje word_ isOpened_ associationObject
-    | polje == (A,F1) = associationObject{a1_private= (word_, isOpened_)}
-    | polje == (A,F2) = associationObject{a2_private= (word_, isOpened_)}
-    | polje == (A,F3) = associationObject{a3_private= (word_, isOpened_)}
-    | polje == (A,F4) = associationObject{a4_private= (word_, isOpened_)}
-    | polje == (B,F1) = associationObject{b1_private= (word_, isOpened_)}
-    | polje == (B,F2) = associationObject{b2_private= (word_, isOpened_)}
-    | polje == (B,F3) = associationObject{b3_private= (word_, isOpened_)}
-    | polje == (B,F4) = associationObject{b4_private= (word_, isOpened_)}
-    | polje == (C,F1) = associationObject{c1_private= (word_, isOpened_)}
-    | polje == (C,F2) = associationObject{c2_private= (word_, isOpened_)}
-    | polje == (C,F3) = associationObject{c3_private= (word_, isOpened_)}
-    | polje == (C,F4) = associationObject{c4_private= (word_, isOpened_)}
-    | polje == (D,F1) = associationObject{d1_private= (word_, isOpened_)}
-    | polje == (D,F2) = associationObject{d2_private= (word_, isOpened_)}
-    | polje == (D,F3) = associationObject{d3_private= (word_, isOpened_)}
-    | polje == (D,F4) = associationObject{d4_private= (word_, isOpened_)}
-
-
-
-postaviKolonu :: Maybe Column -> String -> Bool -> Association -> Association
-postaviKolonu (Just kolona) word_ isOpened_ associationObject   
-    | kolona == A = associationObject{a_private = (word_, isOpened_)}
-    | kolona == B = associationObject{b_private = (word_, isOpened_)}
-    | kolona == C = associationObject{c_private = (word_, isOpened_)}
-    | kolona == D = associationObject{d_private = (word_, isOpened_)}
-postaviKolonu (Nothing) word_ isOpened_ associationObject  = associationObject{final_private=(word_, isOpened_)}
+openAssociation :: Field -> IO ()
+openAssociation (A,F1) = do setAssociation association{ a1_private = (fst (a1_private association), True)}
+openAssociation (A,F2) = do setAssociation association{ a2_private = (fst (a2_private association), True)}
+openAssociation (A,F3) = do setAssociation association{ a3_private = (fst (a3_private association), True)}
+openAssociation (A,F4) = do setAssociation association{ a4_private = (fst (a4_private association), True)}
+openAssociation (B,F1) = do setAssociation association{ b1_private = (fst (b1_private association), True)}
+openAssociation (B,F2) = do setAssociation association{ b2_private = (fst (b2_private association), True)}
+openAssociation (B,F3) = do setAssociation association{ b3_private = (fst (b3_private association), True)}
+openAssociation (B,F4) = do setAssociation association{ b4_private = (fst (b4_private association), True)}
+openAssociation (C,F1) = do setAssociation association{ c1_private = (fst (c1_private association), True)}
+openAssociation (C,F2) = do setAssociation association{ c2_private = (fst (c2_private association), True)}
+openAssociation (C,F3) = do setAssociation association{ c3_private = (fst (c3_private association), True)}
+openAssociation (C,F4) = do setAssociation association{ c4_private = (fst (c4_private association), True)}
+openAssociation (D,F1) = do setAssociation association{ d1_private = (fst (d1_private association), True)}
+openAssociation (D,F2) = do setAssociation association{ d2_private = (fst (d2_private association), True)}
+openAssociation (D,F3) = do setAssociation association{ d3_private = (fst (d3_private association), True)}
+openAssociation (D,F4) = do setAssociation association{ d4_private = (fst (d4_private association), True)}
 
 
 myOpenFile :: IO FilePath -> IO (String)
@@ -159,31 +146,30 @@ directoryWithAssociationsPath = "src/folderSaAsocijacijama"
 directorySize :: FilePath -> IO Int
 directorySize dir = fmap length . listDirectory $ directoryWithAssociationsPath
     
-makeNewAssociation :: IO (Association)
+makeNewAssociation :: IO ()
 makeNewAssociation = do
-    let fileName = makeFileName
-    associationOnlyJson <- myOpenFile fileName
+    associationOnlyJson <- myOpenFile makeFileName
     associationOnlyObject <- return (decodeJSON associationOnlyJson :: AssociationOnly)
-    return Association  { a1_private = (a1 associationOnlyObject, False)
-                        , a2_private = (a2 associationOnlyObject, False)
-                        , a3_private = (a3 associationOnlyObject, False)
-                        , a4_private = (a4 associationOnlyObject, False)
-                        , a_private  = (a associationOnlyObject,  False)
-                        , b1_private = (b1 associationOnlyObject, False)
-                        , b2_private = (b2 associationOnlyObject, False)
-                        , b3_private = (b3 associationOnlyObject, False)
-                        , b4_private = (b4 associationOnlyObject, False)
-                        , b_private  = (b associationOnlyObject,  False)
-                        , c1_private = (c1 associationOnlyObject, False)
-                        , c2_private = (c2 associationOnlyObject, False)
-                        , c3_private = (c3 associationOnlyObject, False)
-                        , c4_private = (c4 associationOnlyObject, False)
-                        , c_private  = (c associationOnlyObject,  False)
-                        , d1_private = (d1 associationOnlyObject, False)
-                        , d2_private = (d2 associationOnlyObject, False)
-                        , d3_private = (d3 associationOnlyObject, False)
-                        , d4_private = (d4 associationOnlyObject, False)
-                        , d_private  = (d associationOnlyObject,  False)
-                        , final_private = (final associationOnlyObject, False)
-                        }    
+    setAssociation Association { a1_private = (a1 associationOnlyObject, False)
+                               , a2_private = (a2 associationOnlyObject, False)
+                               , a3_private = (a3 associationOnlyObject, False)
+                               , a4_private = (a4 associationOnlyObject, False)
+                               , a_private  = (a associationOnlyObject,  False)
+                               , b1_private = (b1 associationOnlyObject, False)
+                               , b2_private = (b2 associationOnlyObject, False)
+                               , b3_private = (b3 associationOnlyObject, False)
+                               , b4_private = (b4 associationOnlyObject, False)
+                               , b_private  = (b associationOnlyObject,  False)
+                               , c1_private = (c1 associationOnlyObject, False)
+                               , c2_private = (c2 associationOnlyObject, False)
+                               , c3_private = (c3 associationOnlyObject, False)
+                               , c4_private = (c4 associationOnlyObject, False)
+                               , c_private  = (c associationOnlyObject,  False)
+                               , d1_private = (d1 associationOnlyObject, False)
+                               , d2_private = (d2 associationOnlyObject, False)
+                               , d3_private = (d3 associationOnlyObject, False)
+                               , d4_private = (d4 associationOnlyObject, False)
+                               , d_private  = (d associationOnlyObject,  False)
+                               , final_private = (final associationOnlyObject, False)
+                               }
 

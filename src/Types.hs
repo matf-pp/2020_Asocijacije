@@ -9,23 +9,23 @@ module Types (
     Association (..),
     UI (..),
     saveUI,
-    loadUI
+    loadUI,
+    association,
+    setAssociation
 ) where
 
-import Data.Data
+import Data.Data 
+import qualified Data.Map as Map
 import Data.Typeable
-import System.IO 
 import Data.IORef
-import Control.Monad
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GI.Gtk as Gtk
-import Data.GI.Base
 
 data Igrac = Plavi | Crveni deriving (Show, Eq, Data, Typeable)
 
-data Column = A | B | C | D  deriving (Eq, Show, Enum)
+data Column = A | B | C | D  deriving (Eq, Show, Enum, Ord)
 
-data Number = F1 | F2 | F3 | F4 deriving (Eq, Show, Enum)
+data Number = F1 | F2 | F3 | F4 deriving (Eq, Show, Enum, Ord)
 
 type Field = (Column, Number)
 
@@ -101,10 +101,19 @@ data UI = UI {    a1Button :: (Maybe Gtk.Button)
             }
 
 
-x = unsafePerformIO (newIORef (UI {}))
+xUI = unsafePerformIO (newIORef (UI {}))
+
+xAssoc = unsafePerformIO (newIORef (Association {}))
+
+
+association :: Association
+association =  unsafePerformIO $ readIORef xAssoc
+
+setAssociation :: Association -> IO ()
+setAssociation s = atomicModifyIORef xAssoc (\x -> (s, ()))
 
 loadUI :: UI
-loadUI = unsafePerformIO $ readIORef x
+loadUI = unsafePerformIO $ readIORef xUI
 
 saveUI :: UI -> IO ()
-saveUI s = atomicModifyIORef x (\x -> (s, ()))
+saveUI s = atomicModifyIORef xUI (\x -> (s, ()))

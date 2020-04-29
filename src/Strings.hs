@@ -1,9 +1,9 @@
-module Strings where
+module Strings (compareStrings) where
 
 import Data.Char
 
-equalStrings :: [Char] -> [Char] -> Bool
-equalStrings a b = processString a == processString b
+compareStrings :: [Char] -> [Char] -> Bool
+compareStrings a b = processString a == processString b
 
 processString :: [Char] -> [Char]
 processString x = concat $ fmap (toLat . toLower) x
