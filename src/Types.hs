@@ -2,9 +2,9 @@
 
 module Types (
     Igrac (..),
-    Kolona (..), 
-    Broj (..),
-    Polje (..),
+    Column (..), 
+    Number (..),
+    Field (..),
     PairWordIsOpened,
     Association (..),
     UI (..),
@@ -23,11 +23,13 @@ import Data.GI.Base
 
 data Igrac = Plavi | Crveni deriving (Show, Eq, Data, Typeable)
 
-data Kolona = A | B | C | D  deriving (Eq, Show, Enum)
+data Column = A | B | C | D  deriving (Eq, Show, Enum)
 
-data Broj = F1 | F2 | F3 | F4 deriving (Eq, Show, Enum)
+data Number = F1 | F2 | F3 | F4 deriving (Eq, Show, Enum)
 
-type Polje = (Kolona, Broj)
+type Field = (Column, Number)
+
+data FieldStatus = Closed | Open | Colored deriving (Show, Eq)
 
 type PairWordIsOpened = (String, Bool)
 

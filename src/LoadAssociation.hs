@@ -77,7 +77,7 @@ data AssociationOnly = AssociationOnly
                      } deriving (Data, Typeable, Show)
 
 
-uzmiPolje :: Polje -> Association -> PairWordIsOpened
+uzmiPolje :: Field -> Association -> PairWordIsOpened
 uzmiPolje polje associationObject 
     | polje == (A,F1) = a1_private associationObject
     | polje == (A,F2) = a2_private associationObject
@@ -97,7 +97,7 @@ uzmiPolje polje associationObject
     | polje == (D,F4) = d4_private associationObject
 
 
-uzmiKolonu :: Maybe Kolona -> Association -> PairWordIsOpened
+uzmiKolonu :: Maybe Column -> Association -> PairWordIsOpened
 uzmiKolonu (Just kolona) associationObject
     | kolona == A = a_private associationObject
     | kolona == B = b_private associationObject
@@ -106,7 +106,7 @@ uzmiKolonu (Just kolona) associationObject
 uzmiKolonu Nothing associationObject = final_private associationObject
 
 
-setItem :: Polje -> String -> Bool -> Association -> Association
+setItem :: Field -> String -> Bool -> Association -> Association
 setItem polje word_ isOpened_ associationObject
     | polje == (A,F1) = associationObject{a1_private= (word_, isOpened_)}
     | polje == (A,F2) = associationObject{a2_private= (word_, isOpened_)}
@@ -127,7 +127,7 @@ setItem polje word_ isOpened_ associationObject
 
 
 
-postaviKolonu :: Maybe Kolona -> String -> Bool -> Association -> Association
+postaviKolonu :: Maybe Column -> String -> Bool -> Association -> Association
 postaviKolonu (Just kolona) word_ isOpened_ associationObject   
     | kolona == A = associationObject{a_private = (word_, isOpened_)}
     | kolona == B = associationObject{b_private = (word_, isOpened_)}

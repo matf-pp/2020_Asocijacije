@@ -11,7 +11,7 @@ import qualified GameState
 import Data.Monoid ((<>))
 import qualified Data.Text.IO as T_IO
 import qualified Data.Text as T
-import Data.Foldable 
+import Data.Foldable
 import Data.Text (Text)
 import qualified GI.Gtk as Gtk
 import qualified GI.Gdk as Gdk
@@ -44,7 +44,7 @@ connectEntryActivate (Just entry) handler = do
 connectEntryActivate Nothing _ = do return ()
 
 
-focusColumn :: Maybe Kolona -> IO ()
+focusColumn :: Maybe Column -> IO ()
 focusColumn kolona = do
     Gtk.widgetSetCanFocus entry True
     Gtk.widgetGrabFocus entry
@@ -138,7 +138,7 @@ nextButtonHandler = do
         return ()
 
 
-fieldHandler :: Polje -> IO ()
+fieldHandler :: Field -> IO ()
 fieldHandler polje = do
     -- DEBUG
     -- putStrLn $ polje
@@ -183,14 +183,14 @@ setFirstPlayerToPlay gameStateObject = do
           Just player2EventBox' = redPlayerEventBox loadUI
 
 
-upisiRecBtn :: Polje -> GameState.GameState -> IO (GameState.GameState)
+upisiRecBtn :: Field -> GameState.GameState -> IO (GameState.GameState)
 upisiRecBtn polje gameStateObject = do
     let word = getWord $ uzmiPolje polje $ GameState.getAssociation
     Gtk.buttonSetLabel uiButton $ T.pack word
     return (gameStateObject{GameState.association = setItem polje word True $ GameState.getAssociation})
     where (Just uiButton) = poljeButton polje
 
-upisiRecEntry :: Maybe Kolona -> GameState.GameState -> IO (GameState.GameState)
+upisiRecEntry :: Maybe Column -> GameState.GameState -> IO (GameState.GameState)
 upisiRecEntry kolona gameStateObject = do
     let word = getWord $ uzmiKolonu kolona $ GameState.getAssociation
     Gtk.entrySetText uiEntry $ T.pack word
@@ -198,7 +198,7 @@ upisiRecEntry kolona gameStateObject = do
     where Just uiEntry = kolonaEntry kolona
 
 
-openField :: Polje -> GameState.GameState -> IO (GameState.GameState)
+openField :: Field -> GameState.GameState -> IO (GameState.GameState)
 openField polje gameStateObject = do
     if (getIsOpened $ uzmiPolje polje $ GameState.getAssociation) == False then do
         gameStateObject <- upisiRecBtn polje gameStateObject
@@ -206,7 +206,7 @@ openField polje gameStateObject = do
     else 
         return (gameStateObject)
 
-upisiRecKolona :: Maybe Kolona -> GameState.GameState -> IO (GameState.GameState)
+upisiRecKolona :: Maybe Column -> GameState.GameState -> IO (GameState.GameState)
 upisiRecKolona kolona gameStateObject = do
     if (getIsOpened $ uzmiKolonu kolona $ GameState.getAssociation) == False then do
         gameStateObject <- upisiRecEntry kolona gameStateObject
@@ -215,15 +215,15 @@ upisiRecKolona kolona gameStateObject = do
         return (gameStateObject)
 
 
-obojiPolje :: Polje -> GameState.Igrac -> IO ()
+obojiPolje :: Field -> GameState.Igrac -> IO ()
 obojiPolje polje igrac = do
-    putStrLn "Bojim polje"
+    putStrLn $ show polje 
     styleContextUiButton <- Gtk.widgetGetStyleContext uiButton
     Gtk.styleContextAddClass styleContextUiButton $ colorClass igrac
     where Just uiButton = poljeButton polje
           
 
-obojiKolonu :: Maybe Kolona -> GameState.Igrac -> IO ()
+obojiKolonu :: Maybe Column -> GameState.Igrac -> IO ()
 obojiKolonu kolona igrac = do
     styleContextUiEntry <- Gtk.widgetGetStyleContext uiEntry
     Gtk.styleContextAddClass styleContextUiEntry $ colorClass igrac
@@ -235,7 +235,7 @@ colorClass GameState.Plavi = "polje-plava"
 colorClass GameState.Crveni = "polje-crvena"
 
 
-columnHandler :: Kolona -> Gtk.Builder -> IO ()
+columnHandler :: Column -> Gtk.Builder -> IO ()
 columnHandler kolona builder = do
     input_Text <- Gtk.entryGetText entry
     let user_input = T.unpack input_Text
@@ -387,7 +387,7 @@ addPoints points Crveni gameStateObject = do
 
 
 
-poljeButton :: Polje -> Maybe Gtk.Button
+poljeButton :: Field -> Maybe Gtk.Button
 poljeButton (A,F1) = a1Button loadUI
 poljeButton (A,F2) = a2Button loadUI
 poljeButton (A,F3) = a3Button loadUI
@@ -405,7 +405,7 @@ poljeButton (D,F2) = d2Button loadUI
 poljeButton (D,F3) = d3Button loadUI
 poljeButton (D,F4) = d4Button loadUI
 
-kolonaEntry :: Maybe Kolona -> Maybe Gtk.Entry
+kolonaEntry :: Maybe Column -> Maybe Gtk.Entry
 kolonaEntry (Just A) = aEntry loadUI
 kolonaEntry (Just B) = bEntry loadUI
 kolonaEntry (Just C) = cEntry loadUI
