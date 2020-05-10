@@ -56,13 +56,12 @@ playButtonHandler :: IO ()
 playButtonHandler = do
     Gtk.stackSetVisibleChild uiStack' gameBox'
     makeGameState
-    gameStateObject <- loadGameState
     resetUI
     Gtk.labelSetText player1NameLabel' $ T.pack $ LoadSettings.blueName getSettings
     Gtk.labelSetText player2NameLabel' $ T.pack $ LoadSettings.redName  getSettings
-    Gtk.labelSetText player1ScoreLabel' $ T.pack $ show $ player1_score gameStateObject 
-    Gtk.labelSetText player2ScoreLabel' $ T.pack $ show $ player2_score gameStateObject
-    setFirstPlayerToPlay gameStateObject
+    Gtk.labelSetText player1ScoreLabel' $ T.pack "0" 
+    Gtk.labelSetText player2ScoreLabel' $ T.pack "0"
+    setFirstPlayerToPlay $ playerOnMove gameState
     focusColumn Nothing
     where Just uiStack' = stack loadUI
           Just gameBox' = gameBox loadUI
@@ -77,16 +76,12 @@ openSettingsHandler = do
     Gtk.stackSetVisibleChild uiStack uiSettings
     settingsObject <- LoadSettings.readSettingsFile
     Gtk.entrySetText uiEntry_player1_name $ T.pack $ LoadSettings.blueName settingsObject
-    Gtk.entrySetText uiEntry_player1_image $ T.pack $ LoadSettings.blueImage settingsObject
     Gtk.entrySetText uiEntry_player2_name $ T.pack $ LoadSettings.redName settingsObject
-    Gtk.entrySetText uiEntry_player2_image $ T.pack $ LoadSettings.redImage settingsObject
     Gtk.comboBoxSetActive combo $ index $ LoadSettings.firstPlay settingsObject
     where Just uiStack = stack loadUI
           Just uiSettings = settingsBox loadUI
           Just uiEntry_player1_name = settingBlueNameEntry loadUI
-          Just uiEntry_player1_image = settingBlueImageEntry loadUI
           Just uiEntry_player2_name = settingRedNameEntry loadUI
-          Just uiEntry_player2_image = settingRedImageEntry loadUI
           Just combo = settingFirstPlayCombo loadUI
           index x | (x == Plavi) = 0 
                   | (x == Crveni) = 1 
@@ -95,18 +90,14 @@ openSettingsHandler = do
 backFromSettingsButtonHandler :: IO ()
 backFromSettingsButtonHandler = do
     uiEntry_player1_name_text <- Gtk.getEntryText uiEntry_player1_name
-    uiEntry_player1_image_text <- Gtk.getEntryText uiEntry_player1_image
     uiEntry_player2_name_text <- Gtk.getEntryText uiEntry_player2_name
-    uiEntry_player2_image_text <- Gtk.getEntryText uiEntry_player2_image
     item <- Gtk.comboBoxGetActive combo
-    LoadSettings.writeToSettingsFile $ LoadSettings.Settings (T.unpack uiEntry_player1_name_text) (T.unpack uiEntry_player1_image_text) (T.unpack uiEntry_player2_name_text) (T.unpack uiEntry_player2_image_text) (index item)
+    LoadSettings.writeToSettingsFile $ LoadSettings.Settings (T.unpack uiEntry_player1_name_text) (T.unpack uiEntry_player2_name_text) (index item)
     Gtk.stackSetVisibleChild stack' menu
     where Just stack' = stack loadUI
           Just menu = menuBox loadUI
           Just uiEntry_player1_name = settingBlueNameEntry loadUI
-          Just uiEntry_player1_image = settingBlueImageEntry loadUI
           Just uiEntry_player2_name = settingRedNameEntry loadUI
-          Just uiEntry_player2_image = settingRedImageEntry loadUI
           Just combo = settingFirstPlayCombo loadUI
           index x | (x == 0) = Plavi 
                   | (x == 1) = Crveni
@@ -162,9 +153,9 @@ changePlayerOnMove gameStateObject = do
                         | playerOnMove gameStateObject == Plavi = Crveni
 
 
-setFirstPlayerToPlay :: GameState -> IO ()
-setFirstPlayerToPlay gameStateObject = do
-    if playerOnMove gameStateObject == Plavi then do
+setFirstPlayerToPlay :: Player -> IO ()
+setFirstPlayerToPlay player = do
+    if player == Plavi then do
         styleContextUiPlayer1BoxEventBox <- Gtk.widgetGetStyleContext player1EventBox'
         Gtk.styleContextAddClass styleContextUiPlayer1BoxEventBox $ T.pack "na-potezu"
     else do
@@ -186,20 +177,20 @@ writeWordToColumn column string = do
     where Just uiEntry = columnEntry column
 
 
-colorField :: Field -> Igrac -> IO ()
+colorField :: Field -> Player -> IO ()
 colorField  field player = do 
         styleContextUiButton <- Gtk.widgetGetStyleContext uiButton
         Gtk.styleContextAddClass styleContextUiButton $ colorClass player
         where (Just uiButton) = fieldButton field
 
-colorColumn :: Maybe Column -> Igrac -> IO ()
+colorColumn :: Maybe Column -> Player -> IO ()
 colorColumn column igrac = do
     styleContextUiEntry <- Gtk.widgetGetStyleContext uiEntry
     Gtk.styleContextAddClass styleContextUiEntry $ colorClass igrac
     where Just uiEntry = columnEntry column
 
 
-colorClass :: Igrac -> Text
+colorClass :: Player -> Text
 colorClass Plavi = "polje-plava"
 colorClass Crveni = "polje-crvena"
 
@@ -299,7 +290,7 @@ loadCSS = do
 
     case (maybeScreen) of
         (Just screen) -> do
-            Gtk.cssProviderLoadFromPath provider (T.pack "src/resources/style.css")
+            Gtk.cssProviderLoadFromResource provider "/asocijacije/resources/style.css"
             Gtk.styleContextAddProviderForScreen
                 screen
                 provider
@@ -354,9 +345,7 @@ createUI args = do
     bluePlayerEventBox' <- getBuilderObj builder "uiPlayer1BoxEventBox" Gtk.EventBox
     redPlayerEventBox' <- getBuilderObj builder "uiPlayer2BoxEventBox" Gtk.EventBox
     settingBlueNameEntry' <- getBuilderObj builder "uiEntry_player1_name" Gtk.Entry
-    settingBlueImageEntry' <- getBuilderObj builder "uiEntry_player1_image" Gtk.Entry
     settingRedNameEntry' <- getBuilderObj builder "uiEntry_player2_name" Gtk.Entry
-    settingRedImageEntry' <- getBuilderObj builder "uiEntry_player2_image" Gtk.Entry
     settingFirstPlayCombo' <- getBuilderObj builder "uiComboBoxText_first_play" Gtk.ComboBoxText
 
     saveUI   UI { a1Button = a1Button', 
@@ -397,9 +386,7 @@ createUI args = do
                   bluePlayerEventBox = bluePlayerEventBox',
                   redPlayerEventBox = redPlayerEventBox',
                   settingBlueNameEntry = settingBlueNameEntry',
-                  settingBlueImageEntry = settingBlueImageEntry',
                   settingRedNameEntry = settingRedNameEntry',
-                  settingRedImageEntry = settingRedImageEntry',
                   settingFirstPlayCombo = settingFirstPlayCombo'
                 }
 

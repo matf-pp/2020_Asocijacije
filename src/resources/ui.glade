@@ -142,88 +142,29 @@
                   <object class="GtkEventBox" id="uiPlayer1BoxEventBox">
                     <property name="name">uiPlayer1BoxEventBox</property>
                     <property name="width_request">150</property>
-                    <property name="height_request">180</property>
+                    <property name="height_request">80</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
-                      <object class="GtkFixed" id="uiPlayer1BoxFixed">
-                        <property name="name">uiPlayer1BoxFixed</property>
+                      <object class="GtkEventBox" id="uiPlayer1NameEventBox">
+                        <property name="name">uiPlayer1NameEventBox</property>
+                        <property name="width_request">150</property>
+                        <property name="height_request">36</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <child>
-                          <object class="GtkEventBox" id="uiPlayer1NameEventBox">
-                            <property name="name">uiPlayer1NameEventBox</property>
-                            <property name="width_request">150</property>
-                            <property name="height_request">36</property>
+                          <object class="GtkLabel" id="uiPlayer1NameLabel">
+                            <property name="name">uiPlayer1NameLabel</property>
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <child>
-                              <object class="GtkLabel" id="uiPlayer1NameLabel">
-                                <property name="name">uiPlayer1NameLabel</property>
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">Player 1</property>
-                                <style>
-                                  <class name="uiPlayerNameLabel"/>
-                                </style>
-                              </object>
-                            </child>
+                            <property name="label" translatable="yes">Player 1</property>
                             <style>
-                              <class name="uiPlayerNameEventBox"/>
+                              <class name="uiPlayerNameLabel"/>
                             </style>
                           </object>
-                          <packing>
-                            <property name="y">150</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkEventBox" id="uiPlayer1ImageBoxEventBox">
-                            <property name="name">uiPlayer1ImageBoxEventBox</property>
-                            <property name="width_request">90</property>
-                            <property name="height_request">90</property>
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="halign">start</property>
-                            <property name="valign">start</property>
-                            <child>
-                              <object class="GtkBox">
-                                <property name="width_request">90</property>
-                                <property name="height_request">90</property>
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="halign">start</property>
-                                <property name="valign">start</property>
-                                <property name="orientation">vertical</property>
-                                <child>
-                                  <object class="GtkImage">
-                                    <property name="width_request">90</property>
-                                    <property name="height_request">90</property>
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="halign">start</property>
-                                    <property name="valign">start</property>
-                                    <property name="stock">gtk-missing-image</property>
-                                    <property name="icon_size">6</property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">False</property>
-                                    <property name="position">0</property>
-                                  </packing>
-                                </child>
-                              </object>
-                            </child>
-                            <style>
-                              <class name="uiPlayerImageBoxEventBox"/>
-                            </style>
-                          </object>
-                          <packing>
-                            <property name="x">30</property>
-                            <property name="y">30</property>
-                          </packing>
                         </child>
                         <style>
-                          <class name="uiPlayerBoxFixed"/>
+                          <class name="uiPlayerNameEventBox"/>
                         </style>
                       </object>
                     </child>
@@ -233,95 +174,36 @@
                   </object>
                   <packing>
                     <property name="x">20</property>
-                    <property name="y">200</property>
+                    <property name="y">260</property>
                   </packing>
                 </child>
                 <child>
                   <object class="GtkEventBox" id="uiPlayer2BoxEventBox">
                     <property name="name">uiPlayer2BoxEventBox</property>
                     <property name="width_request">150</property>
-                    <property name="height_request">180</property>
+                    <property name="height_request">80</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <child>
-                      <object class="GtkFixed" id="uiPlayer2BoxFixed">
-                        <property name="name">uiPlayer2BoxFixed</property>
+                      <object class="GtkEventBox" id="uiPlayer2NameEventBox">
+                        <property name="name">uiPlayer2NameEventBox</property>
+                        <property name="width_request">150</property>
+                        <property name="height_request">36</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <child>
-                          <object class="GtkEventBox" id="uiPlayer2NameEventBox">
-                            <property name="name">uiPlayer2NameEventBox</property>
-                            <property name="width_request">150</property>
-                            <property name="height_request">36</property>
+                          <object class="GtkLabel" id="uiPlayer2NameLabel">
+                            <property name="name">uiPlayer2NameLabel</property>
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <child>
-                              <object class="GtkLabel" id="uiPlayer2NameLabel">
-                                <property name="name">uiPlayer2NameLabel</property>
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">Player 2</property>
-                                <style>
-                                  <class name="uiPlayerNameLabel"/>
-                                </style>
-                              </object>
-                            </child>
+                            <property name="label" translatable="yes">Player 2</property>
                             <style>
-                              <class name="uiPlayerNameEventBox"/>
+                              <class name="uiPlayerNameLabel"/>
                             </style>
                           </object>
-                          <packing>
-                            <property name="y">150</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkEventBox" id="uiPlayer2ImageBoxEventBox">
-                            <property name="name">uiPlayer2ImageBoxEventBox</property>
-                            <property name="width_request">90</property>
-                            <property name="height_request">90</property>
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="halign">start</property>
-                            <property name="valign">start</property>
-                            <child>
-                              <object class="GtkBox">
-                                <property name="width_request">90</property>
-                                <property name="height_request">90</property>
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="halign">start</property>
-                                <property name="valign">start</property>
-                                <property name="orientation">vertical</property>
-                                <child>
-                                  <object class="GtkImage">
-                                    <property name="width_request">90</property>
-                                    <property name="height_request">90</property>
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="halign">start</property>
-                                    <property name="valign">start</property>
-                                    <property name="stock">gtk-missing-image</property>
-                                    <property name="icon_size">6</property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">False</property>
-                                    <property name="position">0</property>
-                                  </packing>
-                                </child>
-                              </object>
-                            </child>
-                            <style>
-                              <class name="uiPlayerImageBoxEventBox"/>
-                            </style>
-                          </object>
-                          <packing>
-                            <property name="x">30</property>
-                            <property name="y">30</property>
-                          </packing>
                         </child>
                         <style>
-                          <class name="uiPlayerBoxFixed"/>
+                          <class name="uiPlayerNameEventBox"/>
                         </style>
                       </object>
                     </child>
@@ -330,8 +212,8 @@
                     </style>
                   </object>
                   <packing>
-                    <property name="x">669</property>
-                    <property name="y">200</property>
+                    <property name="x">670</property>
+                    <property name="y">260</property>
                   </packing>
                 </child>
                 <child>
@@ -880,18 +762,6 @@
                 <property name="can_focus">False</property>
                 <property name="valign">start</property>
                 <child>
-                  <object class="GtkLabel">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Црвени играч име:</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
                   <object class="GtkEntry" id="uiEntry_player1_name">
                     <property name="width_request">220</property>
                     <property name="visible">True</property>
@@ -903,6 +773,18 @@
                     <property name="expand">False</property>
                     <property name="fill">True</property>
                     <property name="pack_type">end</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">Црвени играч име:</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
@@ -911,43 +793,6 @@
                 <property name="expand">False</property>
                 <property name="fill">True</property>
                 <property name="position">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkBox">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="valign">start</property>
-                <child>
-                  <object class="GtkLabel">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Плави играч слика:</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEntry" id="uiEntry_player1_image">
-                    <property name="width_request">220</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="pack_type">end</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">2</property>
               </packing>
             </child>
             <child>
@@ -984,44 +829,7 @@
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
-                <property name="position">3</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkBox">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="valign">start</property>
-                <child>
-                  <object class="GtkLabel">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Плави играч слика:</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEntry" id="uiEntry_player2_image">
-                    <property name="width_request">220</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="pack_type">end</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">4</property>
+                <property name="position">2</property>
               </packing>
             </child>
             <child>
@@ -1063,7 +871,7 @@
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
-                <property name="position">5</property>
+                <property name="position">3</property>
               </packing>
             </child>
             <child>
@@ -1080,7 +888,7 @@
                 <property name="expand">False</property>
                 <property name="fill">False</property>
                 <property name="pack_type">end</property>
-                <property name="position">6</property>
+                <property name="position">4</property>
               </packing>
             </child>
           </object>

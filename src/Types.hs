@@ -1,7 +1,7 @@
 {-# LANGUAGE DeriveDataTypeable #-}
 
 module Types (
-    Igrac (..),
+    Player (..),
     Column (..), 
     Number (..),
     Field (..),
@@ -21,7 +21,7 @@ import Data.IORef
 import System.IO.Unsafe (unsafePerformIO)
 import qualified GI.Gtk as Gtk
 
-data Igrac = Plavi | Crveni deriving (Show, Eq, Data, Typeable)
+data Player = Plavi | Crveni deriving (Show, Eq, Data, Typeable)
 
 data Column = A | B | C | D  deriving (Eq, Show, Enum, Ord)
 

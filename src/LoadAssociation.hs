@@ -141,7 +141,7 @@ randomFajl nekiInt = do
     return num
     
 directoryWithAssociationsPath :: FilePath
-directoryWithAssociationsPath = "src/folderSaAsocijacijama"
+directoryWithAssociationsPath = "association"
 
 directorySize :: FilePath -> IO Int
 directorySize dir = fmap length . listDirectory $ directoryWithAssociationsPath

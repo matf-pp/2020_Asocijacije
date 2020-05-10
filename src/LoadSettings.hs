@@ -13,19 +13,15 @@ import System.Environment
 import System.IO 
 
 data Settings = Settings
-                     { blueName  :: String 
-                     , blueImage :: String
+                     { blueName  :: String
                      , redName   :: String
-                     , redImage  :: String
-                     , firstPlay :: Igrac
+                     , firstPlay :: Player
                      } deriving (Data, Typeable)
 
 instance Show Settings where
     show settingsObject =  "Settings{"
                         ++ "\n\tblueName:  " ++ (blueName settingsObject)  ++ ","
-                        ++ "\n\tblueImage: " ++ (blueImage settingsObject) ++ ","
                         ++ "\n\tredName:   " ++ (redName settingsObject)   ++ ","
-                        ++ "\n\tredImage:  " ++ (redImage settingsObject)  ++ ","
                         ++ "\n\tfirstPlay: " ++ (show $ firstPlay settingsObject)
                         ++ "\n}"
 
@@ -36,7 +32,7 @@ myOpenFile fileName = do
     return pom2
     
 fileName :: FilePath
-fileName = "src/resources/settings.json"
+fileName = "settings.json"
     
 readSettingsFile :: IO (Settings)
 readSettingsFile = do

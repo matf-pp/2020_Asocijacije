@@ -1,14 +1,11 @@
 {-# LANGUAGE DeriveDataTypeable #-}
 module GameState (
   GameState (..),
-  Igrac (..),
   makeGameState,
   loadGameState,
   saveGameState,
   gameState,
   getSettings,
-  getAssociation,
-  getMove
 ) where
 
 import qualified LoadSettings
@@ -20,7 +17,7 @@ import Control.Monad
 import System.IO.Unsafe (unsafePerformIO)
 
 data GameState = GameState { settings         :: LoadSettings.Settings
-                           , playerOnMove     :: Igrac
+                           , playerOnMove     :: Player
                            , playerОpenedWord :: Bool
                            , player1_score    :: Int
                            , player2_score    :: Int
@@ -28,9 +25,7 @@ data GameState = GameState { settings         :: LoadSettings.Settings
 
 
 noveSettings = LoadSettings.Settings { LoadSettings.blueName = "A" 
-                                       , LoadSettings.blueImage = "I"
                                        , LoadSettings.redName  = "B"
-                                       , LoadSettings.redImage = "I"
                                        , LoadSettings.firstPlay = Plavi
 }
 
@@ -50,20 +45,13 @@ getSettings :: LoadSettings.Settings
 getSettings = settings $ unsafePerformIO $ loadGameState
 
 
-getAssociation :: Association
-getAssociation = association
-
-
-getMove :: Igrac
-getMove = playerOnMove $ unsafePerformIO $ loadGameState
-
-
 makeGameState :: IO ()
 makeGameState = do
     settingsObject <- LoadSettings.readSettingsFile
     makeNewAssociation
+    putStrLn $ show $  (LoadSettings.firstPlay settingsObject)
     saveGameState GameState { settings = settingsObject
-                            , playerOnMove = Plavi
+                            , playerOnMove = (LoadSettings.firstPlay settingsObject)
                             , playerОpenedWord = False
                             , player1_score = 0
                             , player2_score = 0
