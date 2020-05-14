@@ -8,7 +8,6 @@ import qualified LoadSettings
 import LoadAssociation
 import GameState
 import Strings
-
 import Data.Monoid ((<>))
 import qualified Data.Text.IO as T_IO
 import qualified Data.Text as T
@@ -17,6 +16,9 @@ import Data.Text (Text)
 import qualified GI.Gtk as Gtk
 import qualified GI.Gdk as Gdk
 import Data.GI.Base
+import Control.Monad
+import Data.IORef
+
 
 getBuilderObj :: forall o'
                . GObject o' 
@@ -52,16 +54,22 @@ focusColumn column = do
     where Just entry = columnEntry column
 
 
-playButtonHandler :: IO ()
-playButtonHandler = do
+playButtonHandler :: IORef GameState -> IO ()
+playButtonHandler gsRef = do
     Gtk.stackSetVisibleChild uiStack' gameBox'
-    makeGameState
+    makeGameState gsRef
     resetUI
-    Gtk.labelSetText player1NameLabel' $ T.pack $ LoadSettings.blueName getSettings
-    Gtk.labelSetText player2NameLabel' $ T.pack $ LoadSettings.redName  getSettings
+    gs <- gameState gsRef
+    Gtk.labelSetText player1NameLabel' $ T.pack $ LoadSettings.blueName $ settings gs
+    Gtk.labelSetText player2NameLabel' $ T.pack $ LoadSettings.redName  $ settings gs
     Gtk.labelSetText player1ScoreLabel' $ T.pack "0" 
     Gtk.labelSetText player2ScoreLabel' $ T.pack "0"
-    setFirstPlayerToPlay $ playerOnMove gameState
+    set entryA [ #editable := True ]
+    set entryB [ #editable := True ]
+    set entryC [ #editable := True ]
+    set entryD [ #editable := True ]
+    set entryF [ #editable := True ]
+    setFirstPlayerToPlay $ playerOnMove gs
     focusColumn Nothing
     where Just uiStack' = stack loadUI
           Just gameBox' = gameBox loadUI
@@ -69,6 +77,11 @@ playButtonHandler = do
           Just player2NameLabel' = redPlayerNameLabel loadUI
           Just player1ScoreLabel' = bluePlayerScoreLabel loadUI
           Just player2ScoreLabel' = redPlayerScoreLabel loadUI
+          Just entryA = aEntry loadUI
+          Just entryB = bEntry loadUI
+          Just entryC = cEntry loadUI
+          Just entryD = dEntry loadUI
+          Just entryF = finEntry loadUI
 
 
 openSettingsHandler :: IO ()
@@ -110,47 +123,45 @@ backFromGameHandler = do
           Just menu = menuBox loadUI
 
 
-nextButtonHandler :: IO ()
-nextButtonHandler = do
-    gameStateObject <- loadGameState
-    if (playerОpenedWord gameStateObject) then do
-        gameStateObject <- changePlayerOnMove gameStateObject
-        saveGameState gameStateObject
+nextButtonHandler :: IORef GameState -> IO ()
+nextButtonHandler gsRef = do
+    gs <- gameState gsRef
+    if (playerОpenedWord gs) then do
+        changePlayerOnMove gsRef
         focusColumn Nothing
     else 
         return ()
 
 
-fieldHandler :: Field -> IO ()
-fieldHandler field = do
-    gameStateObject <- loadGameState
-    if (fieldClosed && (gamerPlayed gameStateObject)) then do
-        writeWordToField field (getWord $ uzmiPolje $ field)
-        openAssociation field
-        saveGameState gameStateObject{playerОpenedWord = True}
-        return ()
+fieldHandler :: Field -> IORef GameState -> IO ()
+fieldHandler field gsRef = do
+    gs <- gameState gsRef
+    if ((not $ getIsOpened $ takeField field gs) && (gamerPlayed gs)) then do
+        writeWordToField field (getWord $ takeField field gs)
+        saveGameState gsRef $ (openField field) $ setPOW gs
     else 
         return ()
-    where fieldClosed = not $ getIsOpened $ uzmiPolje field
-          gamerPlayed gs = not $ playerОpenedWord gs
-        
+    where gamerPlayed gs' = not $ playerОpenedWord gs'
 
-changePlayerOnMove :: GameState -> IO (GameState)
-changePlayerOnMove gameStateObject = do
+
+setPOW :: GameState -> GameState
+setPOW gs = gs {playerОpenedWord = True}
+
+
+changePlayerOnMove :: IORef GameState -> IO ()
+changePlayerOnMove gsRef = do
+    gs <- gameState gsRef
     styleContextUiPlayer1BoxEventBox <- Gtk.widgetGetStyleContext player1EventBox'
     Gtk.styleContextAddClass styleContextUiPlayer1BoxEventBox $ T.pack "na-potezu"
-
     styleContextUiPlayer2BoxEventBox <- Gtk.widgetGetStyleContext player2EventBox'
     Gtk.styleContextRemoveClass styleContextUiPlayer2BoxEventBox $ T.pack "na-potezu"
-
-    return (gameStateObject{playerOnMove = sledeciIgrac, playerОpenedWord = False})
-
-    where  Just player1EventBox' | playerOnMove gameStateObject == Plavi = redPlayerEventBox loadUI
-                                 | playerOnMove gameStateObject == Crveni = bluePlayerEventBox loadUI
-           Just player2EventBox' | playerOnMove gameStateObject == Crveni = redPlayerEventBox loadUI
-                                 | playerOnMove gameStateObject == Plavi = bluePlayerEventBox loadUI
-           sledeciIgrac | playerOnMove gameStateObject == Crveni = Plavi
-                        | playerOnMove gameStateObject == Plavi = Crveni
+    saveGameState gsRef gs{playerOnMove = (sledeciIgrac (playerOnMove gs)), playerОpenedWord = False}
+    where  Just player1EventBox' | playerOnMove (gameState' gsRef) == Plavi = redPlayerEventBox loadUI
+                                 | playerOnMove (gameState' gsRef) == Crveni = bluePlayerEventBox loadUI
+           Just player2EventBox' | playerOnMove (gameState' gsRef) == Crveni = redPlayerEventBox loadUI
+                                 | playerOnMove (gameState' gsRef) == Plavi = bluePlayerEventBox loadUI
+           sledeciIgrac Crveni = Plavi
+           sledeciIgrac Plavi = Crveni
 
 
 setFirstPlayerToPlay :: Player -> IO ()
@@ -183,6 +194,7 @@ colorField  field player = do
         Gtk.styleContextAddClass styleContextUiButton $ colorClass player
         where (Just uiButton) = fieldButton field
 
+
 colorColumn :: Maybe Column -> Player -> IO ()
 colorColumn column igrac = do
     styleContextUiEntry <- Gtk.widgetGetStyleContext uiEntry
@@ -195,92 +207,70 @@ colorClass Plavi = "polje-plava"
 colorClass Crveni = "polje-crvena"
 
 
-columnHandler :: Column -> Gtk.Builder -> IO ()
-columnHandler column builder = do
+columnHandler :: Column -> IORef GameState -> IO ()
+columnHandler column gsRef = do
+    gs <- gameState gsRef
     input_Text <- Gtk.entryGetText entry
-    gameStateObject <- loadGameState
-    let points = length $ filter (\x -> not $ getIsOpened $ uzmiPolje x) [(column, x) | x <- [F1 .. F4]]
-    if (compareStrings (T.unpack input_Text) (getWord $ uzmiKolonu $ Just column)) then do
-        traverse_ openAssociation [(column , x) | x <- [F1 .. F4]]
-        traverse_ (\x -> openAssociation x >> writeWordToField x (getWord $ uzmiPolje x) >> colorField x (playerOnMove gameStateObject)) [(column , x) | x <- [F1 .. F4]]
-        colorColumn (Just column) (playerOnMove gameStateObject)
-        writeWordToColumn (Just column) (getWord $ uzmiKolonu $ Just column)
+    let points = length $ filter (\x -> not $ getIsOpened $ takeField x gs) fields
+        player = playerOnMove gs
+    if (compareStrings (T.unpack input_Text) (getWord $ takeColumn (Just column) gs)) then do
+        putStrLn $ show points
+        saveGameState gsRef $ openColumn (Just column) $ addPoints points player $ openFields gs fields
+        traverse_ (\x -> writeWordToField x (getWord $ takeField x gs) >> colorField x player) fields
+        colorColumn (Just column) player
+        writeWordToColumn (Just column) (getWord $ takeColumn (Just column) gs)
         set entry [ #editable := False ]
-        focusColumn Nothing 
-        updatePoints gameStateObject
-        saveGameState (addPoints points gameStateObject)
-        return ()
+        focusColumn Nothing
+        updatePoints gsRef
     else do
-        gameStateObject <- changePlayerOnMove gameStateObject
+        changePlayerOnMove gsRef
         Gtk.entrySetText entry $ T.pack ""
-        saveGameState gameStateObject
         focusColumn Nothing
     where Just entry = columnEntry $ Just column
+          fields = [(column , x) | x <- [F1 .. F4]]
 
 
-finalEntryHandler :: IO ()
-finalEntryHandler = do
+openFields :: GameState -> [Field] -> GameState
+openFields s (x:xs) = openField x $ openFields s xs 
+openFields s []     = s
+ 
+
+finalEntryHandler :: IORef GameState -> IO ()
+finalEntryHandler gsRef = do
     input_Text <- Gtk.entryGetText uiFinalAnswerEntry
-    gameStateObject <- loadGameState
-    let correctAnswer = getWord $ uzmiKolonu Nothing
-        closedFields = filter (\x -> not $ getIsOpened $ uzmiPolje x) [(x, y) | x <- [A .. D], y <- [F1 .. F4]]
-        closedColumns = [(Just x) | x <- [A .. D], (getIsOpened $ uzmiKolonu (Just x)) == False]
+    gs <- gameState gsRef
+    let player = playerOnMove gs
+        correctAnswer = getWord $ takeColumn Nothing gs
+        closedFields = filter (\x -> not $ getIsOpened $ takeField x gs) [(x, y) | x <- [A .. D], y <- [F1 .. F4]]
+        closedColumns = [(Just x) | x <- [A .. D], (getIsOpened $ takeColumn (Just x) gs) == False]
     if (compareStrings (T.unpack input_Text) correctAnswer) then do
-        traverse_ (\x -> openAssociation x >> colorField x (playerOnMove gameStateObject) >> writeWordToField x (getWord $ uzmiPolje x)) closedFields
-        traverse_ (\x -> writeWordToColumn x (getWord $ uzmiKolonu x) >> colorColumn x (playerOnMove gameStateObject)) closedColumns
-        colorColumn Nothing (playerOnMove gameStateObject)
-        writeWordToColumn Nothing (getWord $ uzmiKolonu Nothing)
+        traverse_ (\x -> colorField x player >> writeWordToField x (getWord $ takeField x gs)) closedFields
+        traverse_ (\x -> writeWordToColumn x (getWord $ takeColumn x gs) >> colorColumn x player) closedColumns
+        colorColumn Nothing player
+        writeWordToColumn Nothing (getWord $ takeColumn Nothing gs)
         set uiFinalAnswerEntry [ #editable := False ]
-        updatePoints gameStateObject
-        saveGameState gameStateObject{playerОpenedWord = True}
+        saveGameState gsRef $ addPoints (2 * length closedFields + 5 * length closedColumns + 10) player gs
+        updatePoints gsRef
     else do
-        gameStateObject <- changePlayerOnMove gameStateObject
         Gtk.entrySetText uiFinalAnswerEntry $ T.pack ""
-        saveGameState gameStateObject
+        changePlayerOnMove gsRef
+        return ()
     where Just uiFinalAnswerEntry = finEntry loadUI
 
 
-updatePoints :: GameState -> IO ()
-updatePoints gs = do
-    Gtk.labelSetText blueScoreLabel $ T.pack $ show blueScore
-    Gtk.labelSetText redScoreLabel $ T.pack $ show redScore
-    where blueScore = player1_score gs
-          redScore = player2_score gs
-          Just blueScoreLabel = bluePlayerScoreLabel loadUI
+updatePoints :: IORef GameState -> IO ()
+updatePoints gsRef = do
+    gs <- gameState gsRef
+    Gtk.labelSetText blueScoreLabel $ T.pack $ show $ player1_score gs
+    Gtk.labelSetText redScoreLabel $ T.pack $ show $ player2_score gs
+    where Just blueScoreLabel = bluePlayerScoreLabel loadUI
           Just redScoreLabel = redPlayerScoreLabel loadUI
 
 
-addPoints :: Int -> GameState -> GameState
-addPoints points gs = newGameState (playerOnMove gs) 
+addPoints :: Int -> Player -> GameState -> GameState
+addPoints points player gs = newGameState player 
             where newGameState Plavi = gs {player1_score = (points + player1_score gs)}
                   newGameState Crveni = gs {player2_score = (points + player2_score gs)}
-
-
-fieldButton :: Field -> Maybe Gtk.Button
-fieldButton (A,F1) = a1Button loadUI
-fieldButton (A,F2) = a2Button loadUI
-fieldButton (A,F3) = a3Button loadUI
-fieldButton (A,F4) = a4Button loadUI
-fieldButton (B,F1) = b1Button loadUI
-fieldButton (B,F2) = b2Button loadUI
-fieldButton (B,F3) = b3Button loadUI
-fieldButton (B,F4) = b4Button loadUI
-fieldButton (C,F1) = c1Button loadUI
-fieldButton (C,F2) = c2Button loadUI
-fieldButton (C,F3) = c3Button loadUI
-fieldButton (C,F4) = c4Button loadUI
-fieldButton (D,F1) = d1Button loadUI
-fieldButton (D,F2) = d2Button loadUI
-fieldButton (D,F3) = d3Button loadUI
-fieldButton (D,F4) = d4Button loadUI
-
-
-columnEntry :: Maybe Column -> Maybe Gtk.Entry
-columnEntry (Just A) = aEntry loadUI
-columnEntry (Just B) = bEntry loadUI
-columnEntry (Just C) = cEntry loadUI
-columnEntry (Just D) = dEntry loadUI
-columnEntry Nothing  = finEntry loadUI
 
 
 loadCSS :: IO ()
@@ -298,8 +288,8 @@ loadCSS = do
     return ()
 
 
-createUI :: Maybe [T.Text] -> IO ()
-createUI args = do
+createUI :: IORef GameState -> Maybe [T.Text] -> IO ()
+createUI gs args = do
     Gtk.init args
     builder <- Gtk.builderNewFromResource "/asocijacije/resources/ui.glade"
     loadCSS
@@ -390,15 +380,15 @@ createUI args = do
                   settingFirstPlayCombo = settingFirstPlayCombo'
                 }
 
-    connectBtnClick (startGameButton loadUI) playButtonHandler
+    connectBtnClick (startGameButton loadUI) (playButtonHandler gs)
     connectBtnClick (settingsButton loadUI) openSettingsHandler
     connectBtnClick (backButton loadUI) backFromSettingsButtonHandler
     connectBtnClick (quitButton loadUI) Gtk.mainQuit
     connectBtnClick (gameExitButton loadUI) backFromGameHandler
-    connectBtnClick (nextButton loadUI) nextButtonHandler
-    traverse_ (\x -> connectBtnClick (fieldButton x) $ fieldHandler x) [(x,y) | x <- [A .. D], y <- [F1 .. F4]]
-    traverse_ (\x -> connectEntryActivate (columnEntry (Just x)) $ columnHandler x builder) [A .. D]
-    connectEntryActivate (finEntry loadUI) $ finalEntryHandler
+    connectBtnClick (nextButton loadUI) (nextButtonHandler gs)
+    traverse_ (\x -> connectBtnClick (fieldButton x) $ fieldHandler x gs) [(x,y) | x <- [A .. D], y <- [F1 .. F4]]
+    traverse_ (\x -> connectEntryActivate (columnEntry (Just x)) $ columnHandler x gs) [A .. D]
+    connectEntryActivate (finEntry loadUI) $ (finalEntryHandler gs)
 
     Gtk.main
 
@@ -407,6 +397,7 @@ resetUI :: IO ()
 resetUI = do
     traverse_ (\x -> removeButtonStyle (fieldButton $ fst x) >> writeWordToField (fst x) (snd x)) $ zip [(x,y) | x <- [A .. D], y <- [F1 .. F4]] [ x ++ y | x <- ["A", "Б", "В", "Г"], y <- ["1", "2", "3", "4"]]
     traverse_ (\x -> removeEntryStyle (columnEntry x) >> writeWordToColumn x "") [Just A, Just B, Just C, Just D, Nothing]
+
 
 removeButtonStyle :: Maybe Gtk.Button -> IO ()
 removeButtonStyle (Just button) = do
@@ -422,3 +413,84 @@ removeEntryStyle (Just entry) = do
         Gtk.styleContextRemoveClass context $ colorClass Plavi
         Gtk.styleContextRemoveClass context $ colorClass Crveni
 removeEntryStyle Nothing = return ()
+
+
+openField :: Field -> GameState -> GameState
+openField (A,F1) gs = gs { assoc = (assoc gs){ a1_private = (fst (a1_private (assoc gs)), True)} }
+openField (A,F2) gs = gs { assoc = (assoc gs){ a2_private = (fst (a2_private (assoc gs)), True)} }
+openField (A,F3) gs = gs { assoc = (assoc gs){ a3_private = (fst (a3_private (assoc gs)), True)} }
+openField (A,F4) gs = gs { assoc = (assoc gs){ a4_private = (fst (a4_private (assoc gs)), True)} }
+openField (B,F1) gs = gs { assoc = (assoc gs){ b1_private = (fst (b1_private (assoc gs)), True)} }
+openField (B,F2) gs = gs { assoc = (assoc gs){ b2_private = (fst (b2_private (assoc gs)), True)} }
+openField (B,F3) gs = gs { assoc = (assoc gs){ b3_private = (fst (b3_private (assoc gs)), True)} }
+openField (B,F4) gs = gs { assoc = (assoc gs){ b4_private = (fst (b4_private (assoc gs)), True)} }
+openField (C,F1) gs = gs { assoc = (assoc gs){ c1_private = (fst (c1_private (assoc gs)), True)} }
+openField (C,F2) gs = gs { assoc = (assoc gs){ c2_private = (fst (c2_private (assoc gs)), True)} }
+openField (C,F3) gs = gs { assoc = (assoc gs){ c3_private = (fst (c3_private (assoc gs)), True)} }
+openField (C,F4) gs = gs { assoc = (assoc gs){ c4_private = (fst (c4_private (assoc gs)), True)} }
+openField (D,F1) gs = gs { assoc = (assoc gs){ d1_private = (fst (d1_private (assoc gs)), True)} }
+openField (D,F2) gs = gs { assoc = (assoc gs){ d2_private = (fst (d2_private (assoc gs)), True)} }
+openField (D,F3) gs = gs { assoc = (assoc gs){ d3_private = (fst (d3_private (assoc gs)), True)} }
+openField (D,F4) gs = gs { assoc = (assoc gs){ d4_private = (fst (d4_private (assoc gs)), True)} }
+
+
+takeField :: Field -> GameState -> PairWordIsOpened 
+takeField (A,F1) gs = (a1_private . assoc) gs 
+takeField (A,F2) gs = (a2_private . assoc) gs 
+takeField (A,F3) gs = (a3_private . assoc) gs 
+takeField (A,F4) gs = (a4_private . assoc) gs 
+takeField (B,F1) gs = (b1_private . assoc) gs 
+takeField (B,F2) gs = (b2_private . assoc) gs 
+takeField (B,F3) gs = (b3_private . assoc) gs 
+takeField (B,F4) gs = (b4_private . assoc) gs 
+takeField (C,F1) gs = (c1_private . assoc) gs 
+takeField (C,F2) gs = (c2_private . assoc) gs 
+takeField (C,F3) gs = (c3_private . assoc) gs 
+takeField (C,F4) gs = (c4_private . assoc) gs 
+takeField (D,F1) gs = (d1_private . assoc) gs 
+takeField (D,F2) gs = (d2_private . assoc) gs 
+takeField (D,F3) gs = (d3_private . assoc) gs 
+takeField (D,F4) gs = (d4_private . assoc) gs
+
+
+fieldButton :: Field -> Maybe Gtk.Button
+fieldButton (A,F1) = a1Button loadUI
+fieldButton (A,F2) = a2Button loadUI
+fieldButton (A,F3) = a3Button loadUI
+fieldButton (A,F4) = a4Button loadUI
+fieldButton (B,F1) = b1Button loadUI
+fieldButton (B,F2) = b2Button loadUI
+fieldButton (B,F3) = b3Button loadUI
+fieldButton (B,F4) = b4Button loadUI
+fieldButton (C,F1) = c1Button loadUI
+fieldButton (C,F2) = c2Button loadUI
+fieldButton (C,F3) = c3Button loadUI
+fieldButton (C,F4) = c4Button loadUI
+fieldButton (D,F1) = d1Button loadUI
+fieldButton (D,F2) = d2Button loadUI
+fieldButton (D,F3) = d3Button loadUI
+fieldButton (D,F4) = d4Button loadUI
+
+
+openColumn :: Maybe Column -> GameState -> GameState
+openColumn (Just A) gs = gs { assoc = (assoc gs){ a_private = (fst (a_private (assoc gs)), True)} }
+openColumn (Just B) gs = gs { assoc = (assoc gs){ b_private = (fst (b_private (assoc gs)), True)} }
+openColumn (Just C) gs = gs { assoc = (assoc gs){ c_private = (fst (c_private (assoc gs)), True)} }
+openColumn (Just D) gs = gs { assoc = (assoc gs){ d_private = (fst (d_private (assoc gs)), True)} }
+openColumn Nothing  gs = gs { assoc = (assoc gs){ final_private = (fst (final_private (assoc gs)), True)} }
+
+
+takeColumn :: Maybe Column -> GameState -> PairWordIsOpened
+takeColumn (Just A) gs = a_private $ assoc gs
+takeColumn (Just B) gs = b_private $ assoc gs
+takeColumn (Just C) gs = c_private $ assoc gs
+takeColumn (Just D) gs = d_private $ assoc gs
+takeColumn Nothing  gs = final_private $ assoc gs
+
+
+columnEntry :: Maybe Column -> Maybe Gtk.Entry
+columnEntry (Just A) = aEntry loadUI
+columnEntry (Just B) = bEntry loadUI
+columnEntry (Just C) = cEntry loadUI
+columnEntry (Just D) = dEntry loadUI
+columnEntry Nothing  = finEntry loadUI

@@ -8,10 +8,12 @@ module Types (
     PairWordIsOpened,
     Association (..),
     UI (..),
+    Settings (..),
+    GameState (..),
     saveUI,
     loadUI,
-    association,
-    setAssociation
+    getWord,
+    getIsOpened,
 ) where
 
 import Data.Data 
@@ -101,19 +103,43 @@ data UI = UI {    a1Button :: (Maybe Gtk.Button)
             }
 
 
+data Settings = Settings
+                     { blueName  :: String
+                     , redName   :: String
+                     , firstPlay :: Player
+                     } deriving (Data, Typeable)
+
+instance Show Settings where
+    show settingsObject =  "Settings{"
+                        ++ "\n\tblueName:  " ++ (blueName settingsObject)  ++ ","
+                        ++ "\n\tredName:   " ++ (redName settingsObject)   ++ ","
+                        ++ "\n\tfirstPlay: " ++ (show $ firstPlay settingsObject)
+                        ++ "\n}"
+
+
+data GameState = GameState { settings         :: Settings
+                           , assoc            :: Association
+                           , playerOnMove     :: Player
+                           , playerОpenedWord :: Bool
+                           , player1_score    :: Int
+                           , player2_score    :: Int
+                           } deriving (Show)
+
+
 xUI = unsafePerformIO (newIORef (UI {}))
 
-xAssoc = unsafePerformIO (newIORef (Association {}))
-
-
-association :: Association
-association =  unsafePerformIO $ readIORef xAssoc
-
-setAssociation :: Association -> IO ()
-setAssociation s = atomicModifyIORef xAssoc (\x -> (s, ()))
 
 loadUI :: UI
 loadUI = unsafePerformIO $ readIORef xUI
 
+
 saveUI :: UI -> IO ()
-saveUI s = atomicModifyIORef xUI (\x -> (s, ()))
+saveUI s = modifyIORef xUI (\x -> s)
+
+
+getWord :: PairWordIsOpened -> String
+getWord = fst
+
+
+getIsOpened :: PairWordIsOpened -> Bool
+getIsOpened = snd

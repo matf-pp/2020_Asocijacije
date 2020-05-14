@@ -1,82 +1,79 @@
 * {
-    transition:.2s;
-	/* potrebno zbog boje dugmica, poznat bug gtk css-a */
-	border-image: none;
-  	background-image: none;
+  transition:.2s;
+  /* potrebno zbog boje dugmica, poznat bug gtk css-a */
+  border-image: none;
+  background-image: none;
 }
-
 
 #uiWindow {
-	background-color: #F0F0F0;
+  background-color: #F0F0F0;
 }
 
- 
 #uiMainMenu #uiLabelAsocijacije {
-	color: #3f51b5; 
-	font-size: 4em;
-	font-weight: bold;
+  color: #3f51b5; 
+  font-size: 4em;
+  font-weight: bold;
 }
-
 
 #uiMainMenu #uiBoxButtons .btn-class {
-	color: #FFFFFF;
-	background-color: #4255bd;
-	font-weight: bold;
-	font-size: 1.4em;
-	border-radius: 50px;
-	border: none;
+  color: #ffffff;
+  background-color: #4255bd;
+  font-weight: bold;
+  font-size: 1.4em;
+  border-radius: 50px;
+  border: none;
 }
 
 #uiMainMenu #uiBoxButtons .btn-class:hover {
-	background-color: #3c4caa;
+  background-color: #3c4caa;
 }
 
 #uiMainMenu #uiBoxButtons #uiButtonPlay {
-	color: #e1e2e1;
-	background-color: #ed5d24;
+  color: #e1e2e1;
+  background-color: #ed5d24;
 }
 
 #uiMainMenu #uiBoxButtons #uiButtonPlay:hover {
-	background-color: #ed3f24;
+  background-color: #ed3f24;
 }
 
 /* uiTwoPlayersGame */
 
 #uiTwoPlayersGameEventBox {
-	background-color: #F0F0F0;
+  background-color: #f0f0f0;
 }
 
 .uiPlayerBoxEventBox {
-	opacity: 0.5;
-	box-shadow: none;
+  opacity: 0.5;
+  box-shadow: none;
 }
 
 .na-potezu {
-	opacity: 1;
-	box-shadow: 0px 3px 9px 10px rgba(0,0,0,0.8);
+  opacity: 1;
+  box-shadow: 0px 3px 9px 10px rgba(0, 0, 0, 0.8);
 }
 
 .uiPlayerNameEventBox {
-	border-radius: 5px;
+  border-radius: 5px;
 }
 
 #uiPlayer1NameEventBox {
-	background-color: #005b96;
+  background-color: #005b96;
 }
 
 #uiPlayer2NameEventBox {
-	background-color: #9D2626;
+  background-color: #9d2626;
 }
 
 .uiPlayerNameLabel {
-	color: white;
-	font-size: 1.1em;
-	font-weight: 500;
+  color: white;
+  font-size: 1.1em;
+  font-weight: 500;
 }
 
 .uiPlayerImageBoxEventBox {
-	background-color: yellow;
-	border-radius: 50px;
+  background-color: yellow;
+  border-radius: 50px;
 }
 
 #uiFinalAnswerEventBox,
@@ -85,19 +82,20 @@
 #uiColumn_C_EventBox,
 #uiColumn_D_EventBox,
 .field {
- 	font-weight: bold;
-	background-color: #E0E0E0;
-	border: 1px solid #999999;
-	border-radius: 4px;
+  font-weight: bold;
+  background-color: #e0e0e0;
+  border: 1px solid #999999;
+  border-radius: 4px;
 }
 
 .field:hover {
-	background-color: #E9E9E9;
-	border-color: #BBBBBB;
+  background-color: #e9e9e9;
+  border-color: #bbbbbb;
 }
 
-.fieldOpened, .fieldOpened:hover {
-	background-color: #D0D0D0;
+.fieldOpened,
+.fieldOpened:hover {
+  background-color: #d0d0d0;
 }
 
 #uiFinalAnswerEntry,
@@ -105,38 +103,40 @@
 #uiColumn_B_Entry,
 #uiColumn_C_Entry,
 #uiColumn_D_Entry {
-	border-radius: 4px;
-	border: none;
+  border-radius: 4px;
+  border: none;
 }
 
-.polje-plava, .polje-plava:hover {
-	background-color: #005b96;
-	color: white;
-	border: none;
+.polje-plava,
+.polje-plava:hover {
+  background-color: #005b96;
+  color: white;
+  border: none;
 }
 
-.polje-crvena, .polje-crvena:hover {
-	background-color: #9D2626;
-	color: white;
-	border: none;
+.polje-crvena,
+.polje-crvena:hover {
+  background-color: #9d2626;
+  color: white;
+  border: none;
 }
 
 #uiPlayer1ScoreEventBox {
-	background-color: #005b96;
-	color: white;
-	font-weight: 700;
-	font-size: 1.2em;
-	letter-spacing: 0.5px;
-	border-radius: 5px;
-	border: 3px solid #03396c;
+  background-color: #005b96;
+  color: white;
+  font-weight: 700;
+  font-size: 1.2em;
+  letter-spacing: 0.5px;
+  border-radius: 5px;
+  border: 3px solid #03396c;
 }
 
 #uiPlayer2ScoreEventBox {
-	background-color: #9D2626;
-	color: white;
-	font-weight: 700;
-	font-size: 1.2em;
-	letter-spacing: 0.5px;
-	border-radius: 5px;
-	border: 3px solid #5D0303;
+  background-color: #9d2626;
+  color: white;
+  font-weight: 700;
+  font-size: 1.2em;
+  letter-spacing: 0.5px;
+  border-radius: 5px;
+  border: 3px solid #5d0303;
 }

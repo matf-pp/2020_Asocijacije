@@ -4,9 +4,12 @@ import System.Environment (getArgs)
 import Data.Text (pack)
 
 import Game (createUI)
+import Types
+import Data.IORef
+import System.IO.Unsafe (unsafePerformIO)
 
 main :: IO ()
 main = do
   args <- getArgs
-  createUI $ Just $ map pack args
---   print "Hello"
+  state <- newIORef (GameState {})
+  createUI state $ Just $ map pack args
