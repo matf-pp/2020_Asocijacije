@@ -1,6 +1,5 @@
 * {
   transition: 0.2s;
-  /* potrebno zbog boje dugmica, poznat bug gtk css-a */
   border-image: none;
   background-image: none;
 }
@@ -16,7 +15,7 @@
 }
 
 #uiMainMenu #uiBoxButtons .btn-class {
-  color: #ffffff;
+  color: #fff;
   background-color: #4255bd;
   font-weight: bold;
   font-size: 1.4em;
@@ -36,8 +35,6 @@
 #uiMainMenu #uiBoxButtons #uiButtonPlay:hover {
   background-color: #ed3f24;
 }
-
-/* uiTwoPlayersGame */
 
 #uiTwoPlayersGameEventBox {
   background-color: #f0f0f0;
