@@ -14,9 +14,9 @@ cabal sandbox init
 
 Zatim se generise `gresource.c` fajl u `src` direktorijumu uz pomoć komande
 
-``
+```
 glib-compile-resources
-``
+```
 
 Na kraju se kompajlira program
 
@@ -32,19 +32,19 @@ Umesto opisanog postupka, lakše je koristiti skriptu `easyCompile.sh`. Ova skri
 
 Programa koristi sledeće biblioteke:
 
-+ base     
-+ filepath
-+ gi-cairo
-+ gi-gdk
-+ gi-gdkpixbuf
-+ gi-gio
-+ gi-gtk
-+ haskell-gi-base
-+ text 
-+ json
-+ directory
-+ random
-+ containers
+  + base     
+  + filepath
+  + gi-cairo
+  + gi-gdk
+  + gi-gdkpixbuf
+  + gi-gio
+  + gi-gtk
+  + haskell-gi-base
+  + text 
+  + json
+  + directory
+  + random
+  + containers
 
 Ako program kompajlirate na način koji je gore opisan, tada će se `cabal` sam pobrinuti za preuzimanje i instalaciju svih potrebnih biblioteka. Imajte na umu da taj proces može potrajati preko sat vremena. 
 

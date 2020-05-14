@@ -1,16 +1,16 @@
 * {
-  transition:.2s;
+  transition: 0.2s;
   /* potrebno zbog boje dugmica, poznat bug gtk css-a */
   border-image: none;
   background-image: none;
 }
 
 #uiWindow {
-  background-color: #F0F0F0;
+  background-color: #f0f0f0;
 }
 
 #uiMainMenu #uiLabelAsocijacije {
-  color: #3f51b5; 
+  color: #3f51b5;
   font-size: 4em;
   font-weight: bold;
 }
@@ -50,7 +50,7 @@
 
 .na-potezu {
   opacity: 1;
-  box-shadow: 0px 3px 9px 10px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 3px 9px 10px rgba(0, 0, 0, 0.8);
 }
 
 .uiPlayerNameEventBox {
@@ -84,13 +84,13 @@
 .field {
   font-weight: bold;
   background-color: #e0e0e0;
-  border: 1px solid #999999;
+  border: 1px solid #999;
   border-radius: 4px;
 }
 
 .field:hover {
   background-color: #e9e9e9;
-  border-color: #bbbbbb;
+  border-color: #bbb;
 }
 
 .fieldOpened,
